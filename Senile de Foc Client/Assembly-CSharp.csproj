@@ -46,7 +46,11 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\Scripts\CameraFollow.cs" />
      <Compile Include="Assets\Scripts\Environment\TilingBasedOnScale.cs" />
+     <Compile Include="Assets\Scripts\Tank\TankMovement.cs" />
+     <Compile Include="Assets\Scripts\Tank\TankTrack.cs" />
+     <Compile Include="Assets\Scripts\Tank\TankTracks.cs" />
  <Reference Include="UnityEngine.UI">
  <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>
