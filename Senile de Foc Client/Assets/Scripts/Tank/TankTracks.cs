@@ -6,7 +6,7 @@ public class TankTracks : MonoBehaviour
 {
 	public GameObject trackPrefab;
 	public Transform container;
-	public int maxTracks = 100;
+	public int maxTracks = 250;
 	public float treshold;
 
 	public static Vector3 hidden = new Vector2 (1000f, 1000f);
