@@ -34,14 +34,19 @@ public class TankMovement : MonoBehaviour
 		rot.z += (vert >= 0 ? -horiz : horiz) * rotationSpeed;
 		transform.rotation = Quaternion.Euler (rot);
 
-		angle = (transform.eulerAngles.magnitude + 90f) * Mathf.Deg2Rad;
-
 		speed = vert > 0 ? forwardSpeed : backwardSpeed;
-		force = speed * vert * new Vector2 (Mathf.Cos (angle), Mathf.Sin (angle));
+		force = speed * vert * ForwardDirection ();
 		body.AddForce (force);
 
 		// Only spawn tracks if the tank is moving
 		if (vert != 0)
 			tracks.Show (transform.position, transform.rotation);
+	}
+
+	public Vector2 ForwardDirection ()
+	{
+		angle = (transform.eulerAngles.magnitude + 90f) * Mathf.Deg2Rad;
+		return new Vector2 (Mathf.Cos (angle), Mathf.Sin (angle));
+
 	}
 }

@@ -6,7 +6,7 @@ public class TankBarrel : MonoBehaviour
 	static readonly float EPSILON = .0001f;
 
 	Vector3 initialPos;
-	Vector3 firePos;
+	[HideInInspector] public Vector3 firePos;
 	public float 
 		fireOffset,
 		backwardSpeed,
