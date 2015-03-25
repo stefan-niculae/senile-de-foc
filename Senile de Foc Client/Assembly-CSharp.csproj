@@ -48,6 +48,7 @@
   <ItemGroup>
      <Compile Include="Assets\Scripts\CameraFollow.cs" />
      <Compile Include="Assets\Scripts\Environment\TilingBasedOnScale.cs" />
+     <Compile Include="Assets\Scripts\GameWorld.cs" />
      <Compile Include="Assets\Scripts\Tank\TankBarrel.cs" />
      <Compile Include="Assets\Scripts\Tank\TankBullet.cs" />
      <Compile Include="Assets\Scripts\Tank\TankMovement.cs" />

@@ -9,8 +9,12 @@ public class TilingBasedOnScale : MonoBehaviour
 
 	void Update ()
 	{
+		// The script shouldn't run in the game
+		if (Application.isPlaying)
+			return;
+
 		if (rend == null)
-			rend = GetComponentInChildren <Renderer> ();
+			rend = GetComponent <Renderer> ();
 
 		SnapScale ();
 		SnapPos ();
@@ -30,11 +34,11 @@ public class TilingBasedOnScale : MonoBehaviour
 	
 	void SnapPos ()
 	{
-		Vector3 pos = transform.position;
+		Vector3 pos = transform.localPosition;
 		pos.x = Mathf.Ceil (pos.x);
 		pos.y = Mathf.Ceil (pos.y);
 		
-		transform.position = pos;
+		transform.localPosition = pos;
 	}
 	
 	void TileMaterial ()
