@@ -40,11 +40,13 @@ public class TilingBasedOnScale : MonoBehaviour
 		
 		transform.localPosition = pos;
 	}
-	
+
+	Material tempMaterial;
+
 	void TileMaterial ()
 	{
 		// Set the texture scale to the transform scale
-		var tempMaterial = new Material(rend.sharedMaterial);
+		tempMaterial = new Material(rend.sharedMaterial);
 		tempMaterial.mainTextureScale = 
 			new Vector2 (transform.localScale.x, transform.localScale.z);
 		rend.material = tempMaterial;

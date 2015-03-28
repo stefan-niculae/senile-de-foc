@@ -1,0 +1,1 @@
+bullet richochet: nr of times before it disappers + how rotation is calculated
