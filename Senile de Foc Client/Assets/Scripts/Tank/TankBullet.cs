@@ -5,7 +5,7 @@ public class TankBullet : MonoBehaviour
 {
 	public float speed;
 	public int maxCollisions; // before the bullet disappears
-	int timesCollided = 2; // bugs out on more :/
+	int timesCollided = 0;
 
 	Rigidbody2D body;
 	Collider2D[] colliders;
@@ -21,30 +21,47 @@ public class TankBullet : MonoBehaviour
 		body.AddForce (speed * direction);
 	}
 
+	Vector3 rot;
+
 	void OnCollisionEnter2D (Collision2D collision) 
 	{
 		if (collision.gameObject.tag == "World") {
 			timesCollided++;
 			if (timesCollided == maxCollisions)
-				Disappear ();
+				Explode ();
 
-			if (collision.contacts.Length > 1)
-				Debug.LogErrorFormat ("{} hit has more than one contact point ({})", name, collision.contacts.Length);
-
-			// Disable the colliders for a bit because otherwise the collision would register twice
-			StartCoroutine (DisableCollidersABit ());
-
-			// Rotating the bullet according to the angle it hit the obstacle
-			ContactPoint2D contact = collision.contacts[0];
-			float angle = Vector2.Angle (body.velocity, contact.normal);
-			transform.rotation = Quaternion.Euler (new Vector3 (0f, 0f, -angle));
+			RotateToVelocity ();
 		}
 		else if (collision.gameObject.tag == "Player") {
 			Debug.Log ("Hit a player (" + collision.gameObject.name + ")!");
+			Explode ();
 		}
 	}
 
-	void Disappear ()
+	void RotateToVelocity() 
+	{ 
+		Vector3 slightlyForward = (Vector3)transform.position + (Vector3)body.velocity;
+
+		transform.LookAt (slightlyForward);
+		transform.rotation = Rot3Dto2D (transform.rotation);
+	}
+
+	Quaternion Rot3Dto2D (Quaternion rotation)
+	{
+		rot = rotation.eulerAngles;
+		rot.z = rot.x + rot.y;
+		rot.y = rot.x = 0;
+		rot.z = rot.z % 360;
+
+		if (rot.z > 180f)
+			rot.z -= 180f;
+		else
+			rot.z = -rot.z;
+
+		return Quaternion.Euler (rot);
+	}
+
+	void Explode ()
 	{
 		// TODO: add a puff!
 		Destroy (gameObject);

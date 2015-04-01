@@ -1,0 +1,39 @@
+ARME
+
+lansare proiectil
+	cfx_smokepuffs(alt)
+	cfx3_hit_smokepuff
+
+explozie bullet
+	cfx_groundhit
+	cfx_(ground)explosion+text
+
+lovire world
+	cfx2_groundrockhit
+
+bomba finala
+	cfx_(ground)smokeexplosionalt
+
+tank putin damaged
+	cfx_gasleak
+	cfx2_sparks_source
+
+tank damaged
+	cfx_flameB
+
+tank mort
+	cfx2_skullrotate
+	cfx3_hit_misc_e_skull
+
+tank spawn
+	cfx_circularlightwall
+
+barrel poison
+	cfx2_poisoncloud
+
+
+win
+	cfx_firework
+
+shield?
+	cfx3_vortex_air
