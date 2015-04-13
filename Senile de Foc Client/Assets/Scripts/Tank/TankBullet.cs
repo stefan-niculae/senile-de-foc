@@ -3,9 +3,14 @@ using System.Collections;
 
 public class TankBullet : MonoBehaviour 
 {
+	static readonly float TIME_TO_LIVE = 10f;
+
 	public float speed;
-	public int maxCollisions; // before the bullet disappears
-	int timesCollided = 0;
+	// Number of times the bullet can bounce
+	public int maxCollisions;
+	public GameObject explosionPrefab;
+
+	int timesCollided;
 
 	Rigidbody2D body;
 	Collider2D[] colliders;
@@ -19,62 +24,68 @@ public class TankBullet : MonoBehaviour
 	public void Launch (Vector2 direction)
 	{
 		body.AddForce (speed * direction);
-	}
 
-	Vector3 rot;
+		// Automatically destroy in a while if the bullet got stuck
+		Destroy (gameObject, TIME_TO_LIVE);
+	}
 
 	void OnCollisionEnter2D (Collision2D collision) 
 	{
+		// Bounces off walls
 		if (collision.gameObject.tag == "World") {
 			timesCollided++;
 			if (timesCollided == maxCollisions)
 				Explode ();
 
+			// We first disable colliders so that the collision doesn't register twice
+			// (once with the head and again with the tail)
+			StartCoroutine (DisableCollidersABit ());
 			RotateToVelocity ();
 		}
-		else if (collision.gameObject.tag == "Player") {
-			Debug.Log ("Hit a player (" + collision.gameObject.name + ")!");
+
+		// Explodes on players
+		else if (collision.gameObject.tag == "Player") 
 			Explode ();
-		}
 	}
-
-	void RotateToVelocity() 
-	{ 
-		Vector3 slightlyForward = (Vector3)transform.position + (Vector3)body.velocity;
-
-		transform.LookAt (slightlyForward);
-		transform.rotation = Rot3Dto2D (transform.rotation);
-	}
-
-	Quaternion Rot3Dto2D (Quaternion rotation)
-	{
-		rot = rotation.eulerAngles;
-		rot.z = rot.x + rot.y;
-		rot.y = rot.x = 0;
-		rot.z = rot.z % 360;
-
-		if (rot.z > 180f)
-			rot.z -= 180f;
-		else
-			rot.z = -rot.z;
-
-		return Quaternion.Euler (rot);
-	}
-
-	void Explode ()
-	{
-		// TODO: add a puff!
-		Destroy (gameObject);
-	}
-
+	
 	IEnumerator DisableCollidersABit ()
 	{
 		foreach (Collider2D collider in colliders)
 			collider.enabled = false;
-
-		yield return new WaitForSeconds (.1f);
-
+		
+		yield return new WaitForSeconds (.05f);
+		
 		foreach (Collider2D collider in colliders)
 			collider.enabled = true;
 	}
+
+	Vector3 slightlyForward, rot;
+	void RotateToVelocity() 
+	{ 
+		// Get the position of where the bullet will be in just a second
+		slightlyForward = (Vector3)transform.position + (Vector3)body.velocity;
+
+		// Rotate towrads that direction
+		transform.LookAt (slightlyForward);
+
+		// I dont know what's the math behind this... it just works
+		rot = transform.rotation.eulerAngles;
+		rot.z = rot.x + rot.y;
+		rot.y = rot.x = 0;
+		rot.z = rot.z % 360;
+		rot.z = rot.z > 180f ? rot.z - 180f : -rot.z;
+		transform.rotation = Quaternion.Euler (rot);
+	}
+
+	void Explode ()
+	{
+		GameObject explosion = Instantiate (
+			explosionPrefab,
+			transform.position,
+			Quaternion.identity) as GameObject;
+		explosion.transform.parent = GameObject.Find ("Explosions").transform;
+
+		Destroy (gameObject);
+	}
+
 }

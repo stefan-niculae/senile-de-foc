@@ -5,8 +5,10 @@ public class TankWeapon : MonoBehaviour
 {
 	public TankBarrel barrel;
 	public GameObject bulletPrefab;
-	public Transform bulletContainer;
 	public Transform bulletSpawnPos;
+	public ParticleSystem fireParticles;
+
+	Transform bulletContainer;
 
 	public float cooldownPeriod;
 
@@ -17,17 +19,14 @@ public class TankWeapon : MonoBehaviour
 	{
 		movement = GetComponent <TankMovement> ();
 		audioSource = GetComponent <AudioSource> ();
+
+		// We do this and don't set it public because prefabs can't have non prefab fields preassigned
+		bulletContainer = GameObject.Find ("Bullets").transform;
 	}
 
-	void Update ()
-	{
-		if (Input.GetButton ("Fire1"))
-			Fire ();
-	}
-	
 	float lastSpawn;
 
-	void Fire  ()
+	public void Fire (bool playSound = true)
 	{
 		// If the cooldown period hasn't passed, ignore the call
 		if (Time.time - lastSpawn < cooldownPeriod)
@@ -35,8 +34,11 @@ public class TankWeapon : MonoBehaviour
 		lastSpawn = Time.time;
 
 		barrel.Bounce ();
+		fireParticles.Play ();
 		SpawnBullet ();
-		audioSource.Play ();
+
+		if (playSound)
+			audioSource.Play ();
 	}
 
 	void SpawnBullet ()

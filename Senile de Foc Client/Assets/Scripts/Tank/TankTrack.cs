@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
 public class TankTrack : MonoBehaviour 
@@ -13,7 +13,7 @@ public class TankTrack : MonoBehaviour
 
 	IEnumerator WaitAndDisappear ()
 	{
-		yield return new WaitForSeconds (TankTracks.timeToLive);
-		transform.position = TankTracks.hidden;
+		yield return new WaitForSeconds (TankTracksManager.timeToLive);
+		transform.position = TankTracksManager.hidden;
 	}
 }

@@ -1,1 +1,2 @@
 bullet richochet: nr of times before it disappers + how rotation is calculated
+patroling path: cat de bine se redreseaza dupa ce a fost deraiat

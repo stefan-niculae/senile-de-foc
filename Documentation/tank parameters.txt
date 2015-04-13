@@ -1,0 +1,9 @@
+bullet speed
+bullet bounces
+fire rate
+
+explosion damage
+explosion radius
+
+speed (+turning speed)
+health

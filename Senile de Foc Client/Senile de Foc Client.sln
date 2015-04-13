@@ -3,6 +3,8 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 
 Project("{B7352F7A-7DCD-EA11-E2EA-C304F05B2EFB}") = "Senile de Foc Client", "Assembly-CSharp.csproj", "{A3A8F88C-1D6D-A82A-D4B1-56260BDF5AC2}"
 EndProject
+Project("{B7352F7A-7DCD-EA11-E2EA-C304F05B2EFB}") = "Senile de Foc Client", "Assembly-CSharp-Editor.csproj", "{8D47F794-208D-81E2-8263-ABB6E744239D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -13,11 +15,15 @@ Global
 		{A3A8F88C-1D6D-A82A-D4B1-56260BDF5AC2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A3A8F88C-1D6D-A82A-D4B1-56260BDF5AC2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A3A8F88C-1D6D-A82A-D4B1-56260BDF5AC2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8D47F794-208D-81E2-8263-ABB6E744239D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8D47F794-208D-81E2-8263-ABB6E744239D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8D47F794-208D-81E2-8263-ABB6E744239D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8D47F794-208D-81E2-8263-ABB6E744239D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
-																									GlobalSection(MonoDevelopProperties) = preSolution
+																																																						GlobalSection(MonoDevelopProperties) = preSolution
 		StartupItem = Assembly-CSharp.csproj
 		Policies = $0
 		$0.TextStylePolicy = $1
