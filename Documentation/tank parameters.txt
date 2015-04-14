@@ -7,3 +7,5 @@ explosion radius
 
 speed (+turning speed)
 health
+
+respawn time

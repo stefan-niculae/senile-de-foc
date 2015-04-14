@@ -8,9 +8,9 @@ public class TankWeapon : MonoBehaviour
 	public Transform bulletSpawnPos;
 	public ParticleSystem fireParticles;
 	public float cooldownPeriod;
-	
-	Transform bulletContainer;
+	public PlayerStats stats;
 
+	Transform bulletContainer;
 	AudioSource audioSource;
 
 	void Awake ()
@@ -45,6 +45,8 @@ public class TankWeapon : MonoBehaviour
 			barrel.transform.rotation) as GameObject;
 
 		spawned.transform.parent = bulletContainer;
-		spawned.GetComponent <TankBullet> ().Launch (Utils.ForwardDirection (barrel.transform));
+		spawned.GetComponent <TankBullet> ().Launch (
+			Utils.ForwardDirection (barrel.transform),
+			stats);
 	}
 }

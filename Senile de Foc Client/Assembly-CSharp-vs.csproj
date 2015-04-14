@@ -63,6 +63,7 @@
      <Compile Include="Assets\PrefabEvolution\Sources\PEPrefabScript.cs" />
      <Compile Include="Assets\Scripts\Environment\TilingBasedOnScale.cs" />
      <Compile Include="Assets\Scripts\GameWorld.cs" />
+     <Compile Include="Assets\Scripts\PlayerStats.cs" />
      <Compile Include="Assets\Scripts\Tank\BulletExplosion.cs" />
      <Compile Include="Assets\Scripts\Tank\Input\FiringAI.cs" />
      <Compile Include="Assets\Scripts\Tank\Input\Patrol.cs" />
@@ -74,7 +75,8 @@
      <Compile Include="Assets\Scripts\Tank\TankTrack.cs" />
      <Compile Include="Assets\Scripts\Tank\TankTracksManager.cs" />
      <Compile Include="Assets\Scripts\Tank\TankWeapon.cs" />
-     <Compile Include="Assets\Scripts\UI\CameraFollow.cs" />
+     <Compile Include="Assets\Scripts\UI\CameraMovement.cs" />
+     <Compile Include="Assets\Scripts\UI\PlayerUsername.cs" />
      <Compile Include="Assets\Scripts\UI\StayInsideBoundaries.cs" />
      <Compile Include="Assets\Scripts\Utils.cs" />
      <None Include="Assets\JMO Assets\Cartoon FX\Shaders (Mobile)\CFXM_MobileParticleAdd_Alpha8.shader" />

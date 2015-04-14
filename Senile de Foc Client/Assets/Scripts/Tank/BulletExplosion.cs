@@ -8,6 +8,8 @@ public class BulletExplosion : MonoBehaviour
 	public float damage;
 	public bool hopAbove;
 
+	[HideInInspector] public PlayerStats stats;
+
 	void Start ()
 	{
 		DamageAround ();
@@ -26,6 +28,6 @@ public class BulletExplosion : MonoBehaviour
 		Collider2D[] around = Physics2D.OverlapCircleAll (transform.position, radius);
 		foreach (Collider2D coll in around)
 			if (coll.tag == "Player")
-				coll.GetComponent <TankHealth> ().amount -= damage;
+				coll.GetComponent <TankHealth> ().TakeDamage (damage, stats);
 	}
 }

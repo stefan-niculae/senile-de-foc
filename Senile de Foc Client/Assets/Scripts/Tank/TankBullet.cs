@@ -10,6 +10,8 @@ public class TankBullet : MonoBehaviour
 	public int maxCollisions;
 	public GameObject explosionPrefab;
 
+	[HideInInspector] public PlayerStats stats;
+
 	int timesCollided;
 
 	Rigidbody2D body;
@@ -21,9 +23,11 @@ public class TankBullet : MonoBehaviour
 		colliders = GetComponents <Collider2D> ();
 	}
 
-	public void Launch (Vector2 direction)
+	public void Launch (Vector2 direction, PlayerStats stats)
 	{
 		body.AddForce (speed * direction);
+
+		this.stats = stats;
 
 		// Automatically destroy in a while if the bullet got stuck
 		Destroy (gameObject, TIME_TO_LIVE);
@@ -75,6 +79,8 @@ public class TankBullet : MonoBehaviour
 			transform.position,
 			Quaternion.identity) as GameObject;
 		explosion.transform.parent = GameObject.Find ("Explosions").transform;
+
+		explosion.GetComponent <BulletExplosion> ().stats = stats;
 
 		Destroy (gameObject);
 	}
