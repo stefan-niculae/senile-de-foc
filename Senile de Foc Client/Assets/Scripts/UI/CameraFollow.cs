@@ -19,12 +19,8 @@ public class CameraFollow : MonoBehaviour
 
 	void Awake ()
 	{
-		Vector3 camSize = Camera.main.ViewportToWorldPoint (Vector3.one) - Camera.main.ViewportToWorldPoint (Vector3.zero);
-
-		maxTop   = GameWorld.maxTop - camSize.y / 2f;
-		maxBot   = GameWorld.maxBot + camSize.y / 2f;
-		maxLeft = GameWorld.maxLeft + camSize.x / 2f;
-		maxRight = GameWorld.maxRight - camSize.x / 2f;
+		var camExtents = (Camera.main.ViewportToWorldPoint (Vector3.one) - Camera.main.ViewportToWorldPoint (Vector3.zero)) / 2f;
+		Utils.ComputeBoundaries (camExtents, ref maxTop, ref maxBot, ref maxLeft, ref maxRight);
 	}
 	
 	void Update ()
@@ -34,6 +30,7 @@ public class CameraFollow : MonoBehaviour
 		target.x = player.position.x;
 		target.y = player.position.y;
 
+		// Lerping doesn't work when moving diagonally (don't know why)
 //		if (Mathf.Abs (transform.position.x - player.position.x) > threshold)
 //			target.x = Mathf.Lerp (transform.position.x, player.position.x, speed);
 //		if (Mathf.Abs (transform.position.y - player.position.y) > threshold)

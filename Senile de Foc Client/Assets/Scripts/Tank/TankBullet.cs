@@ -58,23 +58,14 @@ public class TankBullet : MonoBehaviour
 		foreach (Collider2D collider in colliders)
 			collider.enabled = true;
 	}
-
-	Vector3 slightlyForward, rot;
+	
 	void RotateToVelocity() 
 	{ 
-		// Get the position of where the bullet will be in just a second
-		slightlyForward = (Vector3)transform.position + (Vector3)body.velocity;
+		// Get the position of where the bullet will be in an instant
+		var slightlyForward = (Vector2)transform.position + (Vector2)body.velocity;
 
-		// Rotate towrads that direction
-		transform.LookAt (slightlyForward);
-
-		// I dont know what's the math behind this... it just works
-		rot = transform.rotation.eulerAngles;
-		rot.z = rot.x + rot.y;
-		rot.y = rot.x = 0;
-		rot.z = rot.z % 360;
-		rot.z = rot.z > 180f ? rot.z - 180f : -rot.z;
-		transform.rotation = Quaternion.Euler (rot);
+		// Rotate towards that direction
+		transform.rotation = Utils.LookAt2D (transform, slightlyForward);
 	}
 
 	void Explode ()
@@ -87,5 +78,4 @@ public class TankBullet : MonoBehaviour
 
 		Destroy (gameObject);
 	}
-
 }

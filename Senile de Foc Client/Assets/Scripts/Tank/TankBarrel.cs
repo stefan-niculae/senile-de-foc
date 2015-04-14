@@ -5,12 +5,14 @@ public class TankBarrel : MonoBehaviour
 {
 	static readonly float EPSILON = .0001f;
 
-	Vector3 initialPos;
-	[HideInInspector] public Vector3 firePos;
 	public float 
 		fireOffset,
 		backwardSpeed,
 		forwardSpeed;
+	public Transform stand;
+
+	Vector3 initialPos;
+	[HideInInspector] public Vector3 firePos;
 
 	void Awake ()
 	{
@@ -25,33 +27,43 @@ public class TankBarrel : MonoBehaviour
 		goingBack = true;
 	}
 
-	bool goingBack = false;
-	bool goingFront = false;
-
 	void Update ()
+	{
+		HandleBouncing ();
+	}
+	
+	bool goingBack;
+	bool goingFront;
+	void HandleBouncing ()
 	{
 		if (goingBack) {
 			transform.localPosition = Vector3.MoveTowards (
 				transform.localPosition,
 				firePos,
 				backwardSpeed * Time.deltaTime);
-
+			
 			if (Vector2.Distance (transform.localPosition, firePos) < EPSILON) {
 				goingBack = false;
 				goingFront = true;
 			}
 		}
-
+		
 		if (goingFront) {
 			transform.localPosition = Vector3.MoveTowards (
 				transform.localPosition,
 				initialPos,
 				forwardSpeed * Time.deltaTime);
-
+			
 			if (Vector2.Distance (transform.localPosition, initialPos) < EPSILON)
 				goingFront = false;
-
+			
 		}
+	}
 
+	public void Rotate (Quaternion rot)
+	{
+		// We do this because the barrel should not rotate around its axis
+		// instead, it should rotate around the barrel stand
+		stand.rotation = rot;
 	}
 }

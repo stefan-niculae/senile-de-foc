@@ -5,6 +5,7 @@ public class PlayerInput : MonoBehaviour
 {
 	TankMovement movement;
 	TankWeapon weapon;
+	TankBarrel barrel;
 
 	static int counter = 0;
 
@@ -17,9 +18,9 @@ public class PlayerInput : MonoBehaviour
 
 		movement = GetComponentInChildren <TankMovement> ();
 		weapon = GetComponentInChildren <TankWeapon> ();
+		barrel = GetComponentInChildren <TankBarrel> ();
 	}
-
-	float horiz, vert;
+	
 	void Update ()
 	{
 		// Weapon handling
@@ -27,8 +28,12 @@ public class PlayerInput : MonoBehaviour
 			weapon.Fire ();
 
 		// Movement handling
-		horiz 	= Input.GetAxis ("Horizontal");
-		vert 	= Input.GetAxis ("Vertical");
+		var horiz 	= Input.GetAxis ("Horizontal");
+		var vert 	= Input.GetAxis ("Vertical");
 		movement.Move (horiz, vert, true);
+
+		// Barrel orientation handling
+		var mousePos = Camera.main.ScreenToWorldPoint (Input.mousePosition);
+		barrel.Rotate (Utils.LookAt2D (barrel.transform, mousePos));
 	}
 }

@@ -7,17 +7,14 @@ public class TankWeapon : MonoBehaviour
 	public GameObject bulletPrefab;
 	public Transform bulletSpawnPos;
 	public ParticleSystem fireParticles;
-
+	public float cooldownPeriod;
+	
 	Transform bulletContainer;
 
-	public float cooldownPeriod;
-
-	TankMovement movement;
 	AudioSource audioSource;
 
 	void Awake ()
 	{
-		movement = GetComponent <TankMovement> ();
 		audioSource = GetComponent <AudioSource> ();
 
 		// We do this and don't set it public because prefabs can't have non prefab fields preassigned
@@ -25,20 +22,19 @@ public class TankWeapon : MonoBehaviour
 	}
 
 	float lastSpawn;
-
 	public void Fire (bool playSound = true)
 	{
 		// If the cooldown period hasn't passed, ignore the call
-		if (Time.time - lastSpawn < cooldownPeriod)
-			return;
-		lastSpawn = Time.time;
+		if (Time.time - lastSpawn >= cooldownPeriod) {
+			lastSpawn = Time.time;
 
-		barrel.Bounce ();
-		fireParticles.Play ();
-		SpawnBullet ();
+			barrel.Bounce ();
+			fireParticles.Play ();
+			SpawnBullet ();
 
-		if (playSound)
-			audioSource.Play ();
+			if (playSound)
+				audioSource.Play ();
+		}
 	}
 
 	void SpawnBullet ()
@@ -46,9 +42,9 @@ public class TankWeapon : MonoBehaviour
 		GameObject spawned = Instantiate (
 			bulletPrefab,
 			bulletSpawnPos.position,
-			transform.rotation) as GameObject;
+			barrel.transform.rotation) as GameObject;
 
 		spawned.transform.parent = bulletContainer;
-		spawned.GetComponent <TankBullet> ().Launch (movement.ForwardDirection ());
+		spawned.GetComponent <TankBullet> ().Launch (Utils.ForwardDirection (barrel.transform));
 	}
 }
