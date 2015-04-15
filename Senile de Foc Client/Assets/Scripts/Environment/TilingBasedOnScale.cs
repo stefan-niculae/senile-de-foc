@@ -4,7 +4,6 @@ using System.Collections;
 [ExecuteInEditMode]
 public class TilingBasedOnScale : MonoBehaviour 
 {
-	// Reference in child
 	Renderer rend = null;
 
 	void Update ()
@@ -16,9 +15,13 @@ public class TilingBasedOnScale : MonoBehaviour
 		if (rend == null)
 			rend = GetComponent <Renderer> ();
 
+
 		SnapScale ();
 		SnapPos ();
-		TileMaterial ();
+
+		// Set the texture scale to the transform scale
+		rend.sharedMaterial.mainTextureScale = 
+			new Vector2 (transform.localScale.x, transform.localScale.z);
 	}
 	
 	void SnapScale ()
@@ -39,16 +42,5 @@ public class TilingBasedOnScale : MonoBehaviour
 		pos.y = Mathf.Ceil (pos.y);
 		
 		transform.localPosition = pos;
-	}
-
-	Material tempMaterial;
-
-	void TileMaterial ()
-	{
-		// Set the texture scale to the transform scale
-		tempMaterial = new Material(rend.sharedMaterial);
-		tempMaterial.mainTextureScale = 
-			new Vector2 (transform.localScale.x, transform.localScale.z);
-		rend.material = tempMaterial;
 	}
 }

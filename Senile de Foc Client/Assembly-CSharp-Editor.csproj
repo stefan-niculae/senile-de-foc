@@ -78,7 +78,7 @@
  <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/GUISystem/Editor/UnityEditor.UI.dll</HintPath>
  </Reference>
  <Reference Include="JMOAssets">
- <HintPath>/Users/stefyvolt/Google Drive/Projects/senile-de-foc/Senile de Foc Client/Assets/JMO Assets/Editor/JMOAssets.dll</HintPath>
+ <HintPath>/Users/stefyvolt/senile-de-foc/Senile de Foc Client/Assets/JMO Assets/Editor/JMOAssets.dll</HintPath>
  </Reference>
  <Reference Include="UnityEditor.Graphs">
  <HintPath>/Applications/Unity/Unity.app/Contents/Frameworks/Managed/UnityEditor.Graphs.dll</HintPath>

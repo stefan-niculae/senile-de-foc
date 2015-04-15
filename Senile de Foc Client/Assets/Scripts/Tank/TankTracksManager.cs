@@ -8,16 +8,22 @@ public class TankTracksManager : MonoBehaviour
 	public Transform container;
 	public int maxTracks = 250;
 	public float treshold;
+	public float trackTimeToLive = 7f;
 
-	public static Vector3 hidden = new Vector2 (1000f, 1000f);
-	public static float timeToLive = 7f;
-	LinkedList<TankTrack> tracks;
+	TankTrack[] tracks;
+
+	void Awake ()
+	{
+		TankTrack.timeToLive = trackTimeToLive;
+	}
 
 	void Start ()
 	{
+		var hidden = Constants.hidden;
 		hidden.z = transform.position.z;
+		TankTrack.hidden = hidden;
 
-		tracks = new LinkedList<TankTrack> ();
+		tracks = new TankTrack[maxTracks];
 		for (int i = 0; i < maxTracks; i++) {
 			GameObject spawned = Instantiate (
 				trackPrefab,
@@ -25,13 +31,12 @@ public class TankTracksManager : MonoBehaviour
 				Quaternion.identity) as GameObject;
 
 			spawned.transform.parent = container;
-			tracks.AddLast (spawned.GetComponent<TankTrack> ());
+			tracks[i] = spawned.GetComponent<TankTrack> ();
 		}
 	}
 
-	TankTrack toMove;
+	int index;
 	Vector3 lastPos;
-
 	public void Show (Vector3 pos, Quaternion rot)
 	{
 		// Do not spawn tracks too close to eachother
@@ -41,13 +46,8 @@ public class TankTracksManager : MonoBehaviour
 
 		pos.z = transform.position.z;
 
-		// We take the last element in the list
-		toMove = tracks.Last.Value;
-		tracks.RemoveLast ();
-
-		// Add it to the front
-		tracks.AddFirst (toMove);
-
-		toMove.MoveTo (pos, rot);
+		tracks[index].MoveTo (pos, rot);
+		// Circularly get to the next index
+		index = (index + 1) % maxTracks;
 	}
 }

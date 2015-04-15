@@ -2,6 +2,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System;
+
+using Random = UnityEngine.Random;
 
 [ExecuteInEditMode]
 public class WorldItemSpawner : MonoBehaviour 
@@ -62,7 +65,7 @@ public class WorldItemSpawner : MonoBehaviour
 				GameObject spawnedObj = Instantiate (
 					borderPrefab,
 					pos,
-					random2DRotation ()
+					Utils.random2DRotation ()
 				) as GameObject;
 
 				spawnedObj.transform.parent = borderContainer;
@@ -70,14 +73,6 @@ public class WorldItemSpawner : MonoBehaviour
 		}
 	}
 
-	Quaternion random2DRotation ()
-	{
-		Quaternion rot = Random.rotation;
-		Vector3 euler = rot.eulerAngles;
-		euler.x = euler.y = 0;
-		return Quaternion.Euler (euler);
-	}
-	
 	void Delete (Transform container, string[] origNames)
 	{
 		Transform[] transforms = container.GetComponentsInChildren <Transform> (true);
@@ -97,6 +92,7 @@ public class WorldItemSpawner : MonoBehaviour
 	}
 	
 	public GameObject[] treePrefabs;
+	public int[] treePrefabProbabilities;
 	public Transform treeContainer;
 	public Transform treePolygon;
 	public float treeDeformationNiu;
@@ -106,23 +102,37 @@ public class WorldItemSpawner : MonoBehaviour
 	{
 		// Delete the old trees and get the boundaries
 		Delete (treeContainer, new string[] { "treeSmall", "treeLarge" });
-		SpawnObstacles (treePrefabs, treeContainer, treePolygon, treeNumber, treeDeformationNiu, true);
+		SpawnObstacles (treePrefabs, treePrefabProbabilities, treeContainer, treePolygon, treeNumber, treeDeformationNiu, true);
 	}
 
 	public GameObject[] zone1BarrelPrefabs;
+	public int[] zone1BarrelPrefabProbabilities;
 	public Transform zone1BarrelContainer;
 	public Transform zone1BarrelPolygon;
 	public int zone1BarrelNumber;
 
 	public void SpawnZone1Barrels ()
 	{
-//		Delete (zone1BarrelContainer, new string[]
+		Delete (zone1BarrelContainer, new string[] { "Black Barrel", "Grey Barrel" });
+		SpawnObstacles (zone1BarrelPrefabs, zone1BarrelPrefabProbabilities, zone1BarrelContainer, zone1BarrelPolygon, zone1BarrelNumber, 0, true);
+	}
+
+	public GameObject[] zone2BarrelPrefabs;
+	public int[] zone2BarrelPrefabProbabilities;
+	public Transform zone2BarrelContainer;
+	public Transform zone2BarrelPolygon;
+	public int zone2BarrelNumber;
+	
+	public void SpawnZone2Barrels ()
+	{
+		Delete (zone2BarrelContainer, new string[] { "Red Barrel", "Green Barrel" });
+		SpawnObstacles (zone2BarrelPrefabs, zone2BarrelPrefabProbabilities, zone2BarrelContainer, zone2BarrelPolygon, zone2BarrelNumber, 0, true);
 	}
 
 	// Failsafe for the while (random == smthing)
 	static readonly int MAX_EPOCHS = 1000;
 
-	void SpawnObstacles (GameObject[] prefabs, Transform container, Transform polygon, int number, float deformation, bool randomlyRotate)
+	void SpawnObstacles (GameObject[] prefabs, int[] prefabProbabilities, Transform container, Transform polygon, int number, float deformation, bool randomlyRotate)
 	{
 		var pointTransforms = polygon.GetComponentsInChildren <Transform> (true).ToList ();
 		pointTransforms.Remove (polygon); // the container itself is not a point
@@ -145,16 +155,16 @@ public class WorldItemSpawner : MonoBehaviour
 			Vector3 pos;
 			pos.z = transform.position.z;
 
-			pos.x = Random.Range (maxLeft, maxRight);
+			pos.x = UnityEngine.Random.Range (maxLeft, maxRight);
 			pos.y = Random.Range (maxTop, maxBot);
 
 			if (isInside (pos, points)) {
 				spawned++;
 
 				GameObject spawnedObj = Instantiate (
-					randomFrom (prefabs),
+					Utils.randomFrom (prefabs, prefabProbabilities),
 					pos,
-					randomlyRotate ? random2DRotation () : Quaternion.identity
+					randomlyRotate ? Utils.random2DRotation () : Quaternion.identity
 				) as GameObject;
 
 				spawnedObj.transform.parent = container;
@@ -169,16 +179,11 @@ public class WorldItemSpawner : MonoBehaviour
 		}
 	}
 
-	// TODO: make this generic
-	GameObject randomFrom (GameObject[] array)
-	{
-		return array [Random.Range (0, array.Length)];
-	}
 
 	bool isInside (Vector2 point, List <Vector2> polygon)
 	{
 		if (polygon.Count < 3)
-			Debug.LogError ("Argument is not a polygon, it only has less than three points!");
+			Debug.LogError ("Argument is not a polygon, it has less than three points!");
 
 		int firstSide = side (polygon [0], polygon [1], point);
 		for (int i = 2; i < polygon.Count; i++)
@@ -198,9 +203,6 @@ public class WorldItemSpawner : MonoBehaviour
 		float val = (B.y - A.y) * (C.x - B.x) -
 					(B.x - A.x) * (C.y - B.y);
 
-		if (val == 0)
-			return 0;
-		else
-			return (int)Mathf.Sign (val);
+		return Math.Sign (val);
 	}
 }
