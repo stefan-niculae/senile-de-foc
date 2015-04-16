@@ -10,6 +10,7 @@ public class BulletExplosion : MonoBehaviour
 
 	[HideInInspector] public PlayerStats stats;
 
+
 	void Start ()
 	{
 		DamageAround ();
@@ -21,6 +22,13 @@ public class BulletExplosion : MonoBehaviour
 		}
 
 		Destroy (gameObject, TIME_TO_LIVE);
+	}
+	
+	public void Init (PlayerStats stats, float damage, float radius)
+	{
+		this.stats = stats;
+		this.damage = damage;
+		this.radius = radius;
 	}
 
 	void DamageAround ()

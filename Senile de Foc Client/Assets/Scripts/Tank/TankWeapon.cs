@@ -3,9 +3,14 @@ using System.Collections;
 
 public class TankWeapon : MonoBehaviour 
 {
-	[HideInInspector] public float cooldownPeriod;
-	[HideInInspector] public GameObject projectilePrefab;
-	[HideInInspector] public ParticleSystem fireParticles;
+	public float cooldownPeriod;
+	public GameObject projectilePrefab;
+	public ParticleSystem fireParticles;
+
+	public int projectileBounces;
+	public float projectileSpeed;
+	public float explosionDamage;
+	public float explosionRadius;
 
 	PlayerStats stats;
 	Transform bulletSpawnPos;
@@ -21,6 +26,8 @@ public class TankWeapon : MonoBehaviour
 
 		stats = GetComponentInParent <PlayerStats> ();
 		bulletSpawnPos = Utils.childWithName (transform, "Bullet Spawn Position");
+
+		Debug.Log (stats.username + " dmg " + explosionDamage);
 	}
 
 	float lastSpawn;
@@ -49,6 +56,10 @@ public class TankWeapon : MonoBehaviour
 		spawned.transform.parent = bulletContainer;
 		spawned.GetComponent <TankBullet> ().Launch (
 			Utils.ForwardDirection (stats.barrel.transform),
-			stats);
+			stats,
+			projectileBounces,
+			projectileSpeed,
+			explosionDamage,
+			explosionRadius);
 	}
 }

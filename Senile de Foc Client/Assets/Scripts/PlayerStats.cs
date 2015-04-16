@@ -21,7 +21,6 @@ public class PlayerStats : MonoBehaviour
 
 	GameObject fireParticlesPrefab;
 	Transform fireParticlesParent;
-	// TODO EXPLOSION PREFAB!!!!!!!!!!!!!!
 
 	public float respawnTime = 10f; // in seconds
 
@@ -86,6 +85,7 @@ public class PlayerStats : MonoBehaviour
 
 		// Applying the stats throughout the components
 		health.damageAbsorbtion = attributes.damageAbsorbtion;
+		health.explosionPrefab = attributes.deathExplosionPrefab;
 
 		movement.forwardSpeed = attributes.forwardSpeed;
 		movement.backwardSpeed = attributes.backwardSpeed;
@@ -98,13 +98,11 @@ public class PlayerStats : MonoBehaviour
 		weapon.projectilePrefab = attributes.projectilePrefab;
 		weapon.fireParticles = fireParticlesParent.GetComponent <ParticleSystem> ();
 
-		var bullet = weapon.projectilePrefab.GetComponent <TankBullet> ();
-		bullet.speed = attributes.bulletSpeed;
-		bullet.explosionPrefab = attributes.explosionPrefab;
+		weapon.projectileSpeed = attributes.bulletSpeed;
+		weapon.projectileBounces = attributes.bounces;
 
-		var explosion = bullet.explosionPrefab.GetComponent <BulletExplosion> ();
-		explosion.damage = attributes.explosionDamage;
-		explosion.radius = attributes.explosionRadius;
+		weapon.explosionDamage = attributes.explosionDamage;
+		weapon.explosionRadius = attributes.explosionRadius;
 
 	}
 }

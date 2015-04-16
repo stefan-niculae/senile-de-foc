@@ -6,6 +6,8 @@ public class TankBullet : MonoBehaviour
 	static readonly float TIME_TO_LIVE = 10f;
 
 	public float speed;
+	public float damage, radius;
+
 	// Number of times the bullet can bounce
 	public int maxCollisions;
 	public GameObject explosionPrefab;
@@ -23,11 +25,14 @@ public class TankBullet : MonoBehaviour
 		colliders = GetComponents <Collider2D> ();
 	}
 
-	public void Launch (Vector2 direction, PlayerStats stats)
+	public void Launch (Vector2 direction, PlayerStats stats, int bounces, float speed, float damage, float radius)
 	{
 		body.AddForce (speed * direction);
 
 		this.stats = stats;
+		this.speed = speed;
+		this.damage = damage;
+		this.radius = radius;
 
 		// Automatically destroy in a while if the bullet got stuck
 		Destroy (gameObject, TIME_TO_LIVE);
@@ -80,7 +85,7 @@ public class TankBullet : MonoBehaviour
 			Quaternion.identity) as GameObject;
 		explosion.transform.parent = GameObject.Find ("Explosions").transform;
 
-		explosion.GetComponent <BulletExplosion> ().stats = stats;
+		explosion.GetComponent <BulletExplosion> ().Init (stats, damage, radius);
 
 		Destroy (gameObject);
 	}
