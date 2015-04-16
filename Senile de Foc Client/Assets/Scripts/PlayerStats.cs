@@ -98,12 +98,15 @@ public class PlayerStats : MonoBehaviour
 		weapon.projectilePrefab = attributes.projectilePrefab;
 		weapon.fireParticles = fireParticlesParent.GetComponent <ParticleSystem> ();
 
-		weapon.projectileSpeed = attributes.bulletSpeed;
-		weapon.projectileBounces = attributes.bounces;
+		weapon.projectileSpeed = attributes.projectileSpeed;
+		weapon.projectileBounces = attributes.projectileBounces;
+		weapon.projectileSprite = attributes.projectileSprite;
 
 		weapon.explosionDamage = attributes.explosionDamage;
 		weapon.explosionRadius = attributes.explosionRadius;
 
+		Utils.childWithName (transform, "Body").GetComponent <SpriteRenderer> ().sprite = attributes.bodySprite;
+		Utils.childWithName (transform, "Barrel").GetComponent <SpriteRenderer> ().sprite = attributes.barrelSprite;
 	}
 }
 

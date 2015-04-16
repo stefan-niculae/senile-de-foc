@@ -25,7 +25,7 @@ public class TankBullet : MonoBehaviour
 		colliders = GetComponents <Collider2D> ();
 	}
 
-	public void Launch (Vector2 direction, PlayerStats stats, int bounces, float speed, float damage, float radius)
+	public void Launch (Vector2 direction, PlayerStats stats, Sprite sprite, int bounces, float speed, float damage, float radius)
 	{
 		body.AddForce (speed * direction);
 
@@ -33,6 +33,8 @@ public class TankBullet : MonoBehaviour
 		this.speed = speed;
 		this.damage = damage;
 		this.radius = radius;
+
+		GetComponent <SpriteRenderer> ().sprite = sprite;
 
 		// Automatically destroy in a while if the bullet got stuck
 		Destroy (gameObject, TIME_TO_LIVE);

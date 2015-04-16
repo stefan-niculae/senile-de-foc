@@ -9,6 +9,7 @@ public class TankWeapon : MonoBehaviour
 
 	public int projectileBounces;
 	public float projectileSpeed;
+	public Sprite projectileSprite;
 	public float explosionDamage;
 	public float explosionRadius;
 
@@ -26,8 +27,6 @@ public class TankWeapon : MonoBehaviour
 
 		stats = GetComponentInParent <PlayerStats> ();
 		bulletSpawnPos = Utils.childWithName (transform, "Bullet Spawn Position");
-
-		Debug.Log (stats.username + " dmg " + explosionDamage);
 	}
 
 	float lastSpawn;
@@ -57,6 +56,7 @@ public class TankWeapon : MonoBehaviour
 		spawned.GetComponent <TankBullet> ().Launch (
 			Utils.ForwardDirection (stats.barrel.transform),
 			stats,
+			projectileSprite,
 			projectileBounces,
 			projectileSpeed,
 			explosionDamage,

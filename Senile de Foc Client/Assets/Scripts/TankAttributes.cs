@@ -60,6 +60,24 @@ public class TankAttributes : MonoBehaviour
 		bulletExplosionPrefab,
 		deathExplosionPrefab;
 
+	public Sprite
+		heavyTankSprite,
+		angryTankSprite,
+		calmTankSprite,
+		sneakyTankSprite;
+
+	public Sprite
+		heavyBarrelSprite,
+		angryBarrelSprite,
+		calmBarrelSprite,
+		sneakyBarrelSprite;
+
+	public Sprite
+		heavyProjectileSprite,
+		angryProjectileSprite,
+		calmProjectileSprite,
+		sneakyProjectileSprite;
+
 	public class Attributes
 	{
 		// Shown to the player
@@ -69,13 +87,17 @@ public class TankAttributes : MonoBehaviour
 		public int firerate;
 
 		// Hidden from the player
-		public int bounces;
+		public int projectileBounces;
 		public SpecialPower special;
 
 		public GameObject fireParticles;
 		public GameObject projectilePrefab;
 		public GameObject explosionPrefab;
 		public GameObject deathExplosionPrefab;
+
+		public Sprite bodySprite;
+		public Sprite barrelSprite;
+		public Sprite projectileSprite;
 
 		// Computed values
 		public float damageAbsorbtion 
@@ -95,27 +117,32 @@ public class TankAttributes : MonoBehaviour
 
 		public float fireCooldown
 		{ get { return FIRE_COOLDOWN.applyLevel (firerate); } }
-		public float bulletSpeed
+		public float projectileSpeed
 		{ get { return BULLET_SPEED.applyLevel (firerate); } }
 		public float barrelSpeed
 		{ get { return BARREL_SPEED.applyLevel (firerate); } }
 
 		public Attributes (int armor, int movement, int damage, int firerate, 
 		                   int bounces, SpecialPower special,
-		                   GameObject fireParticles, GameObject projectilePrefab, GameObject explosionPrefab, GameObject deathExplosionPrefab)
+		                   GameObject fireParticles, GameObject projectilePrefab, GameObject explosionPrefab, GameObject deathExplosionPrefab,
+		                   Sprite bodySprite, Sprite barrelSprite, Sprite projectileSprite)
 		{
 			this.armor = armor;
 			this.movement = movement;
 			this.damage = damage;
 			this.firerate = firerate;
 
-			this.bounces = bounces;
+			this.projectileBounces = bounces;
 			this.special = special;
 
 			this.fireParticles = fireParticles;
 			this.projectilePrefab = projectilePrefab;
 			this.explosionPrefab = explosionPrefab;
 			this.deathExplosionPrefab = deathExplosionPrefab;
+
+			this.bodySprite = bodySprite;
+			this.barrelSprite = barrelSprite;
+			this.projectileSprite = projectileSprite;
 		}
 	}
 
@@ -142,7 +169,11 @@ public class TankAttributes : MonoBehaviour
 		                        fireParticles: 		OR.missileFireParticles,
 		                        projectilePrefab: 	OR.heavyMissilePrefab,
 		                        explosionPrefab:	OR.missileExplosionPrefab,
-		                        deathExplosionPrefab:OR.deathExplosionPrefab);
+		                        deathExplosionPrefab:OR.deathExplosionPrefab,
+
+		                        bodySprite: 		heavyTankSprite,
+		                        barrelSprite:		heavyBarrelSprite,
+		                        projectileSprite:	heavyProjectileSprite);
 		
 		ANGRY = new Attributes (armor: 		7,
 		                        movement: 	4,
@@ -155,7 +186,11 @@ public class TankAttributes : MonoBehaviour
 		                        fireParticles: 		OR.missileFireParticles,
 		                        projectilePrefab: 	OR.angryMissilePrefab,
 		                        explosionPrefab:	OR.missileExplosionPrefab,
-		                        deathExplosionPrefab:OR.deathExplosionPrefab);
+		                        deathExplosionPrefab:OR.deathExplosionPrefab,
+		                        
+		                        bodySprite: 		angryTankSprite,
+		                        barrelSprite:		angryBarrelSprite,
+		                        projectileSprite:	angryProjectileSprite);
 		
 		CALM = 	new Attributes (armor: 		4,
 		                        movement: 	7,
@@ -168,7 +203,11 @@ public class TankAttributes : MonoBehaviour
 		                        fireParticles: 		OR.bulletFireParticles,
 		                        projectilePrefab: 	OR.calmBulletPrefab,
 		                        explosionPrefab:	OR.bulletExplosionPrefab,
-		                        deathExplosionPrefab:OR.deathExplosionPrefab);
+		                        deathExplosionPrefab:OR.deathExplosionPrefab,
+		                        
+		                        bodySprite: 		calmTankSprite,
+		                        barrelSprite:		calmBarrelSprite,
+		                        projectileSprite:	calmProjectileSprite);
 		
 		SNEAKY =new Attributes (armor: 		1,
 		                        movement: 	10,
@@ -181,6 +220,10 @@ public class TankAttributes : MonoBehaviour
 		                        fireParticles: 		OR.bulletFireParticles,
 		                        projectilePrefab: 	OR.sneakyBulletPrefab,
 		                        explosionPrefab:	OR.bulletExplosionPrefab,
-		                        deathExplosionPrefab:OR.deathExplosionPrefab);
+		                        deathExplosionPrefab:OR.deathExplosionPrefab,
+		                        
+		                        bodySprite: 		sneakyTankSprite,
+		                        barrelSprite:		sneakyBarrelSprite,
+		                        projectileSprite:	sneakyProjectileSprite);
 	}
 }
