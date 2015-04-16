@@ -1,11 +1,12 @@
-bullet speed
-bullet bounces
-fire rate
+Upgradable:
+ Armor ( -dmg% )
+ Speed (movement + turn)
+ Fire Rate (bullet speed + shoot cooldown)
+ Damage (explosion damage + explosion radius)
 
-explosion damage
-explosion radius
+Constant: 
+ Respawn Time
 
-speed (+turning speed)
-health
-
-respawn time
+Per Tank:
+ Bullet Bounces
+ Special (mine, blastwave, pull, push)

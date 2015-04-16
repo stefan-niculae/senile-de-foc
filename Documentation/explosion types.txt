@@ -1,0 +1,23 @@
+death explosion (mare)
+
+black explosion (missile)
+blue explosion (missile)
+
+red explosion (bullet)
+green explosion (bullet)
+
+mine explosion (mare)
+blastwave (wave)
+
+push, pull (wifi-like)
+
+
+
+red barrel (medium explosion)
+grey barrel (grey smoke)
+
+
+
+spawn => small spark explosion
+< 50 hp => light smoke
+< 25 hp => fire

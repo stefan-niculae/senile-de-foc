@@ -68,8 +68,7 @@ public class Utils : MonoBehaviour
 		return Quaternion.Euler (euler);
 	}
 
-	// TODO: make this generic
-	public static GameObject randomFrom (GameObject[] array, int[] probabilities = null)
+	public static T randomFrom<T> (T[] array, int[] probabilities = null)
 	{
 		// Equal probability
 		if (probabilities == null)
@@ -114,5 +113,21 @@ public class Utils : MonoBehaviour
 		}
 
 		return array [index];
+	}
+
+	// a <= b or b <= a
+	public static bool CustomBetween (float value, float a, float b) // TODO: test cases for this
+	{
+		return 
+			(
+				// NaN cancels the script
+				!float.IsNaN (value) &&
+		    
+		    	(
+			     // a <= b or b <= a
+				 (a <= value && value <= b) ||
+				 (b <= value && value <= a)
+				)
+			);
 	}
 }

@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -19,7 +19,7 @@ public class TankTracksManager : MonoBehaviour
 
 	void Start ()
 	{
-		var hidden = Constants.hidden;
+		var hidden = Constants.HIDDEN;
 		hidden.z = transform.position.z;
 		TankTrack.hidden = hidden;
 

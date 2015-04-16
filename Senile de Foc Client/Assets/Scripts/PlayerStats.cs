@@ -7,7 +7,11 @@ public class PlayerStats : MonoBehaviour
 	// TODO: get this from the login
 	public string username;
 
+	public float respawnTime = 10f; // in seconds
+
 	public bool controlledPlayer;
+	static int nrControlledPlayers;
+
 	public Text
 		killsText,
 		deathsText,
@@ -24,6 +28,12 @@ public class PlayerStats : MonoBehaviour
 		kills 	= new GUIStat (killsText);
 		deaths 	= new GUIStat (deathsText);
 		assists = new GUIStat (assistsText);
+
+		if (controlledPlayer) {
+			nrControlledPlayers++;
+			if (nrControlledPlayers > 1)
+				Debug.LogError ("There are more than one controlled players!");
+		}
 	}
 	
 }

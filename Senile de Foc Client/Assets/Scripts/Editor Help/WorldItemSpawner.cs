@@ -129,8 +129,6 @@ public class WorldItemSpawner : MonoBehaviour
 		SpawnObstacles (zone2BarrelPrefabs, zone2BarrelPrefabProbabilities, zone2BarrelContainer, zone2BarrelPolygon, zone2BarrelNumber, 0, true);
 	}
 
-	// Failsafe for the while (random == smthing)
-	static readonly int MAX_EPOCHS = 1000;
 
 	void SpawnObstacles (GameObject[] prefabs, int[] prefabProbabilities, Transform container, Transform polygon, int number, float deformation, bool randomlyRotate)
 	{
@@ -151,7 +149,7 @@ public class WorldItemSpawner : MonoBehaviour
 
 		int spawned = 0;
 		int epoch = 0;
-		while (!(spawned == number || epoch == MAX_EPOCHS)) {
+		while (!(spawned == number || epoch == Constants.MAX_EPOCH)) {
 			Vector3 pos;
 			pos.z = transform.position.z;
 

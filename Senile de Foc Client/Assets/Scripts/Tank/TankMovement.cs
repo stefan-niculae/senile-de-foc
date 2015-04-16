@@ -44,7 +44,7 @@ public class TankMovement : MonoBehaviour
 		rot.z = rot.z < 0 ? 360f + rot.z : rot.z; // Don't use -20, use 340 instead
 
 		// For rotations from the patroling script
-		if (CustomBetween (targetRot, oldRot, rot.z))
+		if (Utils.CustomBetween (targetRot, oldRot, rot.z))
 			rot.z = targetRot;
 
 		// Apply the newly computed rotation
@@ -57,20 +57,5 @@ public class TankMovement : MonoBehaviour
 		// Only spawn tracks if the tank is moving (and only for the player tank)
 		if (playerInput && vert != 0)
 			tracks.Show (transform.position, transform.rotation);
-	}
-
-	bool CustomBetween (float value, float a, float b)
-	{
-		return 
-			(
-				// NaN cancels the script
-				!float.IsNaN (value) &&
-		    
-		    	(
-			     // a <= b or b <= a
-				 (a <= value && value <= b) ||
-				 (b <= value && value <= a)
-				)
-			);
 	}
 }

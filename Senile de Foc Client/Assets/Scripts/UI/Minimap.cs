@@ -1,32 +1,63 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
 
-[ExecuteInEditMode]
 public class Minimap : MonoBehaviour 
 {
-	public float dimension = .27f;
-	public float borderMargin = .008f;
-	Camera cam;
+	public Transform controlledPlayer;
+	public RawImage map;
+	public Image border;
+	
+	public float transp = .8f;
+
+	public float UISize = .25f;
+	public float UIBorder;
+	Rect UIRect;
 
 	void Awake ()
 	{
-		cam = GetComponent <Camera> ();
+		if (!controlledPlayer.GetComponent <PlayerStats> ().controlledPlayer)
+			Debug.LogError ("Wrong tank (not player controlled) attached to the minimap");
 	}
 
+	void Start ()
+	{
+		float ratio = (float)Screen.width / Screen.height;
+		
+		// We do it in this order because the canvas is set to follow the height first
+		UIRect.height = UISize;
+		UIRect.width = UISize / ratio;
+		
+		UIRect.y = UIBorder;
+		UIRect.x = 1f - UIRect.width - UIBorder / ratio;
+	}
 
+	bool isTransparent;
 	void Update ()
 	{
-		Rect camRect = cam.rect;
-		
-		float ratio = (float)Screen.width / Screen.height;
+		Vector2 mouseViewport = Camera.main.ScreenToViewportPoint (Input.mousePosition);
+		Vector2 playerViewport = Camera.main.WorldToViewportPoint (controlledPlayer.position);
+		if (UIRect.Contains (mouseViewport) || UIRect.Contains (playerViewport)) {
+			if (!isTransparent) {
+				isTransparent = true;
+				map.color = ApplyTransparency (map.color, transp);
+				border.color = ApplyTransparency (border.color, transp);
+			}
+		} 
+		else {
+			if (isTransparent) {
+				isTransparent = false;
+				map.color = ApplyTransparency (map.color, 1f / transp);
+				border.color = ApplyTransparency (border.color, 1f / transp);
+			}
+		}
 
-		// We do it in this order because the canvas is set to follow the height first
-		camRect.height = dimension;
-		camRect.width = dimension / ratio;
+	}
 
-		camRect.y = borderMargin;
-		camRect.x = 1f - camRect.width - borderMargin / ratio;
-
-		cam.rect = camRect;
+	Color ApplyTransparency (Color color, float percentage)
+	{
+		var tempCol = color;
+		tempCol.a *= percentage;
+		return tempCol;
 	}
 }

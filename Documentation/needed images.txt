@@ -1,0 +1,11 @@
+(awesome)
+splash image
+
+(cute)
+mine
+spawn point
+icons: projectile, skull, star
+UI: minimap border, health bar border + style
+poza wheel, armor plating, fire rate, fire damage (explosion), upgrade token
+
+poze tancuri

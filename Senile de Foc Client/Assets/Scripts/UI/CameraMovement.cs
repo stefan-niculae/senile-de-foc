@@ -113,7 +113,23 @@ public class CameraMovement : MonoBehaviour
 		else if (mousePos.y <= bumpMargin)		target.y -= velocity * Time.deltaTime;
 
 		movedLastCall = (beforeMove != target);
-
 	}
-	
+
+	bool valueBeforeDeath;
+	public void HandleDeath ()
+	{
+		valueBeforeDeath = followingPlayer;
+		followingPlayer = false;
+	}
+
+	public void HandleRespawn ()
+	{
+		// Snap once to the player
+		var pos = player.position;
+		pos.z = transform.position.z;
+		transform.position = pos;
+
+		// And resume the old following value
+		followingPlayer = valueBeforeDeath;
+	}
 }

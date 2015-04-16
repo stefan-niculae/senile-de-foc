@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -10,6 +10,9 @@ public class TankHealth : MonoBehaviour
 	public PlayerStats stats;
 
 	List <PlayerStats> hitters;
+	Vector3 hidden;
+	CameraMovement camMovement = null;
+	Countdown respawnCountdown = null;
 
 	float _amount;
 	float amount
@@ -33,11 +36,37 @@ public class TankHealth : MonoBehaviour
 	void Awake ()
 	{
 		hitters = new List <PlayerStats> ();
+		hidden = Constants.HIDDEN;
+		hidden.z = transform.position.z;
+
+		if (stats.controlledPlayer) {
+			camMovement = Camera.main.GetComponent <CameraMovement> ();
+			respawnCountdown = GameObject.Find ("Respawn Countdown").GetComponent <Countdown> ();
+		}
 	}
 
 	void Start ()
 	{
+		Reset ();
+	}
+
+	void Reset ()
+	{
+		// Stats
 		amount = 100;
+		alreadyExploded = false;
+
+		// Position
+		var transf = GameWorld.RandomSpawnPoint ();
+		var pos = transf.position;
+		pos.z = transform.position.z;
+		transform.position = pos;
+
+		bar.parent.gameObject.SetActive (true);
+
+		// TODO: bug - this does not set for the controlled player
+		transform.rotation = transf.rotation;
+		if (stats.controlledPlayer) Debug.Log (name + " rotated to " + transform.rotation.eulerAngles);
 	}
 
 	bool alreadyExploded;
@@ -65,11 +94,30 @@ public class TankHealth : MonoBehaviour
 		source.kills++;
 
 		// And each hitter's (except the killer) assist count
-		foreach (var hitter in hitters)
-			if (hitter != source)
+		foreach (var hitter in hitters) {
+			// TODO: shooty shoots abstract once, i kill shooty, i kill abstract
+			// abstract gets a null reference on hitter
+			if (hitter != source) 
 				hitter.assists++;
+		}
+		// Clear the hitters list for the next death
+		hitters.Clear ();
 
 		SpawnExplosion ();
+
+		if (camMovement != null)
+			camMovement.HandleDeath ();
+
+		// Disable the bar because it has a stay inside boundaries script
+		bar.parent.gameObject.SetActive (false);
+
+		// Teleport the body far away
+		transform.position = hidden;
+
+		// Start the countdown
+		if (respawnCountdown != null)
+			respawnCountdown.StartIt (stats.respawnTime);
+		StartCoroutine (Respawn (stats.respawnTime));
 	}
 
 	void SpawnExplosion ()
@@ -82,4 +130,15 @@ public class TankHealth : MonoBehaviour
 			Quaternion.identity) as GameObject;
 		explosion.transform.parent = GameObject.Find ("Explosions").transform;
 	}
+
+	public IEnumerator Respawn (float delay)
+	{
+		yield return new WaitForSeconds (delay);
+
+		Reset ();
+
+		if (camMovement != null)
+			camMovement.HandleRespawn ();
+	}
+
 }

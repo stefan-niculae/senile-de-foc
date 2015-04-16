@@ -79,6 +79,7 @@
      <Compile Include="Assets\Scripts\Tank\TankTracksManager.cs" />
      <Compile Include="Assets\Scripts\Tank\TankWeapon.cs" />
      <Compile Include="Assets\Scripts\UI\CameraMovement.cs" />
+     <Compile Include="Assets\Scripts\UI\Countdown.cs" />
      <Compile Include="Assets\Scripts\UI\Minimap.cs" />
      <Compile Include="Assets\Scripts\UI\PlayerUsername.cs" />
      <Compile Include="Assets\Scripts\UI\StayInsideBoundaries.cs" />

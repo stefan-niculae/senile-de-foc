@@ -48,7 +48,7 @@ Jocul va implementa facilitatile:
   (tun, racheta, etc.) vor fi desenate diferit; explozii animate; diverse
   actiuni: deplasari, foc, explozii, vor avea sunete specifice;
 
- - se poate juca in retea si prin Internet; numarul maxim de jucatori sa fie
+ - se poate juca prin Internet; numarul maxim de jucatori sa fie
   cel putin 3;
 
  - campul de lupta este mai mare decat un ecran, fiecare jucator vazand pe
