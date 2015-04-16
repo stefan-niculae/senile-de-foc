@@ -1,7 +1,50 @@
-BLACK
+HEAVY (green)
+missile
+pushes
 
-RED
+high armor
+low movement
 
-BLUE
+low firerate
+high damage
 
-GREEN
+
+
+
+ANGRY (red)
+missile
+bounces once
+blastwave around (dmg)
+
+med-high armor
+low-med movement
+
+low-med firerate
+med-high damage
+
+
+
+
+CALM (blue)
+bullets
+bounces twice
+electricty around (DoT)
+
+low-med armor
+med-high movement
+
+med-high firerate
+low-med damage
+
+
+
+
+SNEAKY (black)
+bullets
+mine
+
+low armor
+high movement
+
+high firerate
+low damage

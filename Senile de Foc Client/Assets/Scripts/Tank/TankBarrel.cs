@@ -9,13 +9,14 @@ public class TankBarrel : MonoBehaviour
 		fireOffset,
 		backwardSpeed,
 		forwardSpeed;
-	public Transform stand;
 
+	Transform stand;
 	Vector3 initialPos;
 	[HideInInspector] public Vector3 firePos;
 
 	void Awake ()
 	{
+		stand = transform.parent;
 		initialPos = transform.localPosition;
 		firePos = initialPos;
 		firePos.y -= fireOffset;

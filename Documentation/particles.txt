@@ -19,7 +19,6 @@ lovire world
 
 bomba finala
 	cfx_(ground)smoke explosion alt
-v	cfx4 wave explosion
 
 futuristic explosion
 v	cfx4 wave explosion (blue)
@@ -39,7 +38,7 @@ tank damaged
 
 tank mort
 	cfx2_skullrotate
-	cfx3_hit_misc_e_skull
+v	cfx3_hit_misc_e_skull
 
 tank spawn
 	cfx_circularlightwall

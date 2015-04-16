@@ -3,7 +3,7 @@ using System.Collections;
 
 public class PlayerUsername : MonoBehaviour
 {
-	public PlayerStats stats;
+	PlayerStats stats;
 
 	TextMesh textHandle;
 	bool visible;
@@ -11,6 +11,7 @@ public class PlayerUsername : MonoBehaviour
 	void Awake ()
 	{
 		textHandle = GetComponent <TextMesh> ();
+		stats = GetComponentInParent <PlayerStats> ();
 	}
 
 	void Update ()

@@ -7,7 +7,7 @@ public class TankMovement : MonoBehaviour
 		forwardSpeed,
 		backwardSpeed,
 		rotationSpeed;
-	public Transform superParent;
+	Transform superParent;
 
 	Rigidbody2D body;
 	TankTracksManager tracks;
@@ -16,6 +16,7 @@ public class TankMovement : MonoBehaviour
 	{
 		// Setting the reference
 		body = GetComponent <Rigidbody2D> ();
+		superParent = transform.parent;
 	}
 
 	void Start ()

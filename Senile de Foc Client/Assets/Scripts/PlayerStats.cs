@@ -7,15 +7,26 @@ public class PlayerStats : MonoBehaviour
 	// TODO: get this from the login
 	public string username;
 
+	TankAttributes.Attributes attributes;
+
+	public enum TankType { heavy, angry, calm, sneaky };
+	public TankType tankType;
+
+	// TODO: make all interactions with these through this stats object
+	[HideInInspector] public TankHealth health;
+	[HideInInspector] public TankMovement movement;
+	[HideInInspector] public TankWeapon weapon;
+	[HideInInspector] public TankBarrel barrel;
+	
+
+	GameObject fireParticlesPrefab;
+	Transform fireParticlesParent;
+	// TODO EXPLOSION PREFAB!!!!!!!!!!!!!!
+
 	public float respawnTime = 10f; // in seconds
 
 	public bool controlledPlayer;
 	static int nrControlledPlayers;
-
-	public Text
-		killsText,
-		deathsText,
-		assistsText;
 
 	[HideInInspector] public GUIStat
 		kills,
@@ -24,18 +35,78 @@ public class PlayerStats : MonoBehaviour
 
 	void Awake ()
 	{
-		// player stats -> tank weapon -> tank barrel -> tank bullet -> bullet explosion -> tank health
-		kills 	= new GUIStat (killsText);
-		deaths 	= new GUIStat (deathsText);
-		assists = new GUIStat (assistsText);
-
 		if (controlledPlayer) {
 			nrControlledPlayers++;
 			if (nrControlledPlayers > 1)
 				Debug.LogError ("There are more than one controlled players!");
 		}
+
+		PlayerInput playerInput = GetComponent <PlayerInput> ();
+		if ((playerInput != null) != controlledPlayer)
+			Debug.LogErrorFormat ("Player input missing/where it shouldn't be on {0} ({1})", name, username);
+
+		// player stats -> tank weapon -> tank barrel -> tank bullet -> bullet explosion -> tank health
+		kills 	= new GUIStat (controlledPlayer ? GameObject.Find ("Kills Text").GetComponent <Text> () : null);
+		deaths 	= new GUIStat (controlledPlayer ? GameObject.Find ("Deaths Text").GetComponent <Text> () : null);
+		assists = new GUIStat (controlledPlayer ? GameObject.Find ("Assists Text").GetComponent <Text> () : null);
+
+
+		// Parsing the selection
+		switch (tankType) {
+		
+		case TankType.heavy:
+			attributes = TankAttributes.HEAVY;
+			break;
+
+		case TankType.angry:
+			attributes = TankAttributes.ANGRY;
+			break;
+
+		case TankType.calm:
+			attributes = TankAttributes.CALM;
+			break;
+
+		case TankType.sneaky:
+			attributes = TankAttributes.SNEAKY;
+			break;
+		}
+
+		fireParticlesPrefab = attributes.fireParticles;
+		fireParticlesParent =  Utils.replaceGO (Utils.childWithName (transform, "Fire Particles").gameObject,
+		                                        fireParticlesPrefab)
+									.transform;
+
+
+		// Setting up references
+		health = GetComponentInChildren <TankHealth> ();
+		movement = GetComponentInChildren <TankMovement> ();
+		weapon = GetComponentInChildren <TankWeapon> ();
+		barrel = GetComponentInChildren <TankBarrel> ();
+
+
+		// Applying the stats throughout the components
+		health.damageAbsorbtion = attributes.damageAbsorbtion;
+
+		movement.forwardSpeed = attributes.forwardSpeed;
+		movement.backwardSpeed = attributes.backwardSpeed;
+		movement.rotationSpeed = attributes.rotationSpeed;
+
+		barrel.backwardSpeed = attributes.barrelSpeed;
+		barrel.forwardSpeed = barrel.backwardSpeed / 2f;
+
+		weapon.cooldownPeriod = attributes.fireCooldown;
+		weapon.projectilePrefab = attributes.projectilePrefab;
+		weapon.fireParticles = fireParticlesParent.GetComponent <ParticleSystem> ();
+
+		var bullet = weapon.projectilePrefab.GetComponent <TankBullet> ();
+		bullet.speed = attributes.bulletSpeed;
+		bullet.explosionPrefab = attributes.explosionPrefab;
+
+		var explosion = bullet.explosionPrefab.GetComponent <BulletExplosion> ();
+		explosion.damage = attributes.explosionDamage;
+		explosion.radius = attributes.explosionRadius;
+
 	}
-	
 }
 
 public class GUIStat

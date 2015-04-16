@@ -4,15 +4,19 @@ using System.Collections.Generic;
 
 public class TankHealth : MonoBehaviour 
 {
-	public Transform bar;
-	public float fullLength;
+	public float damageAbsorbtion;
 	public GameObject explosionPrefab;
-	public PlayerStats stats;
+
+	Transform bar;
+	float fullLength;
+
+	PlayerStats stats;
+
 
 	List <PlayerStats> hitters;
 	Vector3 hidden;
-	CameraMovement camMovement = null;
-	Countdown respawnCountdown = null;
+	CameraMovement camMovement;
+	Countdown respawnCountdown;
 
 	float _amount;
 	float amount
@@ -39,10 +43,15 @@ public class TankHealth : MonoBehaviour
 		hidden = Constants.HIDDEN;
 		hidden.z = transform.position.z;
 
+		stats = GetComponentInParent <PlayerStats> ();
+
 		if (stats.controlledPlayer) {
 			camMovement = Camera.main.GetComponent <CameraMovement> ();
 			respawnCountdown = GameObject.Find ("Respawn Countdown").GetComponent <Countdown> ();
 		}
+
+		bar = Utils.childWithName (stats.transform, "Foreground");
+		fullLength = bar.transform.localScale.x;
 	}
 
 	void Start ()
@@ -66,12 +75,15 @@ public class TankHealth : MonoBehaviour
 
 		// TODO: bug - this does not set for the controlled player
 		transform.rotation = transf.rotation;
-		if (stats.controlledPlayer) Debug.Log (name + " rotated to " + transform.rotation.eulerAngles);
+//		if (stats.controlledPlayer) Debug.Log (stats.username + " rotated to " + transform.rotation.eulerAngles);
 	}
 
 	bool alreadyExploded;
 	public void TakeDamage (float damage, PlayerStats source)
 	{
+		// Apply the absorbtion
+		damage *= 1f - damageAbsorbtion;
+
 		// Apply the damage
 		amount -= damage;
 
@@ -91,7 +103,8 @@ public class TankHealth : MonoBehaviour
 		stats.deaths++;
 
 		// And the other player's kill count
-		source.kills++;
+		if (source != stats) // but not on a suicide
+			source.kills++;
 
 		// And each hitter's (except the killer) assist count
 		foreach (var hitter in hitters) {

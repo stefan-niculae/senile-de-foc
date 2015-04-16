@@ -130,4 +130,34 @@ public class Utils : MonoBehaviour
 				)
 			);
 	}
+
+	public static Transform childWithName (Transform parent, string searchedName)
+	{ 
+		// Includes children of children and so on
+		var children = parent.GetComponentsInChildren<Transform> ();
+
+		foreach (var child in children)
+			if (child.name == searchedName)
+				return child;
+
+		return null;
+	}
+
+	/**
+	 * Returns the newly created game object
+	 */ 
+	public static GameObject replaceGO (GameObject oldObj, GameObject newObjPrefab)
+	{
+		var objParent = oldObj.transform.parent;
+		var pos = oldObj.transform.position;
+		var rot = oldObj.transform.rotation;
+		Destroy (oldObj);
+
+		GameObject created = Instantiate (newObjPrefab,
+		                                  pos,
+		                                  rot)
+			as GameObject;
+		created.transform.parent = objParent;
+		return created;
+	}
 }

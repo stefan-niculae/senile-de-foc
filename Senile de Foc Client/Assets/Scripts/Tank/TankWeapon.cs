@@ -3,13 +3,12 @@ using System.Collections;
 
 public class TankWeapon : MonoBehaviour 
 {
-	public TankBarrel barrel;
-	public GameObject bulletPrefab;
-	public Transform bulletSpawnPos;
-	public ParticleSystem fireParticles;
-	public float cooldownPeriod;
-	public PlayerStats stats;
+	[HideInInspector] public float cooldownPeriod;
+	[HideInInspector] public GameObject projectilePrefab;
+	[HideInInspector] public ParticleSystem fireParticles;
 
+	PlayerStats stats;
+	Transform bulletSpawnPos;
 	Transform bulletContainer;
 	AudioSource audioSource;
 
@@ -19,6 +18,9 @@ public class TankWeapon : MonoBehaviour
 
 		// We do this and don't set it public because prefabs can't have non prefab fields preassigned
 		bulletContainer = GameObject.Find ("Bullets").transform;
+
+		stats = GetComponentInParent <PlayerStats> ();
+		bulletSpawnPos = Utils.childWithName (transform, "Bullet Spawn Position");
 	}
 
 	float lastSpawn;
@@ -28,25 +30,25 @@ public class TankWeapon : MonoBehaviour
 		if (Time.time - lastSpawn >= cooldownPeriod) {
 			lastSpawn = Time.time;
 
-			barrel.Bounce ();
+			stats.barrel.Bounce ();
 			fireParticles.Play ();
-			SpawnBullet ();
+			SpawnProjectile ();
 
 			if (playSound)
 				audioSource.Play ();
 		}
 	}
 
-	void SpawnBullet ()
+	void SpawnProjectile ()
 	{
 		GameObject spawned = Instantiate (
-			bulletPrefab,
+			projectilePrefab,
 			bulletSpawnPos.position,
-			barrel.transform.rotation) as GameObject;
+			stats.barrel.transform.rotation) as GameObject;
 
 		spawned.transform.parent = bulletContainer;
 		spawned.GetComponent <TankBullet> ().Launch (
-			Utils.ForwardDirection (barrel.transform),
+			Utils.ForwardDirection (stats.barrel.transform),
 			stats);
 	}
 }

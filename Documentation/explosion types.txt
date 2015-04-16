@@ -1,23 +1,28 @@
-death explosion (mare)
+missile launch - v	cfx_ground hit
+green, red  missile explosion - v	cfx_(ground)explosion+text
+blue,black bullet explosion - 	cfx4 spiky explosion
 
-black explosion (missile)
-blue explosion (missile)
-
-red explosion (bullet)
-green explosion (bullet)
-
-mine explosion (mare)
-blastwave (wave)
-
-push, pull (wifi-like)
+mine explosion - tot de la red barrel
+blastwave - 	cfx4 wave explosion blue
+push - iceball just the trail
+dot - cfx3 hit A electric air / cfx electricity ball
 
 
 
-red barrel (medium explosion)
-grey barrel (grey smoke)
+red barrel - 	cfx_(ground)smoke explosion alt
+grey barrel - 	cfx_smokepuffs(alt)
+green barrel - cfx2_poisoncloud
+
+
+? lovire wall/border - 		cfx4 drill ground hit
 
 
 
-spawn => small spark explosion
-< 50 hp => light smoke
-< 25 hp => fire
+spawn - 	cfx4 sparks explosion bigger (culoarea tancului)
+< 66 hp - random { cfx2_sparks_source, cfx_gasleak }
+< 50 hp - 	cfx4 smoke trail b (black)
+< 25 hp -	cfx_flameB
+= 0 hp - v	cfx3_hit_misc_e_skull
+death explosion (mare) - 	cfx4 explosion softedge air (x cfx4 wave eplosion)
+
+win/token - 	cfx_firework
