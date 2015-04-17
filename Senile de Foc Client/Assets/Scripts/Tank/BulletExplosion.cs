@@ -33,9 +33,12 @@ public class BulletExplosion : MonoBehaviour
 
 	void DamageAround ()
 	{
-		Collider2D[] around = Physics2D.OverlapCircleAll (transform.position, radius);
+		Collider2D[] around = Physics2D.OverlapCircleAll (transform.position, radius); 
 		foreach (Collider2D coll in around)
 			if (coll.tag == "Player")
 				coll.GetComponent <TankHealth> ().TakeDamage (damage, stats);
+			else if (coll.tag == "Destroyable") { Debug.Log ("hit " + coll.name);
+				coll.GetComponent <DestroyableBarrel> ().TakeDamage (damage, stats);
+			}
 	}
 }

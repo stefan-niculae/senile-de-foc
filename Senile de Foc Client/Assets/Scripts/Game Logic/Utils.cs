@@ -60,16 +60,28 @@ public class Utils : MonoBehaviour
 		return Quaternion.Euler (new Vector3 (0, 0, targetRot));
 	}
 
-	public static Quaternion random2DRotation ()
+	public static Quaternion random2DRotation (float min = float.NaN, float max = float.NaN)
 	{
-		Quaternion rot = UnityEngine.Random.rotation;
-		Vector3 euler = rot.eulerAngles;
-		euler.x = euler.y = 0;
+
+
+		if (float.IsNaN (min) != float.IsNaN (max))
+			Debug.LogError ("One is NaN, one is not");
+
+		Vector3 euler = Vector3.zero;
+
+		if (float.IsNaN (min)) {
+			min = 0;
+			max = 360;
+		}
+		euler.z = UnityEngine.Random.Range (min, max);
 		return Quaternion.Euler (euler);
 	}
 
 	public static T randomFrom<T> (T[] array, int[] probabilities = null)
 	{
+		if (array == null || array.Length == 0)
+			return default (T);
+
 		// Equal probability
 		if (probabilities == null)
 			return array [UnityEngine.Random.Range (0, array.Length)];

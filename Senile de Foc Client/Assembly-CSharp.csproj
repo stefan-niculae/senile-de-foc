@@ -62,6 +62,7 @@
      <Compile Include="Assets\PrefabEvolution\Sources\PEModifications.cs" />
      <Compile Include="Assets\PrefabEvolution\Sources\PEPrefabScript.cs" />
      <Compile Include="Assets\Scripts\Editor Help\WorldItemSpawner.cs" />
+     <Compile Include="Assets\Scripts\Environment\DestroyableBarrel.cs" />
      <Compile Include="Assets\Scripts\Environment\TilingBasedOnScale.cs" />
      <Compile Include="Assets\Scripts\Game Logic\Constants.cs" />
      <Compile Include="Assets\Scripts\Game Logic\GameWorld.cs" />

@@ -24,6 +24,7 @@ public class TankAttributes : MonoBehaviour
 
 		DAMAGE_ABSORBTION = new AttributeRate (0f, // in 0-1 percentage
 		                       			   	   .05f),
+		TANK_MASS, // TODO
 
 		FORWARD_SPEED = new AttributeRate (35000f,
 		                          		    2000f),
@@ -34,11 +35,12 @@ public class TankAttributes : MonoBehaviour
 
 		EXPLOSION_DAMAGE = new AttributeRate (1f, // in 0-1 health percentage
 		                                  	  .9f),
-		EXPLOSION_RADIUS = new AttributeRate (.02f, // TODO: scale particle with this
+		EXPLOSION_RADIUS = new AttributeRate (.02f, // TODO: scale particle with this (maybe...)
 		                                  	  .13f),
 			
-		BULLET_SPEED = new AttributeRate (1000f,
-		                                   100f),
+		PROJECTILE_SPEED = new AttributeRate (1000f,
+		                                   	   100f),
+		PROJECTILE_MASS, // TODO
 		FIRE_COOLDOWN = new AttributeRate (.5f, // in seconds
 		                                   -.04f),
 		BARREL_SPEED = new AttributeRate (2.5f,
@@ -118,7 +120,7 @@ public class TankAttributes : MonoBehaviour
 		public float fireCooldown
 		{ get { return FIRE_COOLDOWN.applyLevel (firerate); } }
 		public float projectileSpeed
-		{ get { return BULLET_SPEED.applyLevel (firerate); } }
+		{ get { return PROJECTILE_SPEED.applyLevel (firerate); } }
 		public float barrelSpeed
 		{ get { return BARREL_SPEED.applyLevel (firerate); } }
 
@@ -180,7 +182,7 @@ public class TankAttributes : MonoBehaviour
 		                        damage: 	7,
 		                        firerate: 	4,
 		                        
-		                        bounces: 	1,
+		                        bounces: 	0,//TODO: turn these back on when rotation is fixed (1)
 		                        special: 	SpecialPower.damageWave,
 		                        
 		                        fireParticles: 		OR.missileFireParticles,
@@ -197,7 +199,7 @@ public class TankAttributes : MonoBehaviour
 		                        damage: 	4,
 		                        firerate: 	7,
 		                        
-		                        bounces: 	2,
+		                        bounces: 	0,//TODO: turn these back on when rotation is fixed (2)
 		                        special: 	SpecialPower.DoTWave,
 		                        
 		                        fireParticles: 		OR.bulletFireParticles,

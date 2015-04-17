@@ -6,12 +6,15 @@ public class PlayerUsername : MonoBehaviour
 	PlayerStats stats;
 
 	TextMesh textHandle;
+	GameObject ownTankLocator;
+
 	bool visible;
 
 	void Awake ()
 	{
 		textHandle = GetComponent <TextMesh> ();
 		stats = GetComponentInParent <PlayerStats> ();
+		ownTankLocator = Utils.childWithName (stats.transform, "Own Tank Locator").gameObject;
 	}
 
 	void Update ()
@@ -20,5 +23,6 @@ public class PlayerUsername : MonoBehaviour
 		visible = Input.GetKey (KeyCode.U);
 
 		textHandle.text = visible ? stats.username : "";
+		ownTankLocator.SetActive (visible && stats.controlledPlayer);
 	}
 }

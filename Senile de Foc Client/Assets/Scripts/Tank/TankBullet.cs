@@ -4,18 +4,14 @@ using System.Collections;
 public class TankBullet : MonoBehaviour 
 {
 	static readonly float TIME_TO_LIVE = 10f;
+	static Transform explosionContainer;
 
 	public float speed;
 	public float damage, radius;
-
-	// Number of times the bullet can bounce
-	public int maxCollisions;
+	public int maxCollisions; // number of times the bullet can bounce
 	public GameObject explosionPrefab;
 
 	[HideInInspector] public PlayerStats stats;
-
-	int timesCollided;
-
 	Rigidbody2D body;
 	Collider2D[] colliders;
 
@@ -23,9 +19,12 @@ public class TankBullet : MonoBehaviour
 	{
 		body = GetComponent <Rigidbody2D> ();
 		colliders = GetComponents <Collider2D> ();
+
+		if (explosionContainer == null)
+			explosionContainer = GameObject.Find ("Explosions").transform;
 	}
 
-	public void Launch (Vector2 direction, PlayerStats stats, Sprite sprite, int bounces, float speed, float damage, float radius)
+	public void Launch (Vector2 direction, PlayerStats stats, Sprite sprite, GameObject explosionPrefab, int bounces, float speed, float damage, float radius)
 	{
 		body.AddForce (speed * direction);
 
@@ -33,6 +32,7 @@ public class TankBullet : MonoBehaviour
 		this.speed = speed;
 		this.damage = damage;
 		this.radius = radius;
+		this.explosionPrefab = explosionPrefab;
 
 		GetComponent <SpriteRenderer> ().sprite = sprite;
 
@@ -40,23 +40,35 @@ public class TankBullet : MonoBehaviour
 		Destroy (gameObject, TIME_TO_LIVE);
 	}
 
+	int timesCollided;
+	Vector3 pointOfCollision;
 	void OnCollisionEnter2D (Collision2D collision) 
 	{
+		// We use this because by the time the explode function starts executing the bullet
+		// is already away
+		pointOfCollision = collision.contacts [0].point;
+		pointOfCollision.z = transform.position.z;
+
 		// Bounces off walls
 		if (collision.gameObject.tag == "World") {
 			timesCollided++;
 			if (timesCollided == maxCollisions)
 				Explode ();
-
-			// We first disable colliders so that the collision doesn't register twice
-			// (once with the head and again with the tail)
-			StartCoroutine (DisableCollidersABit ());
-			RotateToVelocity ();
+			else {
+				// We first disable colliders so that the collision doesn't register twice
+				// (once with the head and again with the tail)
+				StartCoroutine (DisableCollidersABit ());
+				RotateToVelocity ();
+			}
 		}
 
-		// Explodes on players
-		else if (collision.gameObject.tag == "Player") 
+		// Explodes on players and barrels
+		else if (collision.gameObject.tag == "Player" || collision.gameObject.tag == "Destroyable") { Debug.Log ("hit " + collision.gameObject.name);
 			Explode ();
+		}
+
+		else
+			Debug.LogErrorFormat ("Hit something that shouldn't be hittable, {0} ({1})", collision.gameObject.name, collision.gameObject.tag);
 	}
 	
 	IEnumerator DisableCollidersABit ()
@@ -83,12 +95,11 @@ public class TankBullet : MonoBehaviour
 	{
 		GameObject explosion = Instantiate (
 			explosionPrefab,
-			transform.position,
+			pointOfCollision,
 			Quaternion.identity) as GameObject;
-		explosion.transform.parent = GameObject.Find ("Explosions").transform;
+		explosion.transform.parent = explosionContainer;
 
 		explosion.GetComponent <BulletExplosion> ().Init (stats, damage, radius);
-
 		Destroy (gameObject);
 	}
 }

@@ -1,54 +1,104 @@
-lansare proiectil
-v	cfx_ground hit
-	cfx_smokepuffs(alt)
-	cfx3_hit_smokepuff
+=== PROJECTILES ===
 
-explozie bullet
-v	cfx_(ground)explosion+text
+Projectile Launch (Muzzle Flash)
+v	cfx ground hit
+	cfx smokepuffs (alt)
+	cfx3 hit smokepuff
+
+Missile Explosion
+v	cfx (ground)explosion+text
 	cfx4 explosion softedge air
 
-bullet mic
+Bullet Explosion
 	cfx4 spiky explosion
+v	cfx hit A red 
+	cfx small explosion
 
 
 
 
-lovire world
-	cfx2_groundrockhit
+
+=== OTHER TANK EXPLOSIONS ===
+
+Death Explosion
+v	cfx4 explosion softedge air
+
+Damage Wave Special
+	cfx4 wave explosion (tank color)
+
+Push Wave Special
+	cfx smoke puffs
+
+Electricity Wave Special
+	cfx3 hit A electric air
+	cfx electricity ball alt
+
+Mine Explosion
+	same as red barrel
+
+Tank Electrocuted DoT
+	cfx electric ground
+
+Tank Poisoned DoT
+	cfx virus
+
+
+
+
+
+=== ENVIRONMENT EXPLOSIONS ===
+
+Red Barrel Explosion
+v	cfx_(ground)smoke explosion alt
+
+Green Barrel Explosion
+v	cfx2_poisoncloud
+
+Grey Barrel Explosion
+v	cfx_smokepuffs(alt)
+
+Wall/Border Hit
+	cfx2 groundrockhit
 	cfx4 drill ground hit
 
-bomba finala
-	cfx_(ground)smoke explosion alt
-
-futuristic explosion
-v	cfx4 wave explosion (blue)
 
 
 
-tank putin damaged
+
+=== TANK DAMAGED ===
+
+Tank Lightly Damaged
 	cfx4 hit c
-	cfx4 smoke trail b
-	cfx4 sparks explosion bigger (blue) / (yellow)
-	cfx_gasleak
-	cfx2_sparks_source
+v	cfx gasleak
+v	cfx2 sparks source
 
-tank damaged
-	cfx_flameB
+Tank Medium Damaged
+v	cfx4 smoke trail b / (black)
+
+Tank Heavily Damaged
+	cfx flameB
 	cfx4 smoke trail / (black)
+	cfx4 flamme
 
-tank mort
-	cfx2_skullrotate
-v	cfx3_hit_misc_e_skull
+Tank Dead
+	cfx2 skullrotate
+v	cfx3 hit misc e skull
 
-tank spawn
-	cfx_circularlightwall
-
-barrel poison
-	cfx2_poisoncloud
+Tank Spawn
+	cfx circularlightwall
+v	cfx4 sparks explosion bigger (tank color)
 
 
-win
-	cfx_firework
 
-shield?
-	cfx3_vortex_air
+
+
+=== MISC ===
+
+Upgrade token receival
+	cfx firework
+
+Shield?
+	cfx3 vortex air
+
+Own Tank Locator
+v	cfx spiky aura sphere

@@ -7,11 +7,11 @@ public class TankHealth : MonoBehaviour
 	public float damageAbsorbtion;
 	public GameObject explosionPrefab;
 
+	ParticleSystem spawnParticles;
 	Transform bar;
 	float fullLength;
 
 	PlayerStats stats;
-
 
 	List <PlayerStats> hitters;
 	Vector3 hidden;
@@ -37,6 +37,17 @@ public class TankHealth : MonoBehaviour
 		}
 	}
 
+	int 
+		lightlyDamaged = 75,
+		mediumDamaged = 50,
+		heavilyDamaged = 25;
+
+	ParticleSystem[] 
+		lightlyDamagedParticles,
+		mediumDamagedParticles,
+		heavilyDamagedParticles;
+		
+
 	void Awake ()
 	{
 		hitters = new List <PlayerStats> ();
@@ -44,6 +55,7 @@ public class TankHealth : MonoBehaviour
 		hidden.z = transform.position.z;
 
 		stats = GetComponentInParent <PlayerStats> ();
+		spawnParticles = Utils.childWithName (stats.transform, "Spawn Particles").GetComponent <ParticleSystem> ();;
 
 		if (stats.controlledPlayer) {
 			camMovement = Camera.main.GetComponent <CameraMovement> ();
@@ -52,12 +64,62 @@ public class TankHealth : MonoBehaviour
 
 		bar = Utils.childWithName (stats.transform, "Foreground");
 		fullLength = bar.transform.localScale.x;
+
+		lightlyDamagedParticles = GetParticles ("Lightly Damaged");
+		mediumDamagedParticles = GetParticles ("Medium Damaged");
+		heavilyDamagedParticles = GetParticles ("Heavily Damaged");
+
+		amount = 100;
+	}
+
+	ParticleSystem[] GetParticles (string parentName)
+	{
+		int n;
+		var parent = Utils.childWithName (stats.transform, parentName);
+		n = parent.childCount;
+
+		ParticleSystem[] particles = new ParticleSystem[n];
+		for (int i = 0; i < n; i++)
+			particles [i] = parent.GetChild (i).GetComponent <ParticleSystem> ();
+
+		return particles;
 	}
 
 	void Start ()
 	{
-		Reset ();
+		StartCoroutine (Respawn (0, true));
 	}
+	
+	void Update ()
+	{
+		// Tank damaged particles
+		if (amount <= heavilyDamaged)
+			PlayRandom (heavilyDamagedParticles, 170, 190); // flame just in the back
+		else if (amount <= mediumDamaged)
+			PlayRandom (mediumDamagedParticles, 130, 260); // smoke goes in the back // TODO: make these cooloer...
+		else if (amount <= lightlyDamaged)
+			PlayRandom (lightlyDamagedParticles, 60, 300); // leaks and sparks go anywhere but the front
+	}
+
+	float lastPlay;
+	float toWait;
+	void PlayRandom (ParticleSystem[] particles, float minRot = float.NaN, float maxRot = float.NaN)
+	{
+		// If enough time has passed since the last particle play
+		if (Time.time - lastPlay >= toWait && particles != null && particles.Length != 0) {
+
+			lastPlay = Time.time;
+			toWait = Random.Range (3f, 6f);
+
+			var parent = particles [0].transform.parent;
+			parent.rotation = Utils.random2DRotation (minRot, maxRot);
+			var particle = Utils.randomFrom (particles);
+			if (particle != null)
+					particle.Play ();
+
+		}
+	}
+
 
 	void Reset ()
 	{
@@ -91,7 +153,7 @@ public class TankHealth : MonoBehaviour
 		hitters.Add (source);
 
 		// If it has killed the target
-		if (amount == 0 && !alreadyExploded) {
+		if (amount <= 0 && !alreadyExploded) {
 			alreadyExploded = true;
 			Die (source);
 		}
@@ -144,13 +206,14 @@ public class TankHealth : MonoBehaviour
 		explosion.transform.parent = GameObject.Find ("Explosions").transform;
 	}
 
-	public IEnumerator Respawn (float delay)
+	public IEnumerator Respawn (float delay, bool ignoreCameraHandling = false)
 	{
 		yield return new WaitForSeconds (delay);
 
+		spawnParticles.Play ();
 		Reset ();
 
-		if (camMovement != null)
+		if (camMovement != null && !ignoreCameraHandling)
 			camMovement.HandleRespawn ();
 	}
 

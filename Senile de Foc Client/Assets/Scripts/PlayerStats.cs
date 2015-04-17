@@ -12,7 +12,6 @@ public class PlayerStats : MonoBehaviour
 	public enum TankType { heavy, angry, calm, sneaky };
 	public TankType tankType;
 
-	// TODO: make all interactions with these through this stats object
 	[HideInInspector] public TankHealth health;
 	[HideInInspector] public TankMovement movement;
 	[HideInInspector] public TankWeapon weapon;
@@ -30,7 +29,8 @@ public class PlayerStats : MonoBehaviour
 	[HideInInspector] public GUIStat
 		kills,
 		deaths,
-		assists;
+		assists,
+		barrels;
 
 	void Awake ()
 	{
@@ -48,6 +48,7 @@ public class PlayerStats : MonoBehaviour
 		kills 	= new GUIStat (controlledPlayer ? GameObject.Find ("Kills Text").GetComponent <Text> () : null);
 		deaths 	= new GUIStat (controlledPlayer ? GameObject.Find ("Deaths Text").GetComponent <Text> () : null);
 		assists = new GUIStat (controlledPlayer ? GameObject.Find ("Assists Text").GetComponent <Text> () : null);
+		barrels = new GUIStat (null); // TODO: show in the scoreboard menu
 
 
 		// Parsing the selection
@@ -100,8 +101,9 @@ public class PlayerStats : MonoBehaviour
 
 		weapon.projectileSpeed = attributes.projectileSpeed;
 		weapon.projectileBounces = attributes.projectileBounces;
-		weapon.projectileSprite = attributes.projectileSprite;
+		weapon.projectileSprite = attributes.projectileSprite; // TODO: add projectile sound
 
+		weapon.explosionPrefab = attributes.explosionPrefab;
 		weapon.explosionDamage = attributes.explosionDamage;
 		weapon.explosionRadius = attributes.explosionRadius;
 
@@ -125,10 +127,10 @@ public class GUIStat
 		set
 		{
 			_amount = value;
-
+		
 			// The texthandle can be null because only the user that plays on this machine sees the updates on screen
 			if (textHandle != null)
-				textHandle.text = amount.ToString ();
+				textHandle.text = amount.ToString (); // TODO: make this bounce a little!
 		}
 	}
 

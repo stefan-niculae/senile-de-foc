@@ -12,18 +12,20 @@ public class TankWeapon : MonoBehaviour
 	public Sprite projectileSprite;
 	public float explosionDamage;
 	public float explosionRadius;
+	public GameObject explosionPrefab;
 
 	PlayerStats stats;
 	Transform bulletSpawnPos;
-	Transform bulletContainer;
 	AudioSource audioSource;
+	static Transform bulletContainer;
 
 	void Awake ()
 	{
 		audioSource = GetComponent <AudioSource> ();
 
 		// We do this and don't set it public because prefabs can't have non prefab fields preassigned
-		bulletContainer = GameObject.Find ("Bullets").transform;
+		if (bulletContainer == null)
+			bulletContainer = GameObject.Find ("Bullets").transform;
 
 		stats = GetComponentInParent <PlayerStats> ();
 		bulletSpawnPos = Utils.childWithName (transform, "Bullet Spawn Position");
@@ -57,6 +59,7 @@ public class TankWeapon : MonoBehaviour
 			Utils.ForwardDirection (stats.barrel.transform),
 			stats,
 			projectileSprite,
+			explosionPrefab,
 			projectileBounces,
 			projectileSpeed,
 			explosionDamage,
