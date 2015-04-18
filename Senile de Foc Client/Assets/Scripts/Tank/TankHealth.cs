@@ -1,15 +1,17 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.UI;
 
 public class TankHealth : MonoBehaviour 
 {
 	public float damageAbsorbtion;
 	public GameObject explosionPrefab;
 
-	ParticleSystem spawnParticles;
 	Transform bar;
 	float fullLength;
+	RectTransform UIBarFill;
+	float UIFillLength;
 
 	PlayerStats stats;
 
@@ -17,6 +19,7 @@ public class TankHealth : MonoBehaviour
 	Vector3 hidden;
 	CameraMovement camMovement;
 	Countdown respawnCountdown;
+	ParticleSystem spawnParticles;
 
 	float _amount;
 	float amount
@@ -30,10 +33,20 @@ public class TankHealth : MonoBehaviour
 		{
 			_amount = Mathf.Clamp (value, 0, 100);
 
-			// Update the UI health bar
-			var scale = bar.localScale;
-			scale.x = _amount / 100f * fullLength;
-			bar.localScale = scale;
+			// Updating the on screen GUI bar for the player
+			if (UIBarFill != null) {
+				var pos = UIBarFill.localPosition;
+				var coeff = 1f - _amount / 100f;
+				pos.x = -coeff * UIFillLength;
+				UIBarFill.localPosition = pos;
+			}
+
+			// And the above head thing bar for everyone else
+			else {
+				var scale = bar.localScale;
+				scale.x = _amount / 100f * fullLength;
+				bar.localScale = scale;
+			}
 		}
 	}
 
@@ -62,12 +75,21 @@ public class TankHealth : MonoBehaviour
 			respawnCountdown = GameObject.Find ("Respawn Countdown").GetComponent <Countdown> ();
 		}
 
-		bar = Utils.childWithName (stats.transform, "Foreground");
-		fullLength = bar.transform.localScale.x;
-
 		lightlyDamagedParticles = GetParticles ("Lightly Damaged");
 		mediumDamagedParticles = GetParticles ("Medium Damaged");
 		heavilyDamagedParticles = GetParticles ("Heavily Damaged");
+		
+		bar = Utils.childWithName (stats.transform, "Foreground");
+		if (stats.controlledPlayer) {
+			UIBarFill = GameObject.Find ("Health Bar Fill").GetComponent <RectTransform> ();
+			UIFillLength = UIBarFill.sizeDelta.x;
+
+			bar.parent.gameObject.SetActive (false);
+			bar = null;
+		}
+		else 
+			fullLength = bar.transform.localScale.x;
+
 
 		amount = 100;
 	}
@@ -133,7 +155,8 @@ public class TankHealth : MonoBehaviour
 		pos.z = transform.position.z;
 		transform.position = pos;
 
-		bar.parent.gameObject.SetActive (true);
+		if (bar != null)
+			bar.parent.gameObject.SetActive (true);
 
 		// TODO: bug - this does not set for the controlled player
 		transform.rotation = transf.rotation;

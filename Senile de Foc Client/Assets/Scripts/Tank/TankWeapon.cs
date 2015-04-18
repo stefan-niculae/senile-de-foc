@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
 
 public class TankWeapon : MonoBehaviour 
 {
@@ -14,10 +15,11 @@ public class TankWeapon : MonoBehaviour
 	public float explosionRadius;
 	public GameObject explosionPrefab;
 
+	static Transform bulletContainer;
 	PlayerStats stats;
 	Transform bulletSpawnPos;
 	AudioSource audioSource;
-	static Transform bulletContainer;
+	Image cooldownFill;
 
 	void Awake ()
 	{
@@ -29,6 +31,17 @@ public class TankWeapon : MonoBehaviour
 
 		stats = GetComponentInParent <PlayerStats> ();
 		bulletSpawnPos = Utils.childWithName (transform, "Bullet Spawn Position");
+
+		if (stats.controlledPlayer)
+			cooldownFill = GameObject.Find ("Projectile Cooldown Fill").GetComponent <Image> ();
+	}
+
+	void Update ()
+	{
+		// Only not-null when this is the controlled player
+		if (cooldownFill != null) 
+			cooldownFill.fillAmount = 1f - (Time.time - lastSpawn) / cooldownPeriod;
+
 	}
 
 	float lastSpawn;

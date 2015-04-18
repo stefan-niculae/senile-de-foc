@@ -37,8 +37,14 @@ public class BulletExplosion : MonoBehaviour
 		foreach (Collider2D coll in around)
 			if (coll.tag == "Player")
 				coll.GetComponent <TankHealth> ().TakeDamage (damage, stats);
-			else if (coll.tag == "Destroyable") { 
-				coll.GetComponent <DestroyableBarrel> ().TakeDamage (damage, stats);
+			else if (coll.tag == "Destroyable") {
+				var barrel = coll.GetComponent <DestroyableBarrel> ();
+				
+				if (barrel != null)
+					barrel.TakeDamage (damage, stats);
+				
+				// Can also be a bullet, in which case, it explodes by itself, no action needed
+
 			}
 	}
 }

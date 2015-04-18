@@ -12,8 +12,6 @@ public class DestroyableBarrel : MonoBehaviour
 	ParticleSystem damagedParticles;
 	float hp;
 
-
-
 	void Awake ()
 	{
 		if (explosionContainer == null)
