@@ -6,6 +6,13 @@ public class DestroyableBarrel : MonoBehaviour
 	static readonly float MAX_HP = 20;
 	static readonly float RESPAWN_TIME = 2f;
 
+	public float 
+		radius,
+		force,
+		damage,
+		DoTAmount, // damage over time
+		DoTDuration;
+
 	static Transform explosionContainer;
 
 	public GameObject explosionPrefab;
@@ -38,14 +45,14 @@ public class DestroyableBarrel : MonoBehaviour
 		hp -= damage;
 		if (hp <= 0) {
 			source.barrels++;
-			Explode ();
+			Explode (source);
 			gameObject.SetActive (false);
 //			StartCoroutine (WaitAndReappear (RESPAWN_TIME)); // TODO
 		}
 	}
 
 	bool exploded;
-	void Explode ()
+	void Explode (PlayerStats source)
 	{
 		if (!exploded) {
 			exploded = true;
@@ -56,6 +63,12 @@ public class DestroyableBarrel : MonoBehaviour
 				Quaternion.identity) as GameObject;
 
 			explosion.transform.parent = explosionContainer;
+			explosion.GetComponent <Explosion> ().Setup (stats:		source,
+			                                            radius: 	radius,
+			                                            force:		force,
+			                                            damage:		damage,
+			                                            DoTAmount:	DoTAmount,
+			                                            DoTDuration:DoTDuration);
 		}
 	}
 

@@ -1,7 +1,7 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
-public class TankBullet : MonoBehaviour 
+public class TankProjectile : MonoBehaviour 
 {
 	static readonly float TIME_TO_LIVE = 10f;
 	static Transform explosionContainer;
@@ -98,7 +98,12 @@ public class TankBullet : MonoBehaviour
 			Quaternion.identity) as GameObject;
 		explosion.transform.parent = explosionContainer;
 
-		explosion.GetComponent <BulletExplosion> ().Init (stats, damage, radius);
+		explosion.GetComponent <Explosion> ().Setup (stats:		stats, 
+		                                            radius:		radius, 
+		                                            force:		0, // force is naturally generated for a projectile by its mass + velocity 
+		                                            damage:		damage, 
+		                                            DoTAmount: 	0, 
+		                                            DoTDuration:0);
 		Destroy (gameObject);
 	}
 }

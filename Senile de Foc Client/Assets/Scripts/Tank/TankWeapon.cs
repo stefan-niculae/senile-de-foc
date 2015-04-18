@@ -68,7 +68,7 @@ public class TankWeapon : MonoBehaviour
 			stats.barrel.transform.rotation) as GameObject;
 
 		spawned.transform.parent = bulletContainer;
-		spawned.GetComponent <TankBullet> ().Launch (
+		spawned.GetComponent <TankProjectile> ().Launch (
 			Utils.ForwardDirection (stats.barrel.transform),
 			stats,
 			projectileSprite,
