@@ -63,7 +63,7 @@ public class TankBullet : MonoBehaviour
 		}
 
 		// Explodes on players and barrels
-		else if (collision.gameObject.tag == "Player" || collision.gameObject.tag == "Destroyable") { Debug.Log ("hit " + collision.gameObject.name);
+		else if (collision.gameObject.tag == "Player" || collision.gameObject.tag == "Destroyable") { 
 			Explode ();
 		}
 

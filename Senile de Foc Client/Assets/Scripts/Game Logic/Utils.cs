@@ -77,6 +77,13 @@ public class Utils : MonoBehaviour
 		return Quaternion.Euler (euler);
 	}
 
+	public static Quaternion rotate2D (	Quaternion from, float to)
+	{
+		var euler = from.eulerAngles;
+		euler.z = to;
+		return Quaternion.Euler (euler);
+	}
+
 	public static T randomFrom<T> (T[] array, int[] probabilities = null)
 	{
 		if (array == null || array.Length == 0)

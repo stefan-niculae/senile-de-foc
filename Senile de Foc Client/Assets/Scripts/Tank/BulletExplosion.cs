@@ -37,7 +37,7 @@ public class BulletExplosion : MonoBehaviour
 		foreach (Collider2D coll in around)
 			if (coll.tag == "Player")
 				coll.GetComponent <TankHealth> ().TakeDamage (damage, stats);
-			else if (coll.tag == "Destroyable") { Debug.Log ("hit " + coll.name);
+			else if (coll.tag == "Destroyable") { 
 				coll.GetComponent <DestroyableBarrel> ().TakeDamage (damage, stats);
 			}
 	}

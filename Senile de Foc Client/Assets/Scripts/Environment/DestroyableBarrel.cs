@@ -5,16 +5,21 @@ public class DestroyableBarrel : MonoBehaviour
 {
 	static readonly float MAX_HP = 20;
 	static readonly float RESPAWN_TIME = 2f;
-		
-	public GameObject explosionPrefab;
 
-	float hp;
 	static Transform explosionContainer;
+
+	public GameObject explosionPrefab;
+	ParticleSystem damagedParticles;
+	float hp;
+
+
 
 	void Awake ()
 	{
 		if (explosionContainer == null)
 			explosionContainer = GameObject.Find ("Explosions").transform;
+
+		damagedParticles = Utils.childWithName (transform, "Damaged Barrel").GetComponent <ParticleSystem> ();
 	}
 
 	void Start ()
@@ -22,9 +27,17 @@ public class DestroyableBarrel : MonoBehaviour
 		hp = MAX_HP; // TODO: add smoke if barrel is damaged
 	}
 
+	void Update ()
+	{
+		if (hp <= MAX_HP / 2f /*&& !damagedParticles.isPlaying*/) // TODO: make this into a nice stream of smoke
+			damagedParticles.Play ();
+		else
+			damagedParticles.Stop ();
+	}
+
 	public void TakeDamage (float damage, PlayerStats source)
 	{
-		hp -= damage;Debug.Log (hp);
+		hp -= damage;
 		if (hp <= 0) {
 			source.barrels++;
 			Explode ();
@@ -56,6 +69,7 @@ public class DestroyableBarrel : MonoBehaviour
 		gameObject.SetActive (true);
 		exploded = false;
 		hp = MAX_HP;
+		damagedParticles.Stop ();
 	}
 
 }

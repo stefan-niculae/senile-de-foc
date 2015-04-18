@@ -114,7 +114,7 @@ public class WorldItemSpawner : MonoBehaviour
 	public void SpawnZone1Barrels ()
 	{
 		Delete (zone1BarrelContainer, new string[] { "Black Barrel", "Grey Barrel" });
-		SpawnObstacles (zone1BarrelPrefabs, zone1BarrelPrefabProbabilities, zone1BarrelContainer, zone1BarrelPolygon, zone1BarrelNumber, 0, true);
+		SpawnObstacles (zone1BarrelPrefabs, zone1BarrelPrefabProbabilities, zone1BarrelContainer, zone1BarrelPolygon, zone1BarrelNumber, 0, false);
 	}
 
 	public GameObject[] zone2BarrelPrefabs;
@@ -126,7 +126,7 @@ public class WorldItemSpawner : MonoBehaviour
 	public void SpawnZone2Barrels ()
 	{
 		Delete (zone2BarrelContainer, new string[] { "Red Barrel", "Green Barrel" });
-		SpawnObstacles (zone2BarrelPrefabs, zone2BarrelPrefabProbabilities, zone2BarrelContainer, zone2BarrelPolygon, zone2BarrelNumber, 0, true);
+		SpawnObstacles (zone2BarrelPrefabs, zone2BarrelPrefabProbabilities, zone2BarrelContainer, zone2BarrelPolygon, zone2BarrelNumber, 0, false);
 	}
 
 
