@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
-public class TankTracksManager : MonoBehaviour 
+public class TankTracksManager : Singleton<TankTracksManager> 
 {
 	public GameObject trackPrefab;
 	public int maxTracks = 250;

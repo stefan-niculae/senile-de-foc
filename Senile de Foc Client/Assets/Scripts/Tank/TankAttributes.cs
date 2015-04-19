@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
 public class TankAttributes : Singleton<TankAttributes>
@@ -51,7 +51,7 @@ public class Levels
 	/**
 	* Applies the stats level throughout the components
 	*/ 
-	public void Apply (TankHealth health, TankMovement movement, TankWeapon weapon, TankBarrel barrel, Projectile projectile, Explosion projectileExplosion) 
+	public void Apply (TankHealth health, TankMovement movement, Cannon weapon, TankBarrel barrel, Projectile projectile, Explosion projectileExplosion) 
 	{
 		health.damageAbsorbtion = 	TankAttributes.Instance.damageAbsorbtion	.compute (armor);
 		

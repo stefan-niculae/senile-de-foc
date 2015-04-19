@@ -16,7 +16,7 @@ public class PlayerStats : MonoBehaviour
 
 	[HideInInspector] public TankHealth health;
 	[HideInInspector] public TankMovement movement;
-	[HideInInspector] public TankWeapon weapon;
+	[HideInInspector] public Cannon weapon;
 	[HideInInspector] public TankBarrel barrel;
 	[HideInInspector] public Projectile projectile;
 	[HideInInspector] public Explosion projectileExplosion;
@@ -49,9 +49,9 @@ public class PlayerStats : MonoBehaviour
 		// Setting up references
 		health = GetComponentInChildren <TankHealth> ();
 		movement = GetComponentInChildren <TankMovement> ();
-		weapon = GetComponentInChildren <TankWeapon> ();
+		weapon = GetComponentInChildren <Cannon> ();
 		barrel = GetComponentInChildren <TankBarrel> ();
-		projectile = weapon.projectilePrefab.GetComponent <Projectile> ();
+		projectile = weapon.effectPrefab.GetComponent <Projectile> ();
 		projectileExplosion = projectile.explosionPrefab.GetComponent <Explosion> ();
 
 		if (controlledPlayer)

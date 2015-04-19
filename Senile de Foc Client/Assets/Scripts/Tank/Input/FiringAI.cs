@@ -1,15 +1,15 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
 public class FiringAI : MonoBehaviour 
 {
-	TankWeapon weapon;
+	Cannon weapon;
 	public float rate;
 	public bool audioEnabled;
 
 	void Awake ()
 	{
-		weapon = GetComponentInChildren <TankWeapon> ();
+		weapon = GetComponentInChildren <Cannon> ();
 	}
 
 	void Start ()

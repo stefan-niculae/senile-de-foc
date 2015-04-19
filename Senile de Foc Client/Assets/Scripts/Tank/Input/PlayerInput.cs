@@ -1,10 +1,11 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
 public class PlayerInput : MonoBehaviour 
 {
 	TankMovement movement;
-	TankWeapon weapon;
+	Cannon cannon;
+	Secondary secondary;
 	TankBarrel barrel;
 
 	static int counter = 0;
@@ -17,7 +18,8 @@ public class PlayerInput : MonoBehaviour
 			Debug.LogError ("More than one player input active!");
 
 		movement = GetComponentInChildren <TankMovement> ();
-		weapon = GetComponentInChildren <TankWeapon> ();
+		cannon = GetComponentInChildren <Cannon> ();
+		secondary = GetComponentInChildren <Secondary> ();
 		barrel = GetComponentInChildren <TankBarrel> ();
 	}
 	
@@ -25,7 +27,10 @@ public class PlayerInput : MonoBehaviour
 	{
 		// Weapon handling
 		if (Input.GetButton ("Fire1"))
-			weapon.Fire ();
+			cannon.Fire ();
+		if (Input.GetButton ("Fire2")) { 
+			secondary.Fire ();
+		}
 
 		// Movement handling
 		var horiz 	= Input.GetAxis ("Horizontal");

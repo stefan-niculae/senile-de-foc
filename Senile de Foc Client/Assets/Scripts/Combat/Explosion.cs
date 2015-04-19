@@ -38,7 +38,6 @@ public class Explosion : Containable<Explosion>
 	void DamageAround (Damagable ignore)
 	{
 		Collider2D[] around = Physics2D.OverlapCircleAll (transform.position, radius);
-		var self = GetComponent <Collider2D> (); if (self)Debug.Log ("self = " + self.name);
 
 		foreach (Collider2D coll in around) {
 			var damagable = coll.GetComponent <Damagable> ();
