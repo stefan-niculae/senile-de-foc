@@ -4,7 +4,7 @@ using System.Collections;
 public class Explosion : Containable<Explosion>
 {
 	static readonly float TIME_TO_LIVE = 5f;
-	float 
+	public float 
 		radius,
 		force,
 		damage,
@@ -29,21 +29,16 @@ public class Explosion : Containable<Explosion>
 		Destroy (gameObject, TIME_TO_LIVE);
 	}
 	
-	public void Setup (PlayerStats source, float radius, float force, float damage, float DoTAmount, float DoTDuration)
+	public void Setup (PlayerStats source)
 	{
 		this.source = source;
-		this.radius = radius;
-		this.force = force;
-		this.damage = damage;
-		this.DoTAmount = DoTAmount;
-		this.DoTDuration = DoTDuration;
 
 		DamageAround ();
 	}
 
 	void DamageAround ()
 	{
-		Collider2D[] around = Physics2D.OverlapCircleAll (transform.position, radius); 
+		Collider2D[] around = Physics2D.OverlapCircleAll (transform.position, radius);
 
 		foreach (Collider2D coll in around) 
 			switch (coll.tag) {
@@ -53,6 +48,9 @@ public class Explosion : Containable<Explosion>
 
 			case "Player":
 				coll.GetComponent <TankHealth> ().TakeDamage (damage, source);
+				var dir = (transform.position - coll.transform.position) * force;
+			Debug.Log (name + " is pushing " + coll.name + " for " + dir);
+			coll.attachedRigidbody.AddForce (dir); Debug.Log (coll.attachedRigidbody.mass);
 				break;
 
 			case "Destroyable":

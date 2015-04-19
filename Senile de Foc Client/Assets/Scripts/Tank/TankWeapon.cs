@@ -6,14 +6,7 @@ public class TankWeapon : MonoBehaviour
 {
 	public float fireRate;
 	public GameObject projectilePrefab;
-	public ParticleSystem fireParticles;
-
-	public int projectileBounces;
-	public float projectileSpeed;
-	public Sprite projectileSprite;
-	public float explosionDamage;
-	public float explosionRadius;
-	public GameObject explosionPrefab;
+	ParticleSystem fireParticles;
 
 	PlayerStats stats;
 	Transform bulletSpawnPos;
@@ -26,6 +19,7 @@ public class TankWeapon : MonoBehaviour
 
 		stats = GetComponentInParent <PlayerStats> ();
 		bulletSpawnPos = Utils.childWithName (transform, "Bullet Spawn Position");
+		fireParticles = Utils.childWithName (bulletSpawnPos, "Fire Particles").GetComponent <ParticleSystem> ();
 
 		if (stats.controlledPlayer)
 			cooldownFill = GameObject.Find ("Projectile Cooldown Fill").GetComponent <Image> ();
@@ -64,12 +58,6 @@ public class TankWeapon : MonoBehaviour
 
 		spawned.GetComponent <Projectile> ().Launch (
 			Utils.ForwardDirection (stats.barrel.transform),
-			stats,
-			projectileSprite,
-			explosionPrefab,
-			projectileBounces,
-			projectileSpeed,
-			explosionDamage,
-			explosionRadius);
+			stats);
 	}
 }

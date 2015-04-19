@@ -4,29 +4,26 @@ using UnityEngine.UI;
 
 public class PlayerStats : MonoBehaviour 
 {
+	
+	public bool controlledPlayer;
+	static int nrControlledPlayers;
 	// TODO: get this from the login
 	public string username;
-
-	TankAttributes.Attributes attributes;
-
-	public enum TankType { heavy, angry, calm, sneaky };
+	
+	public enum TankType { abstractTank, heavy, angry, calm, sneaky };
 	public TankType tankType;
+	public Levels levels;
 
 	[HideInInspector] public TankHealth health;
 	[HideInInspector] public TankMovement movement;
 	[HideInInspector] public TankWeapon weapon;
 	[HideInInspector] public TankBarrel barrel;
+	[HideInInspector] public Projectile projectile;
+	[HideInInspector] public Explosion projectileExplosion;
 	
+	public readonly float RESPAWN_TIME = 10f; // in seconds // TODO: decide if this is set or not, same for everyone everytime
 
-	GameObject fireParticlesPrefab;
-	Transform fireParticlesParent;
-
-	public float respawnTime = 10f; // in seconds
-
-	public bool controlledPlayer;
-	static int nrControlledPlayers;
-
-	[HideInInspector] public GUIStat
+	public GUIStat
 		kills,
 		deaths,
 		assists,
@@ -51,72 +48,24 @@ public class PlayerStats : MonoBehaviour
 		barrels = new GUIStat (null); // TODO: show in the scoreboard menu
 
 
-		// Parsing the selection
-		switch (tankType) {
-		
-		case TankType.heavy:
-			attributes = TankAttributes.HEAVY;
-			break;
-
-		case TankType.angry:
-			attributes = TankAttributes.ANGRY;
-			break;
-
-		case TankType.calm:
-			attributes = TankAttributes.CALM;
-			break;
-
-		case TankType.sneaky:
-			attributes = TankAttributes.SNEAKY;
-			break;
-		}
-
-		fireParticlesPrefab = attributes.fireParticles;
-		fireParticlesParent =  Utils.replaceGO (Utils.childWithName (transform, "Fire Particles").gameObject,
-		                                        fireParticlesPrefab)
-									.transform;
-
-
 		// Setting up references
 		health = GetComponentInChildren <TankHealth> ();
 		movement = GetComponentInChildren <TankMovement> ();
 		weapon = GetComponentInChildren <TankWeapon> ();
 		barrel = GetComponentInChildren <TankBarrel> ();
+		projectile = weapon.projectilePrefab.GetComponent <Projectile> ();
+		projectileExplosion = projectile.explosionPrefab.GetComponent <Explosion> ();
 
-
-		// Applying the stats throughout the components
-		health.damageAbsorbtion = attributes.damageAbsorbtion;
-		health.explosionPrefab = attributes.deathExplosionPrefab;
-
-		movement.forwardSpeed = attributes.forwardSpeed;
-		movement.backwardSpeed = attributes.backwardSpeed;
-		movement.rotationSpeed = attributes.rotationSpeed;
-
-		barrel.backwardSpeed = attributes.barrelSpeed;
-		barrel.forwardSpeed = barrel.backwardSpeed / 2f;
-
-		weapon.fireRate = attributes.fireCooldown;
-		weapon.projectilePrefab = attributes.projectilePrefab;
-		weapon.fireParticles = fireParticlesParent.GetComponent <ParticleSystem> ();
-
-		weapon.projectileSpeed = attributes.projectileSpeed;
-		weapon.projectileBounces = attributes.projectileBounces;
-		weapon.projectileSprite = attributes.projectileSprite; // TODO: add projectile sound
-
-		weapon.explosionPrefab = attributes.explosionPrefab;
-		weapon.explosionDamage = attributes.explosionDamage;
-		weapon.explosionRadius = attributes.explosionRadius;
-
-		Utils.childWithName (transform, "Body").GetComponent <SpriteRenderer> ().sprite = attributes.bodySprite;
-		Utils.childWithName (transform, "Barrel").GetComponent <SpriteRenderer> ().sprite = attributes.barrelSprite;
+		levels.Apply (health, movement, weapon, barrel, projectile, projectileExplosion);
 	}
 }
 
+[System.Serializable]
 public class GUIStat
 {
 	Text textHandle;
 
-	int _amount;
+	public int _amount; // just for the inspector
 	public int amount
 	{
 		get 
@@ -135,27 +84,9 @@ public class GUIStat
 	}
 
 	// Oh operator overloading, how I've missed thee
-	public static GUIStat operator + (GUIStat stat, int nr)
-	{
-		stat.amount += nr;
-		return stat;
-	}
-
-	public static GUIStat operator - (GUIStat stat, int nr)
-	{
-		stat.amount -= nr;
-		return stat;
-	}
-
 	public static GUIStat operator ++ (GUIStat stat)
 	{
 		stat.amount++;
-		return stat;
-	}
-
-	public static GUIStat operator -- (GUIStat stat)
-	{
-		stat.amount--;
 		return stat;
 	}
 
@@ -169,6 +100,4 @@ public class GUIStat
 	{
 		amount = 0;
 	}
-
-
 }

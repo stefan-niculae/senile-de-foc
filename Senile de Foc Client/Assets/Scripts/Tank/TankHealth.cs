@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class TankHealth : MonoBehaviour 
 {
 	public float damageAbsorbtion;
-	public GameObject explosionPrefab;
+	public GameObject deathExplosionPrefab;
 
 	Transform bar;
 	float fullLength;
@@ -214,8 +214,8 @@ public class TankHealth : MonoBehaviour
 
 		// Start the countdown
 		if (respawnCountdown != null)
-			respawnCountdown.StartIt (stats.respawnTime);
-		StartCoroutine (Respawn (stats.respawnTime));
+			respawnCountdown.StartIt (stats.RESPAWN_TIME);
+		StartCoroutine (Respawn (stats.RESPAWN_TIME));
 	}
 
 	void SpawnExplosion ()
@@ -223,7 +223,7 @@ public class TankHealth : MonoBehaviour
 		alreadyExploded = true;
 
 		GameObject explosion = Instantiate (
-			explosionPrefab,
+			deathExplosionPrefab,
 			transform.position,
 			Quaternion.identity) as GameObject;
 		explosion.transform.parent = GameObject.Find ("Explosions").transform;

@@ -5,17 +5,10 @@ using System.Collections.Generic;
 public class TankTracksManager : MonoBehaviour 
 {
 	public GameObject trackPrefab;
-	public Transform container;
 	public int maxTracks = 250;
 	public float treshold;
-	public float trackTimeToLive = 7f;
 
 	TankTrack[] tracks;
-
-	void Awake ()
-	{
-		TankTrack.timeToLive = trackTimeToLive;
-	}
 
 	void Start ()
 	{
@@ -30,8 +23,7 @@ public class TankTracksManager : MonoBehaviour
 				hidden,
 				Quaternion.identity) as GameObject;
 
-			spawned.transform.parent = container;
-			tracks[i] = spawned.GetComponent<TankTrack> ();
+			tracks[i] = spawned.GetComponent <TankTrack> ();
 		}
 	}
 

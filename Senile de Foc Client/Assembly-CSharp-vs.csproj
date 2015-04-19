@@ -70,9 +70,11 @@
      <Compile Include="Assets\Scripts\Game Logic\GameWorld.cs" />
      <Compile Include="Assets\Scripts\Game Logic\Utils.cs" />
      <Compile Include="Assets\Scripts\Interfaces\Containable.cs" />
+     <Compile Include="Assets\Scripts\Interfaces\Damagable.cs" />
      <Compile Include="Assets\Scripts\Interfaces\IDamagable.cs" />
      <Compile Include="Assets\Scripts\Interfaces\IScalable.cs" />
      <Compile Include="Assets\Scripts\Interfaces\Singleton.cs" />
+     <Compile Include="Assets\Scripts\Interfaces\Weapon.cs" />
      <Compile Include="Assets\Scripts\Network\ConnectionManager.cs" />
      <Compile Include="Assets\Scripts\PlayerStats.cs" />
      <Compile Include="Assets\Scripts\Tank\Input\FiringAI.cs" />
@@ -85,7 +87,6 @@
      <Compile Include="Assets\Scripts\Tank\TankTrack.cs" />
      <Compile Include="Assets\Scripts\Tank\TankTracksManager.cs" />
      <Compile Include="Assets\Scripts\Tank\TankWeapon.cs" />
-     <Compile Include="Assets\Scripts\Tank\Weapon.cs" />
      <Compile Include="Assets\Scripts\TankAttributes.cs" />
      <Compile Include="Assets\Scripts\UI\Game\CameraMovement.cs" />
      <Compile Include="Assets\Scripts\UI\Game\Countdown.cs" />

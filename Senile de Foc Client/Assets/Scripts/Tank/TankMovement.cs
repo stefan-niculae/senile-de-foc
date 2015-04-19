@@ -30,6 +30,7 @@ public class TankMovement : MonoBehaviour
 
 	void Update ()
 	{
+		// TODO: switch to UI health, username!
 		superParent.transform.position = transform.position;
 		transform.localPosition = Vector3.zero;
 	}

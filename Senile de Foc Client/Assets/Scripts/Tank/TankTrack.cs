@@ -1,11 +1,16 @@
 using UnityEngine;
 using System.Collections;
 
-public class TankTrack : MonoBehaviour 
+public class TankTrack : Containable<TankTrack> 
 {
 	public static float timeToLive = 7f;
 	public static Vector3 hidden;
 	float mostRecentMove;
+
+	void Awake ()
+	{
+		moveToContainer ("Tracks");
+	}
 
 	public void MoveTo (Vector3 pos, Quaternion rot)
 	{

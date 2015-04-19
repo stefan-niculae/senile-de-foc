@@ -6,30 +6,19 @@ public class DestroyableBarrel : MonoBehaviour
 	static readonly float MAX_HP = 20;
 	static readonly float RESPAWN_TIME = 2f;
 
-	public float 
-		radius,
-		force,
-		damage,
-		DoTAmount, // damage over time
-		DoTDuration;
-
-	static Transform explosionContainer;
-
 	public GameObject explosionPrefab;
 	ParticleSystem damagedParticles;
 	float hp;
 
 	void Awake ()
 	{
-		if (explosionContainer == null)
-			explosionContainer = GameObject.Find ("Explosions").transform;
 
 		damagedParticles = Utils.childWithName (transform, "Damaged Barrel").GetComponent <ParticleSystem> ();
 	}
 
 	void Start ()
 	{
-		hp = MAX_HP; // TODO: add smoke if barrel is damaged
+		hp = MAX_HP; 
 	}
 
 	void Update ()
@@ -62,13 +51,8 @@ public class DestroyableBarrel : MonoBehaviour
 				transform.position,
 				Quaternion.identity) as GameObject;
 
-			explosion.transform.parent = explosionContainer;
-			explosion.GetComponent <Explosion> ().Setup (source:	source,
-			                                            radius: 	radius,
-			                                            force:		force,
-			                                            damage:		damage,
-			                                            DoTAmount:	DoTAmount,
-			                                            DoTDuration:DoTDuration);
+
+			explosion.GetComponent <Explosion> ().Setup (source);
 		}
 	}
 

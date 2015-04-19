@@ -6,7 +6,6 @@ public class Projectile : Containable<Projectile>
 	static readonly float TIME_TO_LIVE = 10f;
 
 	public float speed;
-	public float damage, radius;
 	public int maxCollisions; // number of times the bullet can bounce
 	public GameObject explosionPrefab;
 
@@ -22,17 +21,11 @@ public class Projectile : Containable<Projectile>
 		moveToContainer ("Projectiles");
 	}
 
-	public void Launch (Vector2 direction, PlayerStats source, Sprite sprite, GameObject explosionPrefab, int bounces, float speed, float damage, float radius)
+	public void Launch (Vector2 direction, PlayerStats source)
 	{
 		body.AddForce (speed * direction);
 
 		this.source = source;
-		this.speed = speed;
-		this.damage = damage;
-		this.radius = radius;
-		this.explosionPrefab = explosionPrefab;
-
-		GetComponent <SpriteRenderer> ().sprite = sprite;
 
 		// Automatically destroy in a while if the bullet got stuck
 		Destroy (gameObject, TIME_TO_LIVE);
@@ -95,12 +88,7 @@ public class Projectile : Containable<Projectile>
 			pointOfCollision,
 			Quaternion.identity) as GameObject;
 
-		explosion.GetComponent <Explosion> ().Setup (source:	source, 
-		                                            radius:		radius, 
-		                                            force:		0, // force is naturally generated for a projectile by its mass + velocity 
-		                                            damage:		damage, 
-		                                            DoTAmount: 	0, 
-		                                            DoTDuration:0);
+		explosion.GetComponent <Explosion> ().Setup (source);
 		Destroy (gameObject);
 	}
 }
