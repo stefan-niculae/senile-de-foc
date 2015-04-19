@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 public class TankWeapon : MonoBehaviour 
 {
-	public float cooldownPeriod;
+	public float fireRate;
 	public GameObject projectilePrefab;
 	public ParticleSystem fireParticles;
 
@@ -15,7 +15,6 @@ public class TankWeapon : MonoBehaviour
 	public float explosionRadius;
 	public GameObject explosionPrefab;
 
-	static Transform bulletContainer;
 	PlayerStats stats;
 	Transform bulletSpawnPos;
 	AudioSource audioSource;
@@ -24,10 +23,6 @@ public class TankWeapon : MonoBehaviour
 	void Awake ()
 	{
 		audioSource = GetComponent <AudioSource> ();
-
-		// We do this and don't set it public because prefabs can't have non prefab fields preassigned
-		if (bulletContainer == null)
-			bulletContainer = GameObject.Find ("Bullets").transform;
 
 		stats = GetComponentInParent <PlayerStats> ();
 		bulletSpawnPos = Utils.childWithName (transform, "Bullet Spawn Position");
@@ -40,7 +35,7 @@ public class TankWeapon : MonoBehaviour
 	{
 		// Only not-null when this is the controlled player
 		if (cooldownFill != null) 
-			cooldownFill.fillAmount = 1f - (Time.time - lastSpawn) / cooldownPeriod;
+			cooldownFill.fillAmount = 1f - (Time.time - lastSpawn) / fireRate;
 
 	}
 
@@ -48,7 +43,7 @@ public class TankWeapon : MonoBehaviour
 	public void Fire (bool playSound = true)
 	{
 		// If the cooldown period hasn't passed, ignore the call
-		if (Time.time - lastSpawn >= cooldownPeriod) {
+		if (Time.time - lastSpawn >= fireRate) {
 			lastSpawn = Time.time;
 
 			stats.barrel.Bounce ();
@@ -67,8 +62,7 @@ public class TankWeapon : MonoBehaviour
 			bulletSpawnPos.position,
 			stats.barrel.transform.rotation) as GameObject;
 
-		spawned.transform.parent = bulletContainer;
-		spawned.GetComponent <TankProjectile> ().Launch (
+		spawned.GetComponent <Projectile> ().Launch (
 			Utils.ForwardDirection (stats.barrel.transform),
 			stats,
 			projectileSprite,

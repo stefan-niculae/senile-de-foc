@@ -1,17 +1,16 @@
 using UnityEngine;
 using System.Collections;
 
-public class TankProjectile : MonoBehaviour 
+public class Projectile : Containable<Projectile> 
 {
 	static readonly float TIME_TO_LIVE = 10f;
-	static Transform explosionContainer;
 
 	public float speed;
 	public float damage, radius;
 	public int maxCollisions; // number of times the bullet can bounce
 	public GameObject explosionPrefab;
 
-	[HideInInspector] public PlayerStats stats;
+	[HideInInspector] public PlayerStats source;
 	Rigidbody2D body;
 	Collider2D[] colliders;
 
@@ -20,15 +19,14 @@ public class TankProjectile : MonoBehaviour
 		body = GetComponent <Rigidbody2D> ();
 		colliders = GetComponents <Collider2D> ();
 
-		if (explosionContainer == null)
-			explosionContainer = GameObject.Find ("Explosions").transform;
+		moveToContainer ("Projectiles");
 	}
 
-	public void Launch (Vector2 direction, PlayerStats stats, Sprite sprite, GameObject explosionPrefab, int bounces, float speed, float damage, float radius)
+	public void Launch (Vector2 direction, PlayerStats source, Sprite sprite, GameObject explosionPrefab, int bounces, float speed, float damage, float radius)
 	{
 		body.AddForce (speed * direction);
 
-		this.stats = stats;
+		this.source = source;
 		this.speed = speed;
 		this.damage = damage;
 		this.radius = radius;
@@ -96,9 +94,8 @@ public class TankProjectile : MonoBehaviour
 			explosionPrefab,
 			pointOfCollision,
 			Quaternion.identity) as GameObject;
-		explosion.transform.parent = explosionContainer;
 
-		explosion.GetComponent <Explosion> ().Setup (stats:		stats, 
+		explosion.GetComponent <Explosion> ().Setup (source:	source, 
 		                                            radius:		radius, 
 		                                            force:		0, // force is naturally generated for a projectile by its mass + velocity 
 		                                            damage:		damage, 

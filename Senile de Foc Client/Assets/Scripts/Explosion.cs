@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Explosion : MonoBehaviour 
+public class Explosion : Containable<Explosion>
 {
 	static readonly float TIME_TO_LIVE = 5f;
 	float 
@@ -11,7 +11,12 @@ public class Explosion : MonoBehaviour
 		DoTAmount, // damage over time
 		DoTDuration;
 
-	[HideInInspector] public PlayerStats stats;
+	[HideInInspector] public PlayerStats source;
+
+	void Awake ()
+	{
+		moveToContainer ("Explosions");
+	}
 	
 	void Start ()
 	{
@@ -24,21 +29,15 @@ public class Explosion : MonoBehaviour
 		Destroy (gameObject, TIME_TO_LIVE);
 	}
 	
-	public void Setup (PlayerStats stats, float radius, float force, float damage, float DoTAmount, float DoTDuration, float delay = 0)
+	public void Setup (PlayerStats source, float radius, float force, float damage, float DoTAmount, float DoTDuration)
 	{
-		this.stats = stats;
+		this.source = source;
 		this.radius = radius;
 		this.force = force;
 		this.damage = damage;
 		this.DoTAmount = DoTAmount;
 		this.DoTDuration = DoTDuration;
 
-		StartCoroutine (WaitAndDamageAround (delay));
-	}
-
-	IEnumerator WaitAndDamageAround (float time)
-	{
-		yield return new WaitForSeconds (time);
 		DamageAround ();
 	}
 
@@ -53,18 +52,18 @@ public class Explosion : MonoBehaviour
 				break;
 
 			case "Player":
-				coll.GetComponent <TankHealth> ().TakeDamage (damage, stats);
+				coll.GetComponent <TankHealth> ().TakeDamage (damage, source);
 				break;
 
 			case "Destroyable":
 				var barrel = coll.GetComponent <DestroyableBarrel> ();
 				if (barrel != null)
-					barrel.TakeDamage (damage, stats);
+					barrel.TakeDamage (damage, source);
 				// Can also be a bullet, in which case, it explodes by itself, no action needed
 				break;
 
 			default:
-				Debug.LogErrorFormat ("Explosion {0} from {1} tried to damage {2} ({3}) but it shouldn't have", name, stats.username, coll.name, coll.tag);
+				Debug.LogErrorFormat ("Explosion {0} from {1} tried to damage {2} ({3}) but it shouldn't have", name, source.username, coll.name, coll.tag);
 				break;
 			}
 

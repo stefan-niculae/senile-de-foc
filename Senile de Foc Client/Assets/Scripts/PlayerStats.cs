@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
 
@@ -95,7 +95,7 @@ public class PlayerStats : MonoBehaviour
 		barrel.backwardSpeed = attributes.barrelSpeed;
 		barrel.forwardSpeed = barrel.backwardSpeed / 2f;
 
-		weapon.cooldownPeriod = attributes.fireCooldown;
+		weapon.fireRate = attributes.fireCooldown;
 		weapon.projectilePrefab = attributes.projectilePrefab;
 		weapon.fireParticles = fireParticlesParent.GetComponent <ParticleSystem> ();
 

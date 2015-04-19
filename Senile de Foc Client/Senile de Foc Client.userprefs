@@ -1,8 +1,11 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Tank/TankWeapon.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/TankAttributes.cs">
     <Files>
-      <File FileName="Assets/Scripts/Tank/TankWeapon.cs" Line="30" Column="29" />
+      <File FileName="Assets/Scripts/Interfaces/Containable.cs" Line="14" Column="3" />
+      <File FileName="Assets/Scripts/Explosion.cs" Line="5" Column="2" />
+      <File FileName="Assets/Scripts/TankAttributes.cs" Line="158" Column="64" />
+      <File FileName="Assets/Scripts/PlayerStats.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

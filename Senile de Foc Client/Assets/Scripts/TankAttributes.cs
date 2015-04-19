@@ -1,12 +1,13 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class TankAttributes : MonoBehaviour 
+public class TankAttributes : Singleton<TankAttributes>
 {
+	[System.Serializable]
 	public class AttributeRate
 	{
-		float baseValue;
-		float incrValue;
+		public float baseValue;
+		public float incrValue;
 
 		public AttributeRate (float baseValue, float incrValue)
 		{
@@ -14,11 +15,24 @@ public class TankAttributes : MonoBehaviour
 			this.incrValue = incrValue;
 		}
 
-		public float applyLevel (float level)
+		public float compute (int level)
 		{
 			return baseValue + level * incrValue;
 		}
 	}
+
+	public AttributeRate
+		damageAbsorbtion,
+		tankMass, // TODO
+		forwardSpeed,
+		backwardSpeed,
+		rotationSpeed,
+		explosionDamage,
+		explosionRadius,
+		projectileSpeed,
+		projectileMass, // TODO
+		fireRate,
+		barrelSpeed; // TODO switch check the backwards speed of this
 
 	static readonly AttributeRate
 
@@ -103,26 +117,26 @@ public class TankAttributes : MonoBehaviour
 
 		// Computed values
 		public float damageAbsorbtion 
-		{ get { return DAMAGE_ABSORBTION.applyLevel (armor); } }
+		{ get { return DAMAGE_ABSORBTION.compute (armor); } }
 		
 		public float forwardSpeed
-		{ get { return FORWARD_SPEED.applyLevel (movement); } }
+		{ get { return FORWARD_SPEED.compute (movement); } }
 		public float backwardSpeed
-		{ get { return BACKWARD_SPEED.applyLevel (movement); } }
+		{ get { return BACKWARD_SPEED.compute (movement); } }
 		public float rotationSpeed
-		{ get { return ROTATION_SPEED.applyLevel (movement); } }
+		{ get { return ROTATION_SPEED.compute (movement); } }
 		
 		public float explosionDamage
-		{ get { return EXPLOSION_DAMAGE.applyLevel (damage); } }
+		{ get { return EXPLOSION_DAMAGE.compute (damage); } }
 		public float explosionRadius
-		{ get { return EXPLOSION_RADIUS.applyLevel (damage); } }
+		{ get { return EXPLOSION_RADIUS.compute (damage); } }
 
 		public float fireCooldown
-		{ get { return FIRE_COOLDOWN.applyLevel (firerate); } }
+		{ get { return FIRE_COOLDOWN.compute (firerate); } }
 		public float projectileSpeed
-		{ get { return PROJECTILE_SPEED.applyLevel (firerate); } }
+		{ get { return PROJECTILE_SPEED.compute (firerate); } }
 		public float barrelSpeed
-		{ get { return BARREL_SPEED.applyLevel (firerate); } }
+		{ get { return BARREL_SPEED.compute (firerate); } }
 
 		public Attributes (int armor, int movement, int damage, int firerate, 
 		                   int bounces, SpecialPower special,
@@ -154,10 +168,12 @@ public class TankAttributes : MonoBehaviour
 		HEAVY, ANGRY, CALM, SNEAKY;
 		
 
-	static TankAttributes OR;
+	static TankAttributes OR; // TODO: maybe switch to a singleton
 
 	void Awake ()
 	{
+		// THESE WILL BE MOVED TO PREFAB COMPONENT VALUES (levels in player stats)
+		// BOUNCES AND EVERYTHING ELSE AS PARAMETERS
 		// We use this object reference because the unity editor can not set public static variables
 		OR = this;
 		HEAVY =	new Attributes (armor: 		10,

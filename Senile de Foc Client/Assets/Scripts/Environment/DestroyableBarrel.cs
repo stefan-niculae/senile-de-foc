@@ -63,7 +63,7 @@ public class DestroyableBarrel : MonoBehaviour
 				Quaternion.identity) as GameObject;
 
 			explosion.transform.parent = explosionContainer;
-			explosion.GetComponent <Explosion> ().Setup (stats:		source,
+			explosion.GetComponent <Explosion> ().Setup (source:	source,
 			                                            radius: 	radius,
 			                                            force:		force,
 			                                            damage:		damage,
