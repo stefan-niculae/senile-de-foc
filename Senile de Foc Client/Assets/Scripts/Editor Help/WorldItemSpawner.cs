@@ -20,7 +20,7 @@ public class WorldItemSpawner : MonoBehaviour
 	public void SpawnBorder ()
 	{
 		// First delete the old border
-		Delete (borderContainer, new string[] { "Grey Barrel Side" });
+		Delete (borderContainer);
 
 		// Get the boundaries
 		world.BoundariesByEdges ();
@@ -73,22 +73,14 @@ public class WorldItemSpawner : MonoBehaviour
 		}
 	}
 
-	void Delete (Transform container, string[] origNames)
+	void Delete (Transform container)
 	{
-		Transform[] transforms = container.GetComponentsInChildren <Transform> (true);
-		int children = transforms.Length;
-		
-		for (int i = 0; i < children; i++) {
-			if (transforms[i] == null)
-				continue;
-			
-			GameObject go = transforms[i].gameObject;
-			foreach (var origName in origNames)
-			if (go.name == origName + "(Clone)") {
-				DestroyImmediate(go.gameObject, false);
-				break;
-			}
-		}
+		var toDel = container.GetComponentsInChildren <Transform> ();
+
+		// We do it this way because foreach child in container is buggy
+		for (int i = 0; i < toDel.Length; i++)
+			if (toDel[i] != null && toDel[i] != container && toDel[i].tag != "Polygon")
+				DestroyImmediate (toDel[i].gameObject, false);
 	}
 	
 	public GameObject[] treePrefabs;
@@ -101,7 +93,7 @@ public class WorldItemSpawner : MonoBehaviour
 	public void SpawnTrees ()
 	{
 		// Delete the old trees and get the boundaries
-		Delete (treeContainer, new string[] { "treeSmall", "treeLarge" });
+		Delete (treeContainer);
 		SpawnObstacles (treePrefabs, treePrefabProbabilities, treeContainer, treePolygon, treeNumber, treeDeformationNiu, true);
 	}
 
@@ -113,7 +105,7 @@ public class WorldItemSpawner : MonoBehaviour
 
 	public void SpawnZone1Barrels ()
 	{
-		Delete (zone1BarrelContainer, new string[] { "Black Barrel", "Grey Barrel" });
+		Delete (zone1BarrelContainer);
 		SpawnObstacles (zone1BarrelPrefabs, zone1BarrelPrefabProbabilities, zone1BarrelContainer, zone1BarrelPolygon, zone1BarrelNumber, 0, false);
 	}
 
@@ -125,7 +117,7 @@ public class WorldItemSpawner : MonoBehaviour
 	
 	public void SpawnZone2Barrels ()
 	{
-		Delete (zone2BarrelContainer, new string[] { "Red Barrel", "Green Barrel" });
+		Delete (zone2BarrelContainer);
 		SpawnObstacles (zone2BarrelPrefabs, zone2BarrelPrefabProbabilities, zone2BarrelContainer, zone2BarrelPolygon, zone2BarrelNumber, 0, false);
 	}
 
@@ -149,6 +141,8 @@ public class WorldItemSpawner : MonoBehaviour
 
 		int spawned = 0;
 		int epoch = 0;
+		GameObject toSpawn = Utils.randomFrom (prefabs, prefabProbabilities);
+		float rad = toSpawn.GetComponent <CircleCollider2D> ().radius;
 		while (!(spawned == number || epoch == Constants.MAX_EPOCH)) {
 			Vector3 pos;
 			pos.z = transform.position.z;
@@ -156,11 +150,11 @@ public class WorldItemSpawner : MonoBehaviour
 			pos.x = UnityEngine.Random.Range (maxLeft, maxRight);
 			pos.y = Random.Range (maxTop, maxBot);
 
-			if (isInside (pos, points)) {
+			if (isInside (pos, points) && Physics2D.OverlapCircleAll (pos, rad).Length == 0) {
 				spawned++;
 
 				GameObject spawnedObj = Instantiate (
-					Utils.randomFrom (prefabs, prefabProbabilities),
+					toSpawn,
 					pos,
 					randomlyRotate ? Utils.random2DRotation () : Quaternion.identity
 				) as GameObject;
@@ -171,6 +165,9 @@ public class WorldItemSpawner : MonoBehaviour
 				scale.x = 1 + Random.Range (-deformation, deformation);
 				scale.y = 1 + Random.Range (-deformation,deformation);
 				spawnedObj.transform.localScale = scale;
+
+				toSpawn = Utils.randomFrom (prefabs, prefabProbabilities);
+				rad = toSpawn.GetComponent <CircleCollider2D> ().radius;
 			}
 
 			epoch++;

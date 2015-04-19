@@ -1,70 +1,41 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class DestroyableBarrel : MonoBehaviour 
+public class DestroyableBarrel : Damagable
 {
-	static readonly float MAX_HP = 20;
-	static readonly float RESPAWN_TIME = 2f;
-
-	public GameObject explosionPrefab;
-	ParticleSystem damagedParticles;
-	float hp;
-
-	void Awake ()
+	public override void OnAwake ()
 	{
+		maxHp = 25;
+		respawnTime = 5;
 
-		damagedParticles = Utils.childWithName (transform, "Damaged Barrel").GetComponent <ParticleSystem> ();
+		damaged = new ThresholdParticle[1];
+		damaged [0] = new ThresholdParticle (maxHp / 2f, Utils.childWithName (transform, "Damaged Barrel"));
+
+		minWait = 4;
+		maxWait = 6;
 	}
 
-	void Start ()
+	public override void OnStart ()
 	{
-		hp = MAX_HP; 
 	}
 
-	void Update ()
+	public override void OnUpdate ()
 	{
-		if (hp <= MAX_HP / 2f /*&& !damagedParticles.isPlaying*/) // TODO: make this into a nice stream of smoke
-			damagedParticles.Play ();
-		else
-			damagedParticles.Stop ();
 	}
 
-	public void TakeDamage (float damage, PlayerStats source)
+	public override void OnTakingDamage (PlayerStats source)
 	{
-		hp -= damage;
-		if (hp <= 0) {
-			source.barrels++;
-			Explode (source);
-			gameObject.SetActive (false);
-//			StartCoroutine (WaitAndReappear (RESPAWN_TIME)); // TODO
-		}
 	}
 
-	bool exploded;
-	void Explode (PlayerStats source)
+	public override void OnDeath (PlayerStats source)
 	{
-		if (!exploded) {
-			exploded = true;
-
-			GameObject explosion = Instantiate (
-				explosionPrefab,
-				transform.position,
-				Quaternion.identity) as GameObject;
-
-
-			explosion.GetComponent <Explosion> ().Setup (source);
-		}
+		source.barrels++;
 	}
 
-	IEnumerator WaitAndReappear (float time)
+	public override void OnRespawn (bool firstTime)
 	{
-		yield return new WaitForSeconds (time);
-
 		// TODO: make alpha scale from 0 to 1 here
-		gameObject.SetActive (true);
-		exploded = false;
-		hp = MAX_HP;
-		damagedParticles.Stop ();
+
 	}
 
 }

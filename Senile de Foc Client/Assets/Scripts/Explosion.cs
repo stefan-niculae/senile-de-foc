@@ -7,9 +7,8 @@ public class Explosion : Containable<Explosion>
 	public float 
 		radius,
 		force,
-		damage,
-		DoTAmount, // damage over time
-		DoTDuration;
+		damage;
+	public GameObject DoTPrefab;
 
 	[HideInInspector] public PlayerStats source;
 
@@ -29,41 +28,37 @@ public class Explosion : Containable<Explosion>
 		Destroy (gameObject, TIME_TO_LIVE);
 	}
 	
-	public void Setup (PlayerStats source)
+	public void Setup (PlayerStats source, Damagable ignore = null)
 	{
 		this.source = source;
 
-		DamageAround ();
+		DamageAround (ignore);
 	}
 
-	void DamageAround ()
+	void DamageAround (Damagable ignore)
 	{
 		Collider2D[] around = Physics2D.OverlapCircleAll (transform.position, radius);
+		var self = GetComponent <Collider2D> (); if (self)Debug.Log ("self = " + self.name);
 
-		foreach (Collider2D coll in around) 
-			switch (coll.tag) {
-			case "World":
-				// Unbreakables
-				break;
+		foreach (Collider2D coll in around) {
+			var damagable = coll.GetComponent <Damagable> ();
+			if (damagable != null && damagable != ignore) {
 
-			case "Player":
-				coll.GetComponent <TankHealth> ().TakeDamage (damage, source);
-				var dir = (transform.position - coll.transform.position) * force;
-			Debug.Log (name + " is pushing " + coll.name + " for " + dir);
-			coll.attachedRigidbody.AddForce (dir); Debug.Log (coll.attachedRigidbody.mass);
-				break;
+				damagable.TakeDamage (damage, source);
 
-			case "Destroyable":
-				var barrel = coll.GetComponent <DestroyableBarrel> ();
-				if (barrel != null)
-					barrel.TakeDamage (damage, source);
-				// Can also be a bullet, in which case, it explodes by itself, no action needed
-				break;
+				var dir = (coll.transform.position - transform.position) * force;
+				damagable.GetPushed (dir);
 
-			default:
-				Debug.LogErrorFormat ("Explosion {0} from {1} tried to damage {2} ({3}) but it shouldn't have", name, source.username, coll.name, coll.tag);
-				break;
+				ApplyDoT (source, damagable);
 			}
+		}
+	}
 
+	void ApplyDoT (PlayerStats source, Damagable affected)
+	{
+		if (DoTPrefab != null) {
+			var DoT = (Instantiate (DoTPrefab) as GameObject).GetComponent <DamageOverTime> ();
+			DoT.AttachTo (source, affected);
+		}
 	}
 }

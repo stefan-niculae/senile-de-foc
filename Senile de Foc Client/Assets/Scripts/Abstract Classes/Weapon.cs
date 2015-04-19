@@ -27,10 +27,9 @@ public abstract class Weapon : MonoBehaviour
 
 			particles.Play ();
 
-			ActualFiring ();
+			OnFire ();
 
 		}
 	}
-	
-	public abstract void ActualFiring ();
+	public abstract void OnFire ();
 }

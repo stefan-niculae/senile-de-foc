@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 public class PlayerStats : MonoBehaviour 
 {
-	
+	public bool move = true; // for debuggin purposes
 	public bool controlledPlayer;
 	static int nrControlledPlayers;
 	// TODO: get this from the login
@@ -20,8 +20,6 @@ public class PlayerStats : MonoBehaviour
 	[HideInInspector] public TankBarrel barrel;
 	[HideInInspector] public Projectile projectile;
 	[HideInInspector] public Explosion projectileExplosion;
-	
-	public readonly float RESPAWN_TIME = 10f; // in seconds // TODO: decide if this is set or not, same for everyone everytime
 
 	public GUIStat
 		kills,
@@ -55,6 +53,11 @@ public class PlayerStats : MonoBehaviour
 		barrel = GetComponentInChildren <TankBarrel> ();
 		projectile = weapon.projectilePrefab.GetComponent <Projectile> ();
 		projectileExplosion = projectile.explosionPrefab.GetComponent <Explosion> ();
+
+		if (controlledPlayer)
+			health.bar = GameObject.Find ("Static Health Bar").GetComponent <HealthBar> ();
+		else
+			health.bar = Dispenser.TakeHealthBar (this);
 
 		levels.Apply (health, movement, weapon, barrel, projectile, projectileExplosion);
 	}

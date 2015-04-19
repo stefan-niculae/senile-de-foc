@@ -40,7 +40,7 @@ Tank Electrocuted DoT
 	cfx electric ground
 
 Tank Poisoned DoT
-	cfx virus
+v	cfx virus
 
 
 
