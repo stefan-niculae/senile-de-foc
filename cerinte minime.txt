@@ -1,4 +1,3 @@
-
 Teme pentru laboratorul de "Metode de dezvoltare software":
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 

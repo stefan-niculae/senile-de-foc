@@ -2,25 +2,30 @@
 using System.Collections;
 using UnityEditor;
 
-[CustomEditor (typeof (WorldItemSpawner))]
-class DecalMeshHelperEditor : Editor 
+[CustomEditor (typeof (BorderSpawner))]
+class BorderSpawnerMenu : Editor 
 {
 	public override void OnInspectorGUI () 
 	{
-		DrawDefaultInspector();
-
-		WorldItemSpawner spawner = (WorldItemSpawner)target;
-
-		if (GUILayout.Button ("Spawn Border"))
-			spawner.SpawnBorder ();
-
-		if (GUILayout.Button ("Spawn Trees"))
-			spawner.SpawnTrees ();
-
-		if (GUILayout.Button ("Spawn Zone 1 Barrels"))
-			spawner.SpawnZone1Barrels ();
+		DrawDefaultInspector ();
 		
-		if (GUILayout.Button ("Spawn Zone 2 Barrels"))
-			spawner.SpawnZone2Barrels ();
+		BorderSpawner spawner = (BorderSpawner)target;
+		
+		if (GUILayout.Button ("Spawn Border"))
+			spawner.Spawn ();
+	}
+}
+
+[CustomEditor (typeof(EnvironmentItemSpawner))]
+class ItemSpawnerMenu : Editor
+{
+	public override void OnInspectorGUI ()
+	{
+		DrawDefaultInspector ();
+
+		EnvironmentItemSpawner spawner = (EnvironmentItemSpawner)target;
+
+		if (GUILayout.Button ("Spawn Items"))
+			spawner.SpawnItems ();
 	}
 }

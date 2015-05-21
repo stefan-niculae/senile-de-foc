@@ -61,7 +61,7 @@ public class Levels
 		
 		weapon.fireRate = 			TankAttributes.Instance.fireRate			.compute (fireRate);
 		barrel.backwardSpeed = 		TankAttributes.Instance.barrelSpeed			.compute (fireRate);
-		barrel.forwardSpeed = 		barrel.backwardSpeed / 2f; // TODO: check if this is right
+		barrel.forwardSpeed = 		barrel.backwardSpeed / 2f;
 		projectile.speed = 			TankAttributes.Instance.projectileSpeed		.compute (fireRate);
 		
 		projectileExplosion.damage =TankAttributes.Instance.explosionDamage		.compute (damage);

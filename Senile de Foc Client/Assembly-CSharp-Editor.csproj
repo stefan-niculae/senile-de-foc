@@ -70,6 +70,7 @@
      <Compile Include="Assets\PrefabEvolution\Sources\Editor\Tree\PETreeNode.cs" />
      <Compile Include="Assets\Scripts\Editor\RandomSpawners.cs" />
      <None Include="Assets\JMO Assets\Cartoon FX\Shaders (Mobile)\CFXM_MobileParticleAdd_Alpha8.shader" />
+     <None Include="Assets\test-results\Assembly-CSharp-Editor.csproj-Debug-2015-05-19.xml" />
      <None Include="Assets\JMO Assets\Cartoon FX\Shaders\CFX4 Particle AlphaBlend+AddSoft VColor.shader" />
  <Reference Include="UnityEngine.UI">
  <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>

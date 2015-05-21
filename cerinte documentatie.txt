@@ -1,0 +1,28 @@
+CERINTE:
+ZED:
+	2 functii (ceva mai complicat)
+
+UML (3 tipuri cerinte): use case, secvente, stari
+
+Descriere lbaj natural
+
+
+
+
+
+STRUCTURA/DESIGN:
+UML (tipuri structura)
+	clasele
+	actors
+
+Descriere lbaj natural
+
+
+
+
+
+TESTARE:
+	cutie neagra:	*iesire tank de pe tabla
+	cutie transp:	*testare pt niste if-uri in special
+	performanta: 	*lag, trasnai
+testam mai tot

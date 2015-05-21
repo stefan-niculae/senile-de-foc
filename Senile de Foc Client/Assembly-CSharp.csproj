@@ -64,8 +64,9 @@
      <Compile Include="Assets\Scripts\Combat\Damagable.cs" />
      <Compile Include="Assets\Scripts\Combat\DamageOverTime.cs" />
      <Compile Include="Assets\Scripts\Combat\Explosion.cs" />
+     <Compile Include="Assets\Scripts\Editor Help\BorderSpawner.cs" />
+     <Compile Include="Assets\Scripts\Editor Help\EnvironmentItemSpawner.cs" />
      <Compile Include="Assets\Scripts\Editor Help\OnOffTurner.cs" />
-     <Compile Include="Assets\Scripts\Editor Help\WorldItemSpawner.cs" />
      <Compile Include="Assets\Scripts\Environment\DestroyableBarrel.cs" />
      <Compile Include="Assets\Scripts\Environment\TilingBasedOnScale.cs" />
      <Compile Include="Assets\Scripts\Game Logic\Constants.cs" />
@@ -75,6 +76,7 @@
      <Compile Include="Assets\Scripts\Game Logic\Singleton.cs" />
      <Compile Include="Assets\Scripts\Game Logic\Utils.cs" />
      <Compile Include="Assets\Scripts\Network\ConnectionManager.cs" />
+     <Compile Include="Assets\Scripts\Server.cs" />
      <Compile Include="Assets\Scripts\Tank\Cannon.cs" />
      <Compile Include="Assets\Scripts\Tank\Input\FiringAI.cs" />
      <Compile Include="Assets\Scripts\Tank\Input\Patrol.cs" />
@@ -89,12 +91,14 @@
      <Compile Include="Assets\Scripts\Tank\TankTrack.cs" />
      <Compile Include="Assets\Scripts\Tank\TankTracksManager.cs" />
      <Compile Include="Assets\Scripts\Tank\Weapon.cs" />
+     <Compile Include="Assets\Scripts\Tests\BetweenTest.cs" />
      <Compile Include="Assets\Scripts\UI\Game\CameraMovement.cs" />
      <Compile Include="Assets\Scripts\UI\Game\Countdown.cs" />
      <Compile Include="Assets\Scripts\UI\Game\HealthBar.cs" />
      <Compile Include="Assets\Scripts\UI\Game\Minimap.cs" />
      <Compile Include="Assets\Scripts\UI\Game\PlayerUsername.cs" />
      <None Include="Assets\JMO Assets\Cartoon FX\Shaders (Mobile)\CFXM_MobileParticleAdd_Alpha8.shader" />
+     <None Include="Assets\test-results\Assembly-CSharp-Editor.csproj-Debug-2015-05-19.xml" />
      <None Include="Assets\JMO Assets\Cartoon FX\Shaders\CFX4 Particle AlphaBlend+AddSoft VColor.shader" />
  <Reference Include="UnityEngine.UI">
  <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>

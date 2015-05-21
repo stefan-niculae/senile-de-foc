@@ -179,4 +179,17 @@ public class Utils : MonoBehaviour
 		created.transform.parent = objParent;
 		return created;
 	}
+
+	/**
+	 * Deletes every child of this transform
+	 */
+	public static void ClearContainer (Transform container)
+	{
+		var toDel = container.GetComponentsInChildren <Transform> ();
+		
+		// We do it this way because foreach child in container is buggy
+		for (int i = 0; i < toDel.Length; i++)
+			if (toDel[i] != null && toDel[i] != container && toDel[i].tag != "Polygon")
+				DestroyImmediate (toDel[i].gameObject, false);
+	}
 }
