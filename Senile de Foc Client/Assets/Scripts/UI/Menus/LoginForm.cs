@@ -1,15 +1,15 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using System;
 using UnityEngine.UI;
 
 public class LoginForm : MonoBehaviour 
 {
-	EnabledTransitionPosition bgBotTrans;
-	EnabledTransitionScale bgMidTrans;
-	EnabledTransitionScale confirmTrans;
-	EnabledTransitionScale loginTrans;
-	EnabledTransitionScale createTrans;
+	PositionTransition bgBotTrans;
+	ScaleTransition bgMidTrans;
+	ScaleTransition confirmTrans;
+	ScaleTransition loginTrans;
+	ScaleTransition createTrans;
 
 	InputField usernameField;
 	InputField passwordField;
@@ -18,16 +18,38 @@ public class LoginForm : MonoBehaviour
 	Button loginButton;
 	Button createButton;
 
+	Toggle rememberToggle;
+
+
+	PositionTransition splashScreen;
+	PositionTransition selectScreen;
+
+	
+	string savedUserKey = "savedUser";
+	string savedUser
+	{
+		get { return PlayerPrefs.GetString (savedUserKey, ""); }
+		set { 		 PlayerPrefs.SetString (savedUser, value); }
+	}
+
+	// TODO switch from plain text password to hashcode storing
+	string savedPassKey = "savedUser";
+	string savedPass
+	{
+		get { return PlayerPrefs.GetString (savedPassKey, ""); }
+		set { 		 PlayerPrefs.SetString (savedPass, value); }
+	}
+
 	bool creating = false;
 
 	void Awake ()
 	{
 		// References setup
-		bgBotTrans = GameObject.Find ("Background Bot").GetComponent<EnabledTransitionPosition> ();
-		bgMidTrans = GameObject.Find ("Background Mid").GetComponent<EnabledTransitionScale> ();
-		confirmTrans = GameObject.Find ("Field Confirm").GetComponent<EnabledTransitionScale> ();
-		loginTrans = GameObject.Find ("Button Login").GetComponent <EnabledTransitionScale> ();
-		createTrans = GameObject.Find ("Button Create").GetComponent <EnabledTransitionScale> ();
+		bgBotTrans = GameObject.Find ("Background Bot").GetComponent<PositionTransition> ();
+		bgMidTrans = GameObject.Find ("Background Mid").GetComponent<ScaleTransition> ();
+		confirmTrans = GameObject.Find ("Field Confirm").GetComponent<ScaleTransition> ();
+		loginTrans = GameObject.Find ("Button Login").GetComponent <ScaleTransition> ();
+		createTrans = GameObject.Find ("Button Create").GetComponent <ScaleTransition> ();
 
 		passwordField = GameObject.Find ("Text Field Password").GetComponent <InputField> ();
 		confirmField = GameObject.Find ("Text Field Confirm").GetComponent <InputField> ();
@@ -36,19 +58,26 @@ public class LoginForm : MonoBehaviour
 		loginButton = GameObject.Find ("Button Login").GetComponent <Button> ();
 		createButton = GameObject.Find ("Button Create").GetComponent <Button> ();
 
+		rememberToggle = GameObject.Find ("Remember Toggle").GetComponent <Toggle> ();
+
+		splashScreen = GameObject.Find ("Splash Screen").GetComponent <PositionTransition> ();
+		selectScreen = GameObject.Find ("Selection Screen").GetComponent <PositionTransition> ();
+
 		// Character validation
 		usernameField.characterValidation = 
 		passwordField.characterValidation = 
 		confirmField.characterValidation  =  InputField.CharacterValidation.Alphanumeric;
+	}
 
+	void Start ()
+	{
+		usernameField.text = savedUser;
+		passwordField.text = savedPass;
 	}
 
 	string lastEnteredUsername = "";
 	public void HandleUsernameExistance (string username)
 	{
-		print ("handling existence of " + username);
-		// TODO: when pressing button check username again
-
 		passwordField.Select ();
 
 		if (username != lastEnteredUsername)
@@ -58,14 +87,14 @@ public class LoginForm : MonoBehaviour
 
 		if (!Server.UsernameExists (username)) {		
 			bgMidTrans.StartGrowing (() => { });
-			bgBotTrans.StartExpanding (GrowConfirmAndCreate);
+			bgBotTrans.StartMoving (GrowConfirmAndCreate);
 			loginTrans.StartShrinking (() => { });
 
 			creating = true;
 		} 
 		else {
 			createTrans.StartShrinking (() => { });
-			StartCoroutine (WaitAndShrinkConfirm (EnabledTransitionScale.DURATION / 3f));
+			StartCoroutine (WaitAndShrinkConfirm (ScaleTransition.DURATION / 3f));
 
 			creating = false;
 		}
@@ -83,7 +112,7 @@ public class LoginForm : MonoBehaviour
 	void GrowConfirmAndCreate ()
 	{
 		confirmTrans.StartGrowing (() => { });
-		StartCoroutine (WaitAndGrowCreate (EnabledTransitionScale.DURATION / 3f));
+		StartCoroutine (WaitAndGrowCreate (ScaleTransition.DURATION / 3f));
 
 	}
 
@@ -109,7 +138,7 @@ public class LoginForm : MonoBehaviour
 
 	void CollapseBottomAndShrinkMiddle ()
 	{
-		bgBotTrans.StartCollapsing (() => { });
+		bgBotTrans.StartMovingBack (() => { });
 		bgMidTrans.StartShrinking (GrowLogin);
 	}
 
@@ -151,21 +180,51 @@ public class LoginForm : MonoBehaviour
 
 	void HandleLogin ()
 	{
-		if (Server.PasswordMatches (usernameField.text, passwordField.text))
+		if (UserOrPassEmpty ())
+			return;
+
+		if (Server.PasswordMatches (usernameField.text, passwordField.text)) {
 			Server.Login (usernameField.text, passwordField.text);
-		else {
-			passwordField.Select ();
+
+			if (rememberToggle.isOn) {
+				savedUser = usernameField.text;
+				savedPass = passwordField.text;
+			}
+			// No else here, don't clear the saved user if a guest enters!
+
+			splashScreen.StartMoving (() => { }, .65f);
+			selectScreen.StartMoving (() => { }, .65f);
 		}
+		else 
+			passwordField.Select ();
 
 	}
 
 	void HandleCreate ()
 	{
+		if (UserOrPassEmpty ())
+			return;
+
 		if (passwordField.text == confirmField.text) {
 			Server.CreateUser (usernameField.text, passwordField.text);
-			Server.Login (usernameField.text, passwordField.text);
+			HandleLogin ();
 		} 
 		else
 			confirmField.Select ();
+	}
+
+	bool UserOrPassEmpty ()
+	{
+		if (usernameField.text == "") {
+			usernameField.Select ();
+			return true;
+		}
+
+		if (passwordField.text == "") {
+			passwordField.Select ();
+			return true;
+		}
+
+		return false;
 	}
 }

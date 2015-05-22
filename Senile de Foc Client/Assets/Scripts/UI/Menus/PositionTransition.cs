@@ -2,14 +2,14 @@
 using System.Collections;
 using System;
 
-public class EnabledTransitionPosition : MonoBehaviour 
+public class PositionTransition : MonoBehaviour 
 {
-	static readonly float DURATION = .25f;
+	const float DURATION = .25f;
 	Vector3 expandedPosition;
 	Vector3 collapsedPosition;
 	public Vector3 deltaPosition;
 
-
+	float chosenDuration;
 	Action onFinish;
 
 	
@@ -23,43 +23,43 @@ public class EnabledTransitionPosition : MonoBehaviour
 	}
 	
 	// Expand / Collapse	
-	public void StartExpanding (Action callback = null)
+	public void StartMoving (Action callback, float duration = DURATION)
 	{
 		endPosition = expandedPosition;
 		onFinish = callback;
-		SetStartValues ();
+		SetStartValues (duration);
 	}
 	
-	public void StartCollapsing (Action callback)
+	public void StartMovingBack (Action callback, float duration = DURATION)
 	{
 		endPosition = collapsedPosition;
 		onFinish = callback;
-		SetStartValues ();
+		SetStartValues (duration);
 	}
 
 	float startTime;
 	Vector3 startPosition;
 	Vector3 changePosition;
-	void SetStartValues ()
+	float errorMargin;
+	void SetStartValues (float duration)
 	{
 		startTime = Time.time;
 		startPosition = transform.localPosition;
 		changePosition = endPosition - startPosition;
+		chosenDuration = duration;
+		errorMargin = Vector3.Distance (startPosition, endPosition) * .05f;
 	}
-
-	static readonly float ERROR_MARGIN = 7.5f;
+	
 	void Update ()
 	{
-		if (Vector3.Distance (transform.localPosition, endPosition) > ERROR_MARGIN) {
-			float coeff = (Time.time - startTime) / DURATION;
+		if (Vector3.Distance (transform.localPosition, endPosition) > errorMargin) {
+			float coeff = (Time.time - startTime) / chosenDuration;
 			transform.localPosition = startPosition + coeff * changePosition;
 
-			if (Vector3.Distance (transform.localPosition, endPosition) <= ERROR_MARGIN) {
+			if (Vector3.Distance (transform.localPosition, endPosition) <= errorMargin) {
 				transform.localPosition = endPosition;
 				onFinish ();
 			}
 		}
 	}
-
-
 }

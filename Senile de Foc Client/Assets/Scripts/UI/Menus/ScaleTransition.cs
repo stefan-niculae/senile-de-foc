@@ -2,7 +2,7 @@
 using System.Collections;
 using System;
 
-public class EnabledTransitionScale : MonoBehaviour 
+public class ScaleTransition : MonoBehaviour 
 {
 	public static readonly float DURATION = .25f;
 
@@ -35,30 +35,28 @@ public class EnabledTransitionScale : MonoBehaviour
 		SetStartValues ();
 	}
 
-
 	float startTime;
 	Vector3 startScale;
 	Vector3 changeScale;
+	float errorMargin;
 	void SetStartValues ()
 	{
 		startTime = Time.time;
 		startScale = transform.localScale;
 		changeScale = destinationScale - startScale;
+		errorMargin = Vector3.Distance (startScale, destinationScale) * .05f;
 	}
 
 	void Update () 
 	{
-		//TODO add a bigger error ONLY for the buttons (not the middle bg)
-		if (Vector3.Distance (transform.localScale, destinationScale) > Constants.MED_EPSILON) {
+		if (Vector3.Distance (transform.localScale, destinationScale) > errorMargin) {
 			float coeff = (Time.time - startTime) / DURATION;
 			transform.localScale = startScale + coeff * changeScale;
 
-			if (Vector3.Distance (transform.localScale, destinationScale) <= Constants.MED_EPSILON) {
+			if (Vector3.Distance (transform.localScale, destinationScale) <= errorMargin) {
 				transform.localScale = destinationScale;
 				onFinish ();
 			}
 		}
-
 	}
-	
 }
