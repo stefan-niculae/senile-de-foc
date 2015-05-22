@@ -6,7 +6,7 @@ public class Server : MonoBehaviour
 {
 	static string u1, p1;
 
-	// Login handling
+	// Login/Register
 	public static bool UsernameExists (string username)
 	{
 		return username == "s";
@@ -27,5 +27,14 @@ public class Server : MonoBehaviour
 	{
 		// I'm not sure this server interaction is needed
 		print (username + " logged");
+	}
+
+
+	// Tank Select
+	public static void SelectTank (int number)
+	{
+		// TODO signal to others to disable this selection
+		// TODO also when a new player logs in, send the list of disabled tanks
+		print ("picked " + number);
 	}
 }
