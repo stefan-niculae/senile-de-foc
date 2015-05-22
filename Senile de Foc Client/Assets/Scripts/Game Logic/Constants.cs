@@ -11,10 +11,7 @@ public class Constants : MonoBehaviour
 
 	// For comparisons of imprecise data (time, distance)
 	public static readonly float EPSILON = .01f;
-
-	// Used in transitions (scale/position)
-	public static readonly float MED_EPSILON = .1f;
-
+	
 	// For REALLY imprecise calculations
 	public static readonly float BIG_EPSILON = 1.5f;
 
@@ -22,4 +19,9 @@ public class Constants : MonoBehaviour
 	public static readonly int MAX_EPOCH = 1000;
 
 	public static readonly float DOT_RATE = .3f; // in seconds
+
+
+	public static readonly Action DO_NOTHING = new Action (() => { });
+
+	public static readonly float SMALL_DURATION = .25f;
 }

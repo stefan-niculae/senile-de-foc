@@ -29,6 +29,12 @@ public class Server : MonoBehaviour
 		print (username + " logged");
 	}
 
+	public static void Logout ()
+	{
+		//again, not sure this is needed
+		print ("logged out");
+	}
+
 
 	// Tank Select
 	public static void SelectTank (int number)
@@ -36,5 +42,17 @@ public class Server : MonoBehaviour
 		// TODO signal to others to disable this selection
 		// TODO also when a new player logs in, send the list of disabled tanks
 		print ("picked " + number);
+	}
+
+	public static void RegisterCustom (int cannon, int special, int damage, int rate, int armor, int speed)
+	{
+		print ("registered custom tank");
+	}
+
+
+	// Lobby
+	public static void RegisterReady (string username)
+	{
+		print (username + " is ready");
 	}
 }

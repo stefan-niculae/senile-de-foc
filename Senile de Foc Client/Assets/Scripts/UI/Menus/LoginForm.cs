@@ -5,11 +5,18 @@ using UnityEngine.UI;
 
 public class LoginForm : MonoBehaviour 
 {
-	PositionTransition bgBotTrans;
-	ScaleTransition bgMidTrans;
-	ScaleTransition confirmTrans;
-	ScaleTransition loginTrans;
-	ScaleTransition createTrans;
+	Transition bgBotTrans;
+	Vector3 bgBotUp;
+	Vector3 bgBotDown;
+
+	Transition bgMidTrans;
+	Vector3 bgMidSmall 	= new Vector3 (1, 0, 1);
+	Vector3 bgMidBig = Vector3.one;
+
+	Transition confirmTrans;
+	Transition loginTrans;
+	Transition createTrans;
+
 
 	InputField usernameField;
 	InputField passwordField;
@@ -18,50 +25,64 @@ public class LoginForm : MonoBehaviour
 	Button loginButton;
 	Button createButton;
 
+
+
 	Toggle rememberToggle;
 
-
-	PositionTransition splashScreen;
-	PositionTransition selectScreen;
-
-	
 	string savedUserKey = "savedUser";
 	string savedUser
 	{
 		get { return PlayerPrefs.GetString (savedUserKey, ""); }
-		set { 		 PlayerPrefs.SetString (savedUser, value); }
+		set { 		 PlayerPrefs.SetString (savedUserKey, value); }
 	}
 
 	// TODO switch from plain text password to hashcode storing
-	string savedPassKey = "savedUser";
+	string savedPassKey = "savedPass";
 	string savedPass
 	{
 		get { return PlayerPrefs.GetString (savedPassKey, ""); }
-		set { 		 PlayerPrefs.SetString (savedPass, value); }
+		set { 		 PlayerPrefs.SetString (savedPassKey, value); }
 	}
 
 	bool creating = false;
 
+
+
+	TankSelection tankSelection;
+
+
 	void Awake ()
 	{
 		// References setup
-		bgBotTrans = GameObject.Find ("Background Bot").GetComponent<PositionTransition> ();
-		bgMidTrans = GameObject.Find ("Background Mid").GetComponent<ScaleTransition> ();
-		confirmTrans = GameObject.Find ("Field Confirm").GetComponent<ScaleTransition> ();
-		loginTrans = GameObject.Find ("Button Login").GetComponent <ScaleTransition> ();
-		createTrans = GameObject.Find ("Button Create").GetComponent <ScaleTransition> ();
+		bgBotTrans 		= GameObject.Find ("Background Bot")		.GetComponent <Transition> ();
+		bgMidTrans 		= GameObject.Find ("Background Mid")		.GetComponent <Transition> ();
+		confirmTrans 	= GameObject.Find ("Field Confirm")			.GetComponent <Transition> ();
+		loginTrans 		= GameObject.Find ("Button Login")			.GetComponent <Transition> ();
+		createTrans 	= GameObject.Find ("Button Create")			.GetComponent <Transition> ();
 
-		passwordField = GameObject.Find ("Text Field Password").GetComponent <InputField> ();
-		confirmField = GameObject.Find ("Text Field Confirm").GetComponent <InputField> ();
-		usernameField = GameObject.Find ("Text Field Username").GetComponent<InputField> ();
+		passwordField 	= GameObject.Find ("Text Field Password")	.GetComponent <InputField> ();
+		confirmField 	= GameObject.Find ("Text Field Confirm")	.GetComponent <InputField> ();
+		usernameField 	= GameObject.Find ("Text Field Username")	.GetComponent <InputField> ();
 
-		loginButton = GameObject.Find ("Button Login").GetComponent <Button> ();
-		createButton = GameObject.Find ("Button Create").GetComponent <Button> ();
+		loginButton 	= GameObject.Find ("Button Login")			.GetComponent <Button> ();
+		createButton 	= GameObject.Find ("Button Create")			.GetComponent <Button> ();
 
-		rememberToggle = GameObject.Find ("Remember Toggle").GetComponent <Toggle> ();
+		rememberToggle 	= GameObject.Find ("Remember Toggle")		.GetComponent <Toggle> ();
 
-		splashScreen = GameObject.Find ("Splash Screen").GetComponent <PositionTransition> ();
-		selectScreen = GameObject.Find ("Selection Screen").GetComponent <PositionTransition> ();
+		tankSelection   = GameObject.Find ("Menu Logic")			.GetComponent <TankSelection> ();
+
+
+		// Transition initialization
+		bgBotUp = bgBotTrans.transform.localPosition;
+		bgBotDown = bgBotUp + new Vector3 (0, -89, 0);
+		bgBotTrans	.Initialize (Transition.Properties.position, 	bgBotUp, 		Constants.SMALL_DURATION);
+
+
+		bgMidTrans	.Initialize (Transition.Properties.scale, 		bgMidSmall, 	Constants.SMALL_DURATION);
+		confirmTrans.Initialize (Transition.Properties.scale,		Vector3.zero,	Constants.SMALL_DURATION);
+		createTrans	.Initialize (Transition.Properties.scale,		Vector3.zero,	Constants.SMALL_DURATION);
+		loginTrans	.Initialize (Transition.Properties.scale, 		Vector3.one,	Constants.SMALL_DURATION);
+
 
 		// Character validation
 		usernameField.characterValidation = 
@@ -73,6 +94,7 @@ public class LoginForm : MonoBehaviour
 	{
 		usernameField.text = savedUser;
 		passwordField.text = savedPass;
+		loginButton.Select ();
 	}
 
 	string lastEnteredUsername = "";
@@ -85,16 +107,17 @@ public class LoginForm : MonoBehaviour
 		passwordField.Select ();
 		passwordField.ActivateInputField ();
 
-		if (!Server.UsernameExists (username)) {		
-			bgMidTrans.StartGrowing (() => { });
-			bgBotTrans.StartMoving (GrowConfirmAndCreate);
-			loginTrans.StartShrinking (() => { });
+		if (!Server.UsernameExists (username)) {	
+			bgMidTrans.TransitionTo (bgMidBig);
+
+			bgBotTrans.TransitionTo (bgBotDown, callback: GrowConfirmAndCreate);
+			loginTrans.TransitionTo (Vector3.zero);
 
 			creating = true;
 		} 
 		else {
-			createTrans.StartShrinking (() => { });
-			StartCoroutine (WaitAndShrinkConfirm (ScaleTransition.DURATION / 3f));
+			createTrans.TransitionTo (Vector3.zero);
+			StartCoroutine (WaitAndShrinkConfirm (Constants.SMALL_DURATION / 3f));
 
 			creating = false;
 		}
@@ -108,18 +131,19 @@ public class LoginForm : MonoBehaviour
 		confirmField.text = "";
 	}
 
+
 	// Transition to Create
 	void GrowConfirmAndCreate ()
 	{
-		confirmTrans.StartGrowing (() => { });
-		StartCoroutine (WaitAndGrowCreate (ScaleTransition.DURATION / 3f));
+		confirmTrans.TransitionTo (Vector3.one);
+		StartCoroutine (WaitAndGrowCreate (Constants.SMALL_DURATION / 3f));
 
 	}
 
 	IEnumerator WaitAndGrowCreate (float duration)
 	{
 		yield return new WaitForSeconds (duration);
-		createTrans.StartGrowing (DoneTransToCreate);
+		createTrans.TransitionTo (Vector3.one, callback: DoneTransToCreate);
 	}
 
 	void DoneTransToCreate ()
@@ -133,24 +157,28 @@ public class LoginForm : MonoBehaviour
 	IEnumerator WaitAndShrinkConfirm (float duration)
 	{
 		yield return new WaitForSeconds (duration);
-		confirmTrans.StartShrinking (CollapseBottomAndShrinkMiddle);
+		confirmTrans.TransitionTo (Vector3.zero, callback: CollapseBottomAndShrinkMiddle);
 	}
 
 	void CollapseBottomAndShrinkMiddle ()
 	{
-		bgBotTrans.StartMovingBack (() => { });
-		bgMidTrans.StartShrinking (GrowLogin);
+		bgBotTrans.TransitionTo (bgBotUp);
+		bgMidTrans.TransitionTo (bgMidSmall, callback: GrowLogin);
 	}
 
 	void GrowLogin ()
 	{
-		loginTrans.StartGrowing (DoneTransToLogin);
+		loginTrans.TransitionTo (Vector3.one, callback: DoneTransToLogin);
 	}
 
 	void DoneTransToLogin ()
 	{
 		//print ("done transition to login");
 	}
+
+
+
+
 
 	public void EnteredPassword ()
 	{
@@ -185,6 +213,7 @@ public class LoginForm : MonoBehaviour
 
 		if (Server.PasswordMatches (usernameField.text, passwordField.text)) {
 			Server.Login (usernameField.text, passwordField.text);
+			SplashMenus.currentUsername = usernameField.text;
 
 			if (rememberToggle.isOn) {
 				savedUser = usernameField.text;
@@ -192,8 +221,7 @@ public class LoginForm : MonoBehaviour
 			}
 			// No else here, don't clear the saved user if a guest enters!
 
-			splashScreen.StartMoving (() => { }, .65f);
-			selectScreen.StartMoving (() => { }, .65f);
+			SplashMenus.currentStep = SplashMenus.Steps.selection;
 		}
 		else 
 			passwordField.Select ();
@@ -226,5 +254,13 @@ public class LoginForm : MonoBehaviour
 		}
 
 		return false;
+	}
+
+	public void Logout ()
+	{
+		Server.Logout ();
+		SplashMenus.currentStep = SplashMenus.Steps.login;
+		tankSelection.Reset ();
+		loginButton.Select ();
 	}
 }
