@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using System;
 
 public class Constants : MonoBehaviour 
 {
@@ -10,6 +11,9 @@ public class Constants : MonoBehaviour
 
 	// For comparisons of imprecise data (time, distance)
 	public static readonly float EPSILON = .01f;
+
+	// Used in transitions (scale/position)
+	public static readonly float MED_EPSILON = .1f;
 
 	// For REALLY imprecise calculations
 	public static readonly float BIG_EPSILON = 1.5f;

@@ -75,7 +75,6 @@
      <Compile Include="Assets\Scripts\Game Logic\GameWorld.cs" />
      <Compile Include="Assets\Scripts\Game Logic\Singleton.cs" />
      <Compile Include="Assets\Scripts\Game Logic\Utils.cs" />
-     <Compile Include="Assets\Scripts\Network\ConnectionManager.cs" />
      <Compile Include="Assets\Scripts\Server.cs" />
      <Compile Include="Assets\Scripts\Tank\Cannon.cs" />
      <Compile Include="Assets\Scripts\Tank\Input\FiringAI.cs" />
@@ -97,6 +96,9 @@
      <Compile Include="Assets\Scripts\UI\Game\HealthBar.cs" />
      <Compile Include="Assets\Scripts\UI\Game\Minimap.cs" />
      <Compile Include="Assets\Scripts\UI\Game\PlayerUsername.cs" />
+     <Compile Include="Assets\Scripts\UI\Menus\LoginForm.cs" />
+     <Compile Include="Assets\Scripts\UI\Menus\Splash\EnabledTransitionPosition.cs" />
+     <Compile Include="Assets\Scripts\UI\Menus\Splash\EnabledTransitionScale.cs" />
      <None Include="Assets\JMO Assets\Cartoon FX\Shaders (Mobile)\CFXM_MobileParticleAdd_Alpha8.shader" />
      <None Include="Assets\test-results\Assembly-CSharp-Editor.csproj-Debug-2015-05-19.xml" />
      <None Include="Assets\JMO Assets\Cartoon FX\Shaders\CFX4 Particle AlphaBlend+AddSoft VColor.shader" />
