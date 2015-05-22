@@ -100,6 +100,7 @@
      <Compile Include="Assets\Scripts\UI\Menus\LoginForm.cs" />
      <Compile Include="Assets\Scripts\UI\Menus\PositionTransition.cs" />
      <Compile Include="Assets\Scripts\UI\Menus\ScaleTransition.cs" />
+     <Compile Include="Assets\Scripts\UI\Menus\SplashMenus.cs" />
      <Compile Include="Assets\Scripts\UI\Menus\TankSelection.cs" />
      <None Include="Assets\JMO Assets\Cartoon FX\Shaders (Mobile)\CFXM_MobileParticleAdd_Alpha8.shader" />
      <None Include="Assets\test-results\Assembly-CSharp-Editor.csproj-Debug-2015-05-19.xml" />
