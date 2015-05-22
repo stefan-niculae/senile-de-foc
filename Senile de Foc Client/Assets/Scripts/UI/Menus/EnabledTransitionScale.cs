@@ -48,6 +48,7 @@ public class EnabledTransitionScale : MonoBehaviour
 
 	void Update () 
 	{
+		//TODO add a bigger error ONLY for the buttons (not the middle bg)
 		if (Vector3.Distance (transform.localScale, destinationScale) > Constants.MED_EPSILON) {
 			float coeff = (Time.time - startTime) / DURATION;
 			transform.localScale = startScale + coeff * changeScale;

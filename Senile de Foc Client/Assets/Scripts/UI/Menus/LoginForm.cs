@@ -11,10 +11,14 @@ public class LoginForm : MonoBehaviour
 	EnabledTransitionScale loginTrans;
 	EnabledTransitionScale createTrans;
 
-	public static InputField usernameField;
-
+	InputField usernameField;
 	InputField passwordField;
 	InputField confirmField;
+
+	Button loginButton;
+	Button createButton;
+
+	bool creating = false;
 
 	void Awake ()
 	{
@@ -27,8 +31,10 @@ public class LoginForm : MonoBehaviour
 
 		passwordField = GameObject.Find ("Text Field Password").GetComponent <InputField> ();
 		confirmField = GameObject.Find ("Text Field Confirm").GetComponent <InputField> ();
-
 		usernameField = GameObject.Find ("Text Field Username").GetComponent<InputField> ();
+
+		loginButton = GameObject.Find ("Button Login").GetComponent <Button> ();
+		createButton = GameObject.Find ("Button Create").GetComponent <Button> ();
 
 		// Character validation
 		usernameField.characterValidation = 
@@ -54,10 +60,14 @@ public class LoginForm : MonoBehaviour
 			bgMidTrans.StartGrowing (() => { });
 			bgBotTrans.StartExpanding (GrowConfirmAndCreate);
 			loginTrans.StartShrinking (() => { });
+
+			creating = true;
 		} 
 		else {
 			createTrans.StartShrinking (() => { });
 			StartCoroutine (WaitAndShrinkConfirm (EnabledTransitionScale.DURATION / 3f));
+
+			creating = false;
 		}
 
 		lastEnteredUsername = username;
@@ -85,7 +95,7 @@ public class LoginForm : MonoBehaviour
 
 	void DoneTransToCreate ()
 	{
-		print ("done transition to create");
+		//print ("done transition to create");
 	}
 
 
@@ -110,7 +120,52 @@ public class LoginForm : MonoBehaviour
 
 	void DoneTransToLogin ()
 	{
-		print ("done transition to login");
+		//print ("done transition to login");
 	}
-	
+
+	public void EnteredPassword ()
+	{
+		if (creating)
+			confirmField.Select ();
+		else {
+			loginButton.Select ();
+			HandleLogin ();
+		}
+	}
+
+	public void EnteredConfirm ()
+	{
+		createButton.Select ();
+		HandleCreate ();
+	}
+
+	public void PressedLogin ()
+	{
+		HandleLogin ();
+	}
+
+	public void PressedCreate ()
+	{
+		HandleCreate ();
+	}
+
+	void HandleLogin ()
+	{
+		if (Server.PasswordMatches (usernameField.text, passwordField.text))
+			Server.Login (usernameField.text, passwordField.text);
+		else {
+			passwordField.Select ();
+		}
+
+	}
+
+	void HandleCreate ()
+	{
+		if (passwordField.text == confirmField.text) {
+			Server.CreateUser (usernameField.text, passwordField.text);
+			Server.Login (usernameField.text, passwordField.text);
+		} 
+		else
+			confirmField.Select ();
+	}
 }

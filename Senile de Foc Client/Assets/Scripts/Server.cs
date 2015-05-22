@@ -10,8 +10,19 @@ public class Server : MonoBehaviour
 		return username == "stefan";
 	}
 
-	public static bool PasswordMatches (string password)
+	public static bool PasswordMatches (string username, string password)
 	{
-		return LoginForm.usernameField.text == "stefan" && password == "a";
+		return username == "stefan" && password == "a";
+	}
+
+	public static void CreateUser (string username, string password)
+	{
+		print ("created " + username + ", " + password);
+	}
+
+	public static void Login (string username, string password)
+	{
+		// I'm not sure this server interaction is needed
+		print (username + " logged");
 	}
 }
