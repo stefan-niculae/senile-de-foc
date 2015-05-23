@@ -24,4 +24,7 @@ public class Constants : MonoBehaviour
 	public static readonly Action DO_NOTHING = new Action (() => { });
 
 	public static readonly float SMALL_DURATION = .25f;
+
+
+	public static int PTS_TO_SPEND = 12;
 }

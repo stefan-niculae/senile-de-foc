@@ -1,9 +1,10 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/UI/Menus/PlayerInfo.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/UI/Menus/WaitingLobby.cs">
     <Files>
-      <File FileName="Assets/Scripts/UI/Menus/WaitingLobby.cs" Line="38" Column="51" />
-      <File FileName="Assets/Scripts/UI/Menus/PlayerInfo.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/UI/Menus/WaitingLobby.cs" Line="56" Column="3" />
+      <File FileName="Assets/Scripts/LoadingManager.cs" Line="31" Column="54" />
+      <File FileName="Assets/Scripts/FirstScene.cs" Line="8" Column="42" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">

@@ -48,6 +48,7 @@ public class TankSelection : MonoBehaviour
 	{
 		lockInButton.interactable = false;
 		SetAvailability (pickedNumber, true);
+		ShowLockin ();
 	}
 	
 	public void SetAvailability (int number, bool value)
@@ -68,9 +69,6 @@ public class TankSelection : MonoBehaviour
 		
 			Server.SelectTank (number);
 			SplashMenus.currentTankType = number;
-			
-			// TODO make sure to remove this when the server will be implemented to avoid duplication
-			GameObject.Find("Menu Logic").GetComponent<WaitingLobby>(). AddUser (SplashMenus.currentUsername, SplashMenus.currentTankType);
 
 
 			backgrounds [number].sprite = pickedBackground;
@@ -99,13 +97,14 @@ public class TankSelection : MonoBehaviour
 	public void Lockin ()
 	{
 		SplashMenus.currentStep = SplashMenus.Steps.lobby;
+		// TODO make sure to remove this when the server will be implemented to avoid duplication
+		GameObject.Find("Menu Logic").GetComponent<WaitingLobby>(). AddUser (SplashMenus.currentUsername, SplashMenus.currentTankType);
 	}
 
 	public void Customize ()
 	{
 		SplashMenus.currentStep = SplashMenus.Steps.customization;
 	}
-
 	void Update ()
 	{
 		//TODO move this to a thread listener (for disable selection messages from the server)?

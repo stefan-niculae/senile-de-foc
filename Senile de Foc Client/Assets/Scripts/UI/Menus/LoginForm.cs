@@ -107,22 +107,30 @@ public class LoginForm : MonoBehaviour
 		passwordField.Select ();
 		passwordField.ActivateInputField ();
 
-		if (!Server.UsernameExists (username)) {	
-			bgMidTrans.TransitionTo (bgMidBig);
-
-			bgBotTrans.TransitionTo (bgBotDown, callback: GrowConfirmAndCreate);
-			loginTrans.TransitionTo (Vector3.zero);
-
-			creating = true;
-		} 
-		else {
-			createTrans.TransitionTo (Vector3.zero);
-			StartCoroutine (WaitAndShrinkConfirm (Constants.SMALL_DURATION / 3f));
-
-			creating = false;
-		}
+		if (!Server.UsernameExists (username))
+			ShowCreate ();
+		else 
+			ShowLogin ();
 
 		lastEnteredUsername = username;
+	}
+
+	void ShowCreate ()
+	{
+		bgMidTrans.TransitionTo (bgMidBig);
+		
+		bgBotTrans.TransitionTo (bgBotDown, callback: GrowConfirmAndCreate);
+		loginTrans.TransitionTo (Vector3.zero);
+		
+		creating = true;
+	}
+
+	void ShowLogin ()
+	{
+		createTrans.TransitionTo (Vector3.zero);
+		StartCoroutine (WaitAndShrinkConfirm (Constants.SMALL_DURATION / 3f));
+		
+		creating = false;
 	}
 
 	void ClearPasswords ()
@@ -235,6 +243,7 @@ public class LoginForm : MonoBehaviour
 
 		if (passwordField.text == confirmField.text) {
 			Server.CreateUser (usernameField.text, passwordField.text);
+			ShowLogin ();
 			HandleLogin ();
 		} 
 		else
@@ -261,6 +270,7 @@ public class LoginForm : MonoBehaviour
 		Server.Logout ();
 		SplashMenus.currentStep = SplashMenus.Steps.login;
 		tankSelection.Reset ();
+		TankCustomization.Reset ();
 		loginButton.Select ();
 	}
 }

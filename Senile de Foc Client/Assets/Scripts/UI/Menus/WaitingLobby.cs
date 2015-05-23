@@ -11,41 +11,56 @@ public class WaitingLobby : MonoBehaviour
 	Transform container;
 	static readonly float DISTANCE = 65f;
 
-	Sprite[] bodies;
-	Sprite[] barrels;
+	Image[] bodies;
+	Image[] barrels;
 
 	List<GameObject> connectedPlayers;
 	
 	
-	string dummyusername = "username";
 	void Awake ()
-	{Debug.Log ("Server simulation: c, d, r to connect/disconnect/ready a dummy user");
+	{Debug.Log ("Server simulation: c, d, r, s to connect/disconnect/ready a dummy user, s to start the game");
 
 		container = GameObject.Find ("Connected Players").transform;
 		connectedPlayers = new List<GameObject> ();
 
-		bodies = new Sprite[5];
-		barrels = new Sprite[5];
+		bodies = new Image[5];
+		barrels = new Image[5];
 
-		bodies [0] = Utils.childWithName (GameObject.Find ("Calm Tank Preview").transform, "Body").GetComponent <Image> ().sprite;
-		barrels [0] = Utils.childWithName (GameObject.Find ("Calm Tank Preview").transform, "Barrel").GetComponent <Image> ().sprite;
+		bodies [0] = GameObject.Find ("Calm Tank Body").GetComponent <Image> ();
+		barrels [0] = GameObject.Find ("Calm Tank Barrel").GetComponent <Image> ();
 
-		bodies [1] = Utils.childWithName (GameObject.Find ("Heavy Tank Preview").transform, "Body").GetComponent <Image> ().sprite;
-		barrels [1] = Utils.childWithName (GameObject.Find ("Heavy Tank Preview").transform, "Barrel").GetComponent <Image> ().sprite;
+		bodies [1] = GameObject.Find ("Heavy Tank Body").GetComponent <Image> ();
+		barrels [1] = GameObject.Find ("Heavy Tank Barrel").GetComponent <Image> ();
 
-		bodies [2] = Utils.childWithName (GameObject.Find ("Angry Tank Preview").transform, "Body").GetComponent <Image> ().sprite;
-		barrels [2] = Utils.childWithName (GameObject.Find ("Angry Tank Preview").transform, "Barrel").GetComponent <Image> ().sprite;
+		bodies [2] = GameObject.Find ("Angry Tank Body").GetComponent <Image> ();
+		barrels [2] = GameObject.Find ("Angry Tank Barrel").GetComponent <Image> ();
 
-		bodies [3] = Utils.childWithName (GameObject.Find ("Sneaky Tank Preview").transform, "Body").GetComponent <Image> ().sprite;
-		barrels [3] = Utils.childWithName (GameObject.Find ("Sneaky Tank Preview").transform, "Barrel").GetComponent <Image> ().sprite;
+		bodies [3] = GameObject.Find ("Sneaky Tank Body").GetComponent <Image> ();
+		barrels [3] = GameObject.Find ("Sneaky Tank Barrel").GetComponent <Image> ();
+		
+		bodies [4] = GameObject.Find ("Custom Tank Body").GetComponent <Image> ();
+		barrels [4] = GameObject.Find ("Custom Tank Barrel").GetComponent <Image> ();
+	}
 
-		bodies [4] = Utils.childWithName (GameObject.Find ("Custom Tank Preview").transform, "Body").GetComponent <Image> ().sprite;
-		barrels [4] = Utils.childWithName (GameObject.Find ("Custom Tank Preview").transform, "Barrel").GetComponent <Image> ().sprite;
+
+	void Update ()
+	{string dummyusername = "username";
+				if (Input.GetKeyDown (KeyCode.C))
+					AddUser (dummyusername, Random.Range (0, 4));
+				if (Input.GetKeyDown (KeyCode.D))
+					RemoveUser (dummyusername);
+				if (Input.GetKeyDown (KeyCode.R))
+					SetUserReady (dummyusername);
+				if (Input.GetKeyDown (KeyCode.S))
+					LoadingManager.StartLoading ("Battlefield");
 	}
 
 	public void BackToSelection ()
 	{
 		SplashMenus.currentStep = SplashMenus.Steps.selection;
+
+		// TODO remove this when server
+		RemoveUser (SplashMenus.currentUsername);
 	}
 
 	// Usernames are unique so it's ok to use them as a primary key
@@ -102,15 +117,5 @@ public class WaitingLobby : MonoBehaviour
 		Server.RegisterReady (SplashMenus.currentUsername);
 		//TODO again, make sure to disable this to avoid duplication
 		SetUserReady (SplashMenus.currentUsername);
-	}
-	
-	void Update ()
-	{
-		if (Input.GetKeyDown (KeyCode.C))
-			AddUser (dummyusername, Random.Range (0, 4));
-		if (Input.GetKeyDown (KeyCode.D))
-			RemoveUser (dummyusername);
-		if (Input.GetKeyDown (KeyCode.R))
-			SetUserReady (dummyusername);
 	}
 }
