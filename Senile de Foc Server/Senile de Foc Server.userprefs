@@ -2,15 +2,16 @@
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
   <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/LoginHandling.cs">
     <Files>
-      <File FileName="Assets/Scripts/Startup.cs" Line="16" Column="34" />
-      <File FileName="Assets/Scripts/NetworkConstants.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/LoginHandling.cs" Line="9" Column="52" />
+      <File FileName="Assets/Scripts/LoginHandling.cs" Line="78" Column="3" />
+      <File FileName="Assets/Scripts/Shared/Player.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/PlayerManager.cs" Line="1" Column="1" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State expanded="True">
           <Node name="Assembly-CSharp" expanded="True">
             <Node name="Scripts" expanded="True">
+              <Node name="Shared" expanded="True" />
               <Node name="LoginHandling.cs" selected="True" />
             </Node>
           </Node>

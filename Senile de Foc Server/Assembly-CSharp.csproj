@@ -46,8 +46,11 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\Scripts\Database.cs" />
      <Compile Include="Assets\Scripts\LoginHandling.cs" />
-     <Compile Include="Assets\Scripts\NetworkConstants.cs" />
+     <Compile Include="Assets\Scripts\PlayerManager.cs" />
+     <Compile Include="Assets\Scripts\Shared\NetworkConstants.cs" />
+     <Compile Include="Assets\Scripts\Shared\Player.cs" />
      <Compile Include="Assets\Scripts\Startup.cs" />
  <Reference Include="UnityEngine.UI">
  <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>

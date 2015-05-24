@@ -107,12 +107,18 @@ public class LoginForm : MonoBehaviour
 		passwordField.Select ();
 		passwordField.ActivateInputField ();
 
-		if (!Server.UsernameExists (username))
-			ShowCreate ();
-		else 
-			ShowLogin ();
+		// Requesting username existance status
+		Server.UsernameExists (username, UsernameExistanceReceival);
 
 		lastEnteredUsername = username;
+	}
+
+	void UsernameExistanceReceival (bool value)
+	{
+		if (!value)
+			ShowCreate ();
+		else
+			ShowLogin ();
 	}
 
 	void ShowCreate ()
@@ -219,22 +225,28 @@ public class LoginForm : MonoBehaviour
 		if (UserOrPassEmpty ())
 			return;
 
-		if (Server.PasswordMatches (usernameField.text, passwordField.text)) {
+		Server.PasswordMatches (usernameField.text, passwordField.text, PasswordMatchesReceival);
+	}
+
+	void PasswordMatchesReceival (bool value)
+	{
+		if (value) {
 			Server.Login (usernameField.text, passwordField.text);
 			SplashMenus.currentUsername = usernameField.text;
-
+			
 			if (rememberToggle.isOn) {
 				savedUser = usernameField.text;
 				savedPass = passwordField.text;
 			}
 			// No else here, don't clear the saved user if a guest enters!
-
+			
 			SplashMenus.currentStep = SplashMenus.Steps.selection;
 		}
 		else 
 			passwordField.Select ();
 
 	}
+
 
 	void HandleCreate ()
 	{

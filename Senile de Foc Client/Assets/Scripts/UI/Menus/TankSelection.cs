@@ -19,6 +19,19 @@ public class TankSelection : MonoBehaviour
 	Transition lockinButtonTrans;
 	Transition customizeButtonTrans;
 
+	void Update ()
+	{
+//		if (Input.GetKeyDown (KeyCode.Alpha0))
+//			SetAvailability (0, !available [0]);
+//		if (Input.GetKeyDown (KeyCode.Alpha1))
+//			SetAvailability (1, !available [1]);
+//		if (Input.GetKeyDown (KeyCode.Alpha2))
+//			SetAvailability (2, !available [2]);
+//		if (Input.GetKeyDown (KeyCode.Alpha3))
+//			SetAvailability (3, !available [3]);
+//		if (Input.GetKeyDown (KeyCode.Alpha4))
+//			SetAvailability (4, !available [4]);
+	}
 	void Awake ()
 	{Debug.Log ("Server simulation: 0-5 to enable/disable tank types");
 		backgrounds = new Image[5];
@@ -50,7 +63,13 @@ public class TankSelection : MonoBehaviour
 		SetAvailability (pickedNumber, true);
 		ShowLockin ();
 	}
-	
+
+	public void DisableOption (int number)
+	{
+		// Custom tank can be picked by more than 1 player
+		if (number != 5)
+			SetAvailability (number, false);
+	}
 	public void SetAvailability (int number, bool value)
 	{
 		available [number] = value;
@@ -67,7 +86,9 @@ public class TankSelection : MonoBehaviour
 			else
 				ShowLockin ();
 		
-			Server.SelectTank (number);
+			TankStats stats = new TankStats (number);
+			Server.SelectTank (number, stats.body, stats.barrel, stats.primary, stats.secondary,
+			                   		   stats.damage, stats.rate, stats.armor, stats.speed);
 			SplashMenus.currentTankType = number;
 
 
@@ -104,20 +125,5 @@ public class TankSelection : MonoBehaviour
 	public void Customize ()
 	{
 		SplashMenus.currentStep = SplashMenus.Steps.customization;
-	}
-	void Update ()
-	{
-		//TODO move this to a thread listener (for disable selection messages from the server)?
-
-		if (Input.GetKeyDown (KeyCode.Alpha0))
-			SetAvailability (0, !available [0]);
-		if (Input.GetKeyDown (KeyCode.Alpha1))
-			SetAvailability (1, !available [1]);
-		if (Input.GetKeyDown (KeyCode.Alpha2))
-			SetAvailability (2, !available [2]);
-		if (Input.GetKeyDown (KeyCode.Alpha3))
-			SetAvailability (3, !available [3]);
-		if (Input.GetKeyDown (KeyCode.Alpha4))
-			SetAvailability (4, !available [4]);
 	}
 }

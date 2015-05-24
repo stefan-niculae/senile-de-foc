@@ -87,7 +87,10 @@ public class TankCustomization : MonoBehaviour
 
 	public void Lockin ()
 	{
-		Server.RegisterCustom (customCannon, 
+		Server.SelectTank	  (5,
+		                       5,
+		                       5 + customCannon,
+		                       customCannon, 
 		                       customSpecial, 
 		                       customizationBeans.values [0],
 		                       customizationBeans.values [1],

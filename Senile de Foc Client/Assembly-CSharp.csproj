@@ -96,6 +96,7 @@
      <Compile Include="Assets\Scripts\Tank\TankTrack.cs" />
      <Compile Include="Assets\Scripts\Tank\TankTracksManager.cs" />
      <Compile Include="Assets\Scripts\Tank\Weapon.cs" />
+     <Compile Include="Assets\Scripts\TankStats.cs" />
      <Compile Include="Assets\Scripts\Tests\BetweenTest.cs" />
      <Compile Include="Assets\Scripts\UI\Game\CameraMovement.cs" />
      <Compile Include="Assets\Scripts\UI\Game\Countdown.cs" />
@@ -109,6 +110,7 @@
      <Compile Include="Assets\Scripts\UI\Menus\PlayerInfo.cs" />
      <Compile Include="Assets\Scripts\UI\Menus\SplashMenus.cs" />
      <Compile Include="Assets\Scripts\UI\Menus\TankCustomization.cs" />
+     <Compile Include="Assets\Scripts\UI\Menus\TankOption.cs" />
      <Compile Include="Assets\Scripts\UI\Menus\TankSelection.cs" />
      <Compile Include="Assets\Scripts\UI\Menus\Transition.cs" />
      <Compile Include="Assets\Scripts\UI\Menus\WaitingLobby.cs" />
