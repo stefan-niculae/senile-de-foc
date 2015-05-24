@@ -12,7 +12,7 @@ public class PlayerStats : MonoBehaviour
 	
 	public enum TankType { abstractTank, heavy, angry, calm, sneaky };
 	public TankType tankType;
-	public Levels levels;
+	public Levels levels; // TODO get this from selection
 
 	[HideInInspector] public TankHealth health;
 	[HideInInspector] public TankMovement movement;
@@ -32,7 +32,7 @@ public class PlayerStats : MonoBehaviour
 		if (controlledPlayer) {
 			nrControlledPlayers++;
 			if (nrControlledPlayers > 1)
-				Debug.LogError ("There are more than one controlled players!");
+				Debug.LogError ("There is more than one controlled players!");
 		}
 
 		PlayerInput playerInput = GetComponent <PlayerInput> ();
@@ -42,7 +42,7 @@ public class PlayerStats : MonoBehaviour
 		// player stats -> tank weapon -> tank barrel -> tank bullet -> bullet explosion -> tank health
 		kills 	= new GUIStat (controlledPlayer ? GameObject.Find ("Kills Text").GetComponent <Text> () : null);
 		deaths 	= new GUIStat (controlledPlayer ? GameObject.Find ("Deaths Text").GetComponent <Text> () : null);
-		assists = new GUIStat (controlledPlayer ? GameObject.Find ("Assists Text").GetComponent <Text> () : null);
+//		assists = new GUIStat (controlledPlayer ? GameObject.Find ("Assists Text").GetComponent <Text> () : null); // TODO scoreboard
 		barrels = new GUIStat (null); // TODO: show in the scoreboard menu
 
 

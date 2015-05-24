@@ -42,18 +42,18 @@ public class WaitingLobby : MonoBehaviour
 		barrels [4] = GameObject.Find ("Custom Tank Barrel").GetComponent <Image> ();
 	}
 
-
-	void Update ()
-	{string dummyusername = "username";
-				if (Input.GetKeyDown (KeyCode.C))
-					AddUser (dummyusername, Random.Range (0, 4));
-				if (Input.GetKeyDown (KeyCode.D))
-					RemoveUser (dummyusername);
-				if (Input.GetKeyDown (KeyCode.R))
-					SetUserReady (dummyusername);
-				if (Input.GetKeyDown (KeyCode.S))
-					LoadingManager.StartLoading ("Battlefield");
-	}
+//
+//	void Update ()
+//	{string dummyusername = "username";
+//				if (Input.GetKeyDown (KeyCode.C))
+//					AddUser (dummyusername, Random.Range (0, 4));
+//				if (Input.GetKeyDown (KeyCode.D))
+//					RemoveUser (dummyusername);
+//				if (Input.GetKeyDown (KeyCode.R))
+//					SetUserReady (dummyusername);
+//				if (Input.GetKeyDown (KeyCode.S))
+//					LoadingManager.StartLoading ("Battlefield");
+//	}
 
 	public void BackToSelection ()
 	{

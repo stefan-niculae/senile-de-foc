@@ -1,10 +1,16 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-//TODO switch from this dummy server 'interface'
-public class Server : MonoBehaviour 
+public class Server : Singleton<Server>
 {
 	static string u1, p1;
+
+	static NetworkView netView;
+
+	void Awake ()
+	{
+		netView = Instance.GetComponent <NetworkView> ();
+	}
 
 	// Login/Register
 	public static bool UsernameExists (string username)
@@ -22,11 +28,18 @@ public class Server : MonoBehaviour
 		print ("created " + username + ", " + password);
 		u1 = username; p1 = password;
 	}
-
+	
 	public static void Login (string username, string password)
 	{
-		// I'm not sure this server interaction is needed
-		print (username + " logged");
+		print ("a");
+		netView.RPC ("DoLogin", RPCMode.Server, username, password);
+		print ("b");
+	}
+
+	[RPC]
+	void DoLogin (string username, string password)
+	{
+		NetworkStatus.Show ("Logging in", NetworkStatus.MessageType.working);
 	}
 
 	public static void Logout ()
@@ -55,4 +68,10 @@ public class Server : MonoBehaviour
 	{
 		print (username + " is ready");
 	}
+
+
+
+
+
+	// Game
 }
