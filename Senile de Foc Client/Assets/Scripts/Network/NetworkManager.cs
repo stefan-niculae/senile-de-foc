@@ -4,6 +4,7 @@ using System.Collections;
 public class NetworkManager : MonoBehaviour 
 {
 	HostData[] hostData;
+	static readonly float SEARCH_DURATION = 3f;
 
 	void Start ()
 	{
@@ -20,10 +21,11 @@ public class NetworkManager : MonoBehaviour
 		NetworkStatus.Show ("Looking for servers", NetworkStatus.MessageType.working);
 		MasterServer.RequestHostList (NetworkConstants.GAME_TYPE);
 
+		float endSearchTime = Time.time + SEARCH_DURATION;
 		do {
 			hostData = MasterServer.PollHostList ();
 			yield return new WaitForEndOfFrame ();
-		} while (hostData.Length == 0);
+		} while (hostData.Length == 0 && Time.time < endSearchTime);
 
 		if (hostData.Length == 0)
 			NetworkStatus.Show ("No servers found", NetworkStatus.MessageType.failure);

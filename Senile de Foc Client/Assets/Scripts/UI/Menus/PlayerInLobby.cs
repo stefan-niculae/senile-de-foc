@@ -2,7 +2,7 @@
 using System.Collections;
 using UnityEngine.UI;
 
-public class PlayerInfo : MonoBehaviour 
+public class PlayerInLobby : MonoBehaviour 
 {
 	[HideInInspector] public string username;
 

@@ -87,19 +87,20 @@ public class TankCustomization : MonoBehaviour
 
 	public void Lockin ()
 	{
-		Server.SelectTank	  (5,
-		                       5,
-		                       5 + customCannon,
-		                       customCannon, 
-		                       customSpecial, 
-		                       customizationBeans.values [0],
-		                       customizationBeans.values [1],
-		                       customizationBeans.values [2],
-		                       customizationBeans.values [3]);
+		TankType type = new TankType (5, 
+		                              5, 
+		                              5 + customCannon, 
+		                              customCannon, 
+		                              customSpecial);
+		Rates rates = new Rates (
+									customizationBeans.values [0],
+									customizationBeans.values [1],
+									customizationBeans.values [2],
+									customizationBeans.values [3] );
+		Server.SelectTankType (type);
+		Server.SelectRates (rates);
+
 		SplashMenus.currentStep = SplashMenus.Steps.lobby;
-		
-		// TODO make sure to remove this when the server will be implemented to avoid duplication
-		GameObject.Find("Menu Logic").GetComponent<WaitingLobby>(). AddUser (SplashMenus.currentUsername, SplashMenus.currentTankType);
 	}
 
 	public void PickCannon (int type)

@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
 
 public class Database : MonoBehaviour 
 {
@@ -13,12 +14,25 @@ public class Database : MonoBehaviour
 	string nameKey = "user";
 	string passKey = "pass";
 
+	public Text registeredText;
+	string registered
+	{
+		get { return registeredText.text; }
+		set { registeredText.text = value; }
+	}
+
+	void Start ()
+	{
+		registered = AllUsers ();
+	}
+
 	public void Create (string name, string pass)
 	{
 		PlayerPrefs.SetString (nameKey + userCount, name);
 		PlayerPrefs.SetString (passKey + userCount, pass);
 		
 		userCount++;
+		registered = AllUsers ();
 	}
 
 	string NameNr (int index)
@@ -55,17 +69,17 @@ public class Database : MonoBehaviour
 		return PlayerPrefs.GetString (passKey + IndexOf (name), "");
 	}
 
-	public void PrintAllUsers ()
+	public string AllUsers ()
 	{
-		string users = "Users: \n";
+		string users = "";
 		for (int i = 0; i < userCount; i++)
 			users += NameNr (i) + "\t" + PassNr (i) + "\n";
-		print (users);
+		return users;
 	}
 
 	public void ClearUsers ()
 	{
 		PlayerPrefs.DeleteAll ();
-		print ("Deleted all users");
+		registered = AllUsers ();
 	}
 }

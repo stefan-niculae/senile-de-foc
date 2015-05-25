@@ -18,8 +18,7 @@ public class WaitingLobby : MonoBehaviour
 	
 	
 	void Awake ()
-	{Debug.Log ("Server simulation: c, d, r, s to connect/disconnect/ready a dummy user, s to start the game");
-
+	{
 		container = GameObject.Find ("Connected Players").transform;
 		connectedPlayers = new List<GameObject> ();
 
@@ -42,25 +41,9 @@ public class WaitingLobby : MonoBehaviour
 		barrels [4] = GameObject.Find ("Custom Tank Barrel").GetComponent <Image> ();
 	}
 
-//
-//	void Update ()
-//	{string dummyusername = "username";
-//				if (Input.GetKeyDown (KeyCode.C))
-//					AddUser (dummyusername, Random.Range (0, 4));
-//				if (Input.GetKeyDown (KeyCode.D))
-//					RemoveUser (dummyusername);
-//				if (Input.GetKeyDown (KeyCode.R))
-//					SetUserReady (dummyusername);
-//				if (Input.GetKeyDown (KeyCode.S))
-//					LoadingManager.StartLoading ("Battlefield");
-//	}
-
 	public void BackToSelection ()
 	{
 		SplashMenus.currentStep = SplashMenus.Steps.selection;
-
-		// TODO remove this when server
-		RemoveUser (SplashMenus.currentUsername);
 	}
 
 	// Usernames are unique so it's ok to use them as a primary key
@@ -68,7 +51,7 @@ public class WaitingLobby : MonoBehaviour
 	public void AddUser (string username, int tankType)
 	{
 		GameObject player = Instantiate (playerInfoPrefab) as GameObject;
-		player.GetComponent <PlayerInfo> ().Init (username, bodies [tankType], barrels [tankType]);
+		player.GetComponent <PlayerInLobby> ().Init (username, bodies [tankType], barrels [tankType]);
 
 		player.transform.SetParent (container, false);
 		player.transform.localScale = Vector3.one;
@@ -81,18 +64,18 @@ public class WaitingLobby : MonoBehaviour
 	{
 		GameObject toChange = null;
 		foreach (var player in connectedPlayers)
-		if (player.GetComponent <PlayerInfo> ().username == username) {
+		if (player.GetComponent <PlayerInLobby> ().username == username) {
 			toChange = player;
 			break;
 		}
-		toChange.GetComponent <PlayerInfo> ().MakeReady (readyCheckmark);
+		toChange.GetComponent <PlayerInLobby> ().MakeReady (readyCheckmark);
 	}
 	
 	public void RemoveUser (string username)
 	{
 		GameObject toRemove = null;
 		foreach (var player in connectedPlayers)
-			if (player.GetComponent <PlayerInfo> ().username == username) {
+			if (player.GetComponent <PlayerInLobby> ().username == username) {
 				toRemove = player;
 				break;
 			}
@@ -114,8 +97,6 @@ public class WaitingLobby : MonoBehaviour
 
 	public void MakeThisReady ()
 	{
-		Server.RegisterReady (SplashMenus.currentUsername);
-		//TODO again, make sure to disable this to avoid duplication
-		SetUserReady (SplashMenus.currentUsername);
+		Server.RegisterReady ();
 	}
 }

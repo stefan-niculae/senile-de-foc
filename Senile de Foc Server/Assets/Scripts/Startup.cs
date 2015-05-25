@@ -1,43 +1,55 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
 
 public class Startup : MonoBehaviour 
 {
-	void OnGUI()
+	public Text statusText;
+	public Text logText;
+
+	string status
 	{
-		if (GUI.Button (new Rect (25, 25, 150, 30), "Start"))
-			StartServer ();
+		get { return statusText.text; }
+		set { statusText.text = "Status: " + value; }
+	}
+	string log
+	{
+		get { return logText.text; }
+		set { logText.text = value; }
+	}
+
+
+	void Start ()
+	{
+		status = "Off";
+		StartServer ();
 	}
 
 	void StartServer ()
 	{
+		status = "Initializing";
 		Network.InitializeServer (NetworkConstants.MAX_PLAYERS, 
 		                          NetworkConstants.PORT_NUMBER, 
 		                          false);
 
+		status = "Registering host";
 		MasterServer.RegisterHost (NetworkConstants.GAME_TYPE,
 		                           NetworkConstants.GAME_NAME);
 	}
 
 	void OnServerInitialized ()
 	{
-		Debug.Log ("server initialized");
+		status = "Initialized";
 	}
 
 	void OnMasterServerEvent (MasterServerEvent MSEvent)
 	{
-		Debug.Log (MSEvent);
-	}
-
-	void OnPlayerConnected (NetworkPlayer player)
-	{
-		Debug.Log ("Player " + player + " connected from " + player.ipAddress + ":" + player.port);
+		log += MSEvent + "\n";
 	}
 
 	void OnPlayerDisconnected (NetworkPlayer player)
 	{
-		Debug.Log("Clean up after player " + player);
+		log += "Removing RPCs of " + player + "\n";
 		Network.RemoveRPCs(player);
-		Network.DestroyPlayerObjects(player);
 	}
 }

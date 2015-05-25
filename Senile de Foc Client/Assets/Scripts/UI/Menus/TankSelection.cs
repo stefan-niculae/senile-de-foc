@@ -13,27 +13,13 @@ public class TankSelection : MonoBehaviour
 
 	Button lockInButton;
 	Button customizeButton;
-	int pickedNumber;
 
 
 	Transition lockinButtonTrans;
 	Transition customizeButtonTrans;
 
-	void Update ()
-	{
-//		if (Input.GetKeyDown (KeyCode.Alpha0))
-//			SetAvailability (0, !available [0]);
-//		if (Input.GetKeyDown (KeyCode.Alpha1))
-//			SetAvailability (1, !available [1]);
-//		if (Input.GetKeyDown (KeyCode.Alpha2))
-//			SetAvailability (2, !available [2]);
-//		if (Input.GetKeyDown (KeyCode.Alpha3))
-//			SetAvailability (3, !available [3]);
-//		if (Input.GetKeyDown (KeyCode.Alpha4))
-//			SetAvailability (4, !available [4]);
-	}
 	void Awake ()
-	{Debug.Log ("Server simulation: 0-5 to enable/disable tank types");
+	{
 		backgrounds = new Image[5];
 		backgrounds [0] = GameObject.Find ("Calm Background")	.GetComponent <Image> ();
 		backgrounds [1] = GameObject.Find ("Heavy Background")	.GetComponent <Image> ();
@@ -60,18 +46,16 @@ public class TankSelection : MonoBehaviour
 	public void Reset ()
 	{
 		lockInButton.interactable = false;
-		SetAvailability (pickedNumber, true);
+		SetAvailability (SplashMenus.currentTankType, true);
 		ShowLockin ();
 	}
 
-	public void DisableOption (int number)
-	{
-		// Custom tank can be picked by more than 1 player
-		if (number != 5)
-			SetAvailability (number, false);
-	}
 	public void SetAvailability (int number, bool value)
 	{
+		// Can't disable the custom tank or the selected by this one tank
+		if (value == false && (number == 4 || number == SplashMenus.currentTankType))
+			return;
+
 		available [number] = value;
 		backgrounds [number].sprite = value ? availableBackground : unavailableBackground;
 	}
@@ -79,17 +63,17 @@ public class TankSelection : MonoBehaviour
 	public void Pick (int number)
 	{
 		if (available [number]) {
-			pickedNumber = number;
+			SplashMenus.currentTankType = number;
 
 			if (number == 4)
 				ShowCustomize ();
 			else
 				ShowLockin ();
-		
-			TankStats stats = new TankStats (number);
-			Server.SelectTank (number, stats.body, stats.barrel, stats.primary, stats.secondary,
-			                   		   stats.damage, stats.rate, stats.armor, stats.speed);
-			SplashMenus.currentTankType = number;
+
+			TankType type = new TankType (number);
+			Rates rates = new Rates (number);
+			Server.SelectTankType (type);
+			Server.SelectRates (rates);
 
 
 			backgrounds [number].sprite = pickedBackground;
@@ -118,8 +102,6 @@ public class TankSelection : MonoBehaviour
 	public void Lockin ()
 	{
 		SplashMenus.currentStep = SplashMenus.Steps.lobby;
-		// TODO make sure to remove this when the server will be implemented to avoid duplication
-		GameObject.Find("Menu Logic").GetComponent<WaitingLobby>(). AddUser (SplashMenus.currentUsername, SplashMenus.currentTankType);
 	}
 
 	public void Customize ()

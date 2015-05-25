@@ -78,10 +78,12 @@
      <Compile Include="Assets\Scripts\Loading\FirstScene.cs" />
      <Compile Include="Assets\Scripts\Loading\LoadingManager.cs" />
      <Compile Include="Assets\Scripts\Network\LoginHandling.cs" />
-     <Compile Include="Assets\Scripts\Network\NetworkConstants.cs" />
      <Compile Include="Assets\Scripts\Network\NetworkManager.cs" />
      <Compile Include="Assets\Scripts\Network\NetworkStatus.cs" />
      <Compile Include="Assets\Scripts\Network\Server.cs" />
+     <Compile Include="Assets\Scripts\Network\Shared\NetworkConstants.cs" />
+     <Compile Include="Assets\Scripts\Network\Shared\NetworkUtils.cs" />
+     <Compile Include="Assets\Scripts\Network\Shared\PlayerInfo.cs" />
      <Compile Include="Assets\Scripts\Tank\Cannon.cs" />
      <Compile Include="Assets\Scripts\Tank\Input\FiringAI.cs" />
      <Compile Include="Assets\Scripts\Tank\Input\Patrol.cs" />
@@ -107,7 +109,7 @@
      <Compile Include="Assets\Scripts\UI\Menus\AttributeBeans.cs" />
      <Compile Include="Assets\Scripts\UI\Menus\LoginForm.cs" />
      <Compile Include="Assets\Scripts\UI\Menus\MirrorImage.cs" />
-     <Compile Include="Assets\Scripts\UI\Menus\PlayerInfo.cs" />
+     <Compile Include="Assets\Scripts\UI\Menus\PlayerInLobby.cs" />
      <Compile Include="Assets\Scripts\UI\Menus\SplashMenus.cs" />
      <Compile Include="Assets\Scripts\UI\Menus\TankCustomization.cs" />
      <Compile Include="Assets\Scripts\UI\Menus\TankOption.cs" />

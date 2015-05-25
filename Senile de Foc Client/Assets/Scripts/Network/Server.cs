@@ -6,6 +6,7 @@ public class Server : Singleton<Server>
 {
 	static NetworkView netView;
 	TankSelection tankSelection;
+	WaitingLobby waitingLobby;
 
 	void Awake ()
 	{
@@ -13,6 +14,7 @@ public class Server : Singleton<Server>
 //		PlayerPrefs.DeleteAll ();
 
 		tankSelection = GameObject.Find ("Menu Logic").GetComponent <TankSelection> ();
+		waitingLobby = GameObject.Find ("Menu Logic").GetComponent <WaitingLobby> ();
 	}
 
 
@@ -20,16 +22,15 @@ public class Server : Singleton<Server>
 	static Action<bool> onUsernameExistanceReceival;
 	public static void UsernameExists (string username, Action<bool> onReceival)
 	{
+		NetworkStatus.Show ("Checking if " + username + " exists", NetworkStatus.MessageType.working);
 		onUsernameExistanceReceival = onReceival;
 		netView.RPC ("RequestUsernameExistance", RPCMode.Server, username);
 	}
 	[RPC]
 	void RequestUsernameExistance (string username)
-	{
-		NetworkStatus.Show ("Checking if username exists", NetworkStatus.MessageType.working);
-	}
+	{ }
 	[RPC]
-	void ReceiveUsernameExistance (bool value)
+	public void ReceiveUsernameExistance (bool value)
 	{
 		onUsernameExistanceReceival (value);
 		if (value)
@@ -40,13 +41,12 @@ public class Server : Singleton<Server>
 	
 	public static void CreateUser (string username, string password)
 	{
+		NetworkStatus.Show ("Created " + username, NetworkStatus.MessageType.success);
 		netView.RPC ("SendCreateUser", RPCMode.Server, username, password);
 	}
 	[RPC]
 	void SendCreateUser (string username, string password)
-	{
-		print ("creating " + username + ", " + password);
-	}
+	{ }
 
 	static Action<bool> onPasswordMatchReceival;
 	public static void PasswordMatches (string username, string password, Action<bool> onReceival)
@@ -60,7 +60,7 @@ public class Server : Singleton<Server>
 		NetworkStatus.Show ("Checking if password is correct", NetworkStatus.MessageType.working);
 	}
 	[RPC]
-	void ReceivePasswordMatch (bool value)
+	public void ReceivePasswordMatch (bool value)
 	{
 		onPasswordMatchReceival (value);
 		if (value)
@@ -77,47 +77,71 @@ public class Server : Singleton<Server>
 	}
 	[RPC]
 	void SendLogin (string username)
-	{
-		NetworkStatus.Show ("Logging in", NetworkStatus.MessageType.working);
-	}
+	{ }
 
 	public static void Logout ()
 	{
-		//again, not sure this is needed
-		print ("logged out");
+		NetworkStatus.Show ("Logged out", NetworkStatus.MessageType.success);
 	}
+	[RPC]
+	void SendLogout ()
+	{ }
 
 
 	// Tank Select
-	public static void SelectTank (int slotNr, int body, int barrel, int primary, int secondary,
-	                               int damage, int rate, int armor,  int speed)
+	public static void SelectTankType (TankType type)
 	{
-		// TODO signal to others to disable this selection
-		// TODO also when a new player logs in, send the list of disabled tanks
-		netView.RPC ("SendSelectTank", RPCMode.Server, slotNr, body, barrel, primary, secondary,
-		             				   				   damage, rate, armor,  speed);
+		NetworkStatus.Show ("Sent tank selection " + type.slotNr, NetworkStatus.MessageType.success);
+		netView.RPC ("SendTankType",
+		             RPCMode.Server,
+		             NetworkUtils.ObjectToByteArray (type));
 	}
 	[RPC]
-	void SendSelectTank (int slotNr, int body, int barrel, int primary, int secondary,
-	                     int damage, int rate, int armor,  int speed)
+	void SendTankType (byte[] tankType)
+	{ }
+
+	public static void SelectRates (Rates rates)
 	{
-		print ("selected tank " + slotNr);
+		NetworkStatus.Show ("Sent attribute rates", NetworkStatus.MessageType.success);
+		netView.RPC ("SendRates",
+		             RPCMode.Server,
+		             NetworkUtils.ObjectToByteArray (rates));
 	}
+	[RPC]
+	void SendRates (byte[] rates)
+	{ }
 
 	[RPC]
-	public void ReceiveDisabledOption (int slotNr)
+	public void ReceiveDisableOption (bool taken0, bool taken1, bool taken2, bool taken3)
 	{
-		print ("disabling slot nr " + slotNr);
-		tankSelection.DisableOption (slotNr);
+		tankSelection.SetAvailability (0, taken0);
+		tankSelection.SetAvailability (1, taken1);
+		tankSelection.SetAvailability (2, taken2);
+		tankSelection.SetAvailability (3, taken3);
 	}
 
 
 	// Lobby
-	public static void RegisterReady (string username)
+	public static void RegisterReady ()
 	{
-		print (username + " is ready");
+		NetworkStatus.Show ("Sent ready signal", NetworkStatus.MessageType.success);
+		netView.RPC ("SendReady", RPCMode.Server);
+	}
+	[RPC]
+	void SendReady ()
+	{ }
+
+	[RPC]
+	public void UserJoin (string username, int type)
+	{
+		waitingLobby.AddUser (username, type);
 	}
 
+	[RPC]
+	public void UserLeave (string username)
+	{
+		waitingLobby.RemoveUser (username);
+	}
 
 
 

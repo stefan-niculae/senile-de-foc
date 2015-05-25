@@ -1,21 +1,14 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/LoginHandling.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/RequestsManager.cs">
     <Files>
-      <File FileName="Assets/Scripts/LoginHandling.cs" Line="78" Column="3" />
-      <File FileName="Assets/Scripts/Shared/Player.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/PlayerManager.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/RequestsManager.cs" Line="22" Column="1" />
+      <File FileName="Assets/Scripts/Shared/PlayerInfo.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/Startup.cs" Line="1" Column="1" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
-        <State expanded="True">
-          <Node name="Assembly-CSharp" expanded="True">
-            <Node name="Scripts" expanded="True">
-              <Node name="Shared" expanded="True" />
-              <Node name="LoginHandling.cs" selected="True" />
-            </Node>
-          </Node>
-        </State>
+        <State expanded="True" selected="True" />
       </Pad>
       <Pad Id="ClassPad">
         <State expanded="True" selected="True" />
