@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class PlayerUsername : MonoBehaviour
+public class NameAbove : MonoBehaviour
 {
 	PlayerStats stats;
 

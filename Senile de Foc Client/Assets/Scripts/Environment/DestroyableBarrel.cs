@@ -29,7 +29,8 @@ public class DestroyableBarrel : Damagable
 
 	public override void OnDeath (PlayerStats source)
 	{
-		source.barrels++;
+		//source.barrels++;
+		//TODO
 	}
 
 	public override void OnRespawn (bool firstTime)

@@ -78,7 +78,7 @@
      <Compile Include="Assets\Scripts\Game Logic\Utils.cs" />
      <Compile Include="Assets\Scripts\Loading\FirstScene.cs" />
      <Compile Include="Assets\Scripts\Loading\LoadingManager.cs" />
-     <Compile Include="Assets\Scripts\Network\LoginHandling.cs" />
+     <Compile Include="Assets\Scripts\Network\GameServer.cs" />
      <Compile Include="Assets\Scripts\Network\NetworkManager.cs" />
      <Compile Include="Assets\Scripts\Network\NetworkStatus.cs" />
      <Compile Include="Assets\Scripts\Network\Shared\NetworkConstants.cs" />
@@ -95,6 +95,7 @@
      <Compile Include="Assets\Scripts\Tank\TankAttributes.cs" />
      <Compile Include="Assets\Scripts\Tank\TankBarrel.cs" />
      <Compile Include="Assets\Scripts\Tank\TankHealth.cs" />
+     <Compile Include="Assets\Scripts\Tank\TankManager.cs" />
      <Compile Include="Assets\Scripts\Tank\TankMovement.cs" />
      <Compile Include="Assets\Scripts\Tank\TankTrack.cs" />
      <Compile Include="Assets\Scripts\Tank\TankTracksManager.cs" />
@@ -106,7 +107,7 @@
      <Compile Include="Assets\Scripts\UI\Game\HealthBar.cs" />
      <Compile Include="Assets\Scripts\UI\Game\IngameInfo.cs" />
      <Compile Include="Assets\Scripts\UI\Game\Minimap.cs" />
-     <Compile Include="Assets\Scripts\UI\Game\PlayerUsername.cs" />
+     <Compile Include="Assets\Scripts\UI\Game\NameAbove.cs" />
      <Compile Include="Assets\Scripts\UI\Game\Scoreboard.cs" />
      <Compile Include="Assets\Scripts\UI\Menus\AttributeBeans.cs" />
      <Compile Include="Assets\Scripts\UI\Menus\LobbyInfo.cs" />

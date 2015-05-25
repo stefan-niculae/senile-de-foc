@@ -186,4 +186,27 @@ public class RequestsManager : MonoBehaviour
 	[RPC]
 	void ReceiveGameStart ()
 	{ }
+
+
+
+
+
+	// Ingame
+	[RPC]
+	void RequestUsername (NetworkMessageInfo info)
+	{
+		string name = connectedPlayers [info.sender].name;
+
+		log += "Sending to " + info.sender.ipAddress + " the username " + name;
+		netView.RPC ("ReceiveUsername", info.sender, name);
+	}
+	[RPC]
+	void ReceiveUsername (string name)
+	{ }
+
+	[RPC]
+	void RequestPlayerList (NetworkMessageInfo info)
+	{
+		netView.RPC ("ReceivePlayerList", info.sender, NetworkUtils.ObjectToByteArray (connectedPlayers.Values.ToList ()));
+	}
 }

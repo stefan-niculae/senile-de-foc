@@ -23,9 +23,7 @@ public class PlayerStats : MonoBehaviour
 
 	public GUIStat
 		kills,
-		deaths,
-		assists,
-		barrels;
+		deaths;
 
 	void Awake ()
 	{
@@ -42,16 +40,14 @@ public class PlayerStats : MonoBehaviour
 		// player stats -> tank weapon -> tank barrel -> tank bullet -> bullet explosion -> tank health
 		kills 	= new GUIStat (controlledPlayer ? GameObject.Find ("Kills Text").GetComponent <Text> () : null);
 		deaths 	= new GUIStat (controlledPlayer ? GameObject.Find ("Deaths Text").GetComponent <Text> () : null);
-//		assists = new GUIStat (controlledPlayer ? GameObject.Find ("Assists Text").GetComponent <Text> () : null); // TODO scoreboard
-		barrels = new GUIStat (null); // TODO: show in the scoreboard menu
 
 
 		// Setting up references
-		health = GetComponentInChildren <TankHealth> ();
-		movement = GetComponentInChildren <TankMovement> ();
-		weapon = GetComponentInChildren <Cannon> ();
-		barrel = GetComponentInChildren <TankBarrel> ();
-		projectile = weapon.effectPrefab.GetComponent <Projectile> ();
+		health 				= GetComponentInChildren <TankHealth> ();
+		movement 			= GetComponentInChildren <TankMovement> ();
+		weapon 				= GetComponentInChildren <Cannon> ();
+		barrel 				= GetComponentInChildren <TankBarrel> ();
+		projectile 			= weapon.effectPrefab.GetComponent <Projectile> ();
 		projectileExplosion = projectile.explosionPrefab.GetComponent <Explosion> ();
 
 		if (controlledPlayer)

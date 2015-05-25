@@ -59,7 +59,7 @@ public class TankSelection : MonoBehaviour
 		// Can't disable the custom tank
 		if (value == false && number == 4)
 			return;
-		print ("setting " + number + " to " + value); 
+
 		available [number] = value;
 		backgrounds [number].sprite = value ? availableBackground : unavailableBackground;
 	}

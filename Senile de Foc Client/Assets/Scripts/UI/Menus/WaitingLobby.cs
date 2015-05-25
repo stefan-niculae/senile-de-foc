@@ -5,8 +5,7 @@ using UnityEngine.UI;
 
 public class WaitingLobby : MonoBehaviour
 {
-	public Sprite readyCheckmark;
-	public GameObject shownPlayerPrefab;
+	public GameObject lobbyInfoPrefab;
 	public static List <PlayerInfo> currentPlayers;
 
 	Transform container;
@@ -36,7 +35,7 @@ public class WaitingLobby : MonoBehaviour
 			Vector3 pos = container.localPosition;
 			pos.y = i * DISTANCE * -1;
 
-			GameObject shownPlayer = Instantiate (shownPlayerPrefab) as GameObject;
+			GameObject shownPlayer = Instantiate (lobbyInfoPrefab) as GameObject;
 			shownPlayer.GetComponent <LobbyInfo> ().SetValues (playerInfos [i]);
 			shownPlayer.transform.SetParent (container, false);
 			shownPlayer.transform.localPosition = pos;

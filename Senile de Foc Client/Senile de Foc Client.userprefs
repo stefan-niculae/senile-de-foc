@@ -1,21 +1,26 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Network/Server.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/UI/Game/CameraMovement.cs">
     <Files>
-      <File FileName="Assets/Scripts/Network/Server.cs" Line="150" Column="47" />
-      <File FileName="Assets/Scripts/Network/Shared/PlayerInfo.cs" Line="31" Column="17" />
+      <File FileName="Assets/Scripts/Tank/TankManager.cs" Line="6" Column="31" />
+      <File FileName="Assets/Scripts/UI/Game/CameraMovement.cs" Line="81" Column="32" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State expanded="True">
           <Node name="Assembly-CSharp" expanded="True">
             <Node name="Scripts" expanded="True">
+              <Node name="Editor Help" expanded="True" />
+              <Node name="Environment" expanded="True" />
+              <Node name="Game Logic" expanded="True" />
               <Node name="Network" expanded="True">
                 <Node name="Shared" expanded="True" />
-                <Node name="Server.cs" selected="True" />
               </Node>
+              <Node name="Tank" expanded="True" />
               <Node name="UI" expanded="True">
-                <Node name="Game" expanded="True" />
+                <Node name="Game" expanded="True">
+                  <Node name="CameraMovement.cs" selected="True" />
+                </Node>
                 <Node name="Menus" expanded="True" />
               </Node>
             </Node>

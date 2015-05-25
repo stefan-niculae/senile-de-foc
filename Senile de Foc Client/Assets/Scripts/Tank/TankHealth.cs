@@ -66,8 +66,10 @@ public class TankHealth : Damagable
 		foreach (var hitter in hitters) {
 			// TODO: shooty shoots abstract once, i kill shooty, i kill abstract
 			// abstract gets a null reference on hitter
-			if (hitter != source) 
-				hitter.assists++;
+			if (hitter != source) {
+//				hitter.assists++;
+				//TODO
+			}
 		}
 		// Clear the hitters list for the next death
 		hitters.Clear ();
