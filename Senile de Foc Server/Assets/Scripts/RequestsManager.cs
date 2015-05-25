@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
+using System.Linq;
 
 public class RequestsManager : MonoBehaviour
 {
@@ -51,6 +52,8 @@ public class RequestsManager : MonoBehaviour
 		if (connectedPlayers.ContainsKey (p))
 			connectedPlayers.Remove (p);
 
+		Network.RemoveRPCs(p);
+
 		UpdatePlayers ();
 	}
 
@@ -58,11 +61,16 @@ public class RequestsManager : MonoBehaviour
 	{
 		string str = "";
 
-		foreach (PlayerInfo p in connectedPlayers.Values)
+		List <PlayerInfo> playerInfos = connectedPlayers.Values.ToList ();
+		foreach (PlayerInfo p in playerInfos)
 			str += p + "\n";
 
 		players = str;
+		netView.RPC ("ReceivePlayerList", RPCMode.Others, NetworkUtils.ObjectToByteArray (playerInfos));
 	}
+	[RPC]
+	void ReceivePlayerList (byte[] bytes)
+	{ }
 
 
 
@@ -104,8 +112,6 @@ public class RequestsManager : MonoBehaviour
 		log += username + " logged in";
 		connectedPlayers [info.sender].name = username;
 		UpdatePlayers ();
-
-		NotifyOptions ();
 	}
 
 
@@ -121,7 +127,6 @@ public class RequestsManager : MonoBehaviour
 		UpdatePlayers ();
 
 		log += connectedPlayers [info.sender].name + " chose " + type.slotNr;
-		NotifyOptions ();
 	}
 
 	[RPC]
@@ -134,33 +139,34 @@ public class RequestsManager : MonoBehaviour
 		log += connectedPlayers [info.sender].name + " picked rates";
 	}
 
-	void NotifyOptions ()
+
+
+
+
+	// Lobby
+	[RPC]
+	public void SendReady (NetworkMessageInfo info)
 	{
-		bool[] available = new bool[5];
-		for (int i = 0; i < available.Length; i++)
-			available [i] = true;
-		
-		foreach (PlayerInfo p in connectedPlayers.Values)
-			if (p.tankType.slotNr != -1) // Player hasn't chosen yet
-				available [p.tankType.slotNr] = false;
+		connectedPlayers [info.sender].ready = true;
+		UpdatePlayers ();
 
-		string ava = "";
-		foreach (var b in available)
-			ava += (b ? "T" : "F") + " ";
+		bool allReady = true;
+		foreach (PlayerInfo player in connectedPlayers.Values)
+			if (!player.ready) {
+				allReady = false;
+				break;
+			}
 
-		log += "Notifying avalabilities " + ava;
-		
-		netView.RPC ("ReceiveDisableOption", RPCMode.Others, available[0], available[1], available[2], available[3]);
+		if (allReady) {
+			netView.RPC ("ReceiveGameStart", RPCMode.Others);
+			log += "Everyone ready => game start";
+		}
 	}
 
-	[RPC]
-	void ReceiveDisableOption (bool taken0, bool taken1, bool taken2, bool taken3)
-	{ }
 
 
 
-
-
+	
 	// Logout
 	[RPC]
 	public void SendLogout (NetworkMessageInfo info)
@@ -168,7 +174,7 @@ public class RequestsManager : MonoBehaviour
 		PlayerInfo player = connectedPlayers [info.sender];
 		log += player.name + " logged out";
 
-		connectedPlayers.Remove (info.sender);
+		connectedPlayers [info.sender].Reset ();
 		UpdatePlayers ();
 	}
 
@@ -176,5 +182,8 @@ public class RequestsManager : MonoBehaviour
 
 
 
-	// Game
+	// Splash to Game
+	[RPC]
+	void ReceiveGameStart ()
+	{ }
 }

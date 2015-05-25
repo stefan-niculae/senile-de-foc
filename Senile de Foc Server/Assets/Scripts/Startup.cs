@@ -46,10 +46,4 @@ public class Startup : MonoBehaviour
 	{
 		log += MSEvent + "\n";
 	}
-
-	void OnPlayerDisconnected (NetworkPlayer player)
-	{
-		log += "Removing RPCs of " + player + "\n";
-		Network.RemoveRPCs(player);
-	}
 }

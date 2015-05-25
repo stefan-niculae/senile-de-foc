@@ -5,7 +5,7 @@ using UnityEngine.UI;
 public class SplashMenus : MonoBehaviour 
 {
 	public static string currentUsername;
-	public static int currentTankType;
+	public static int currentTankType = NetworkConstants.NOT_SET;
 
 	static readonly float transitionDuration = .5f;
 	static Transition screenTransition;

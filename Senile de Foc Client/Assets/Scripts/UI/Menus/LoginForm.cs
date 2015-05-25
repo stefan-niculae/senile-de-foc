@@ -108,7 +108,7 @@ public class LoginForm : MonoBehaviour
 		passwordField.ActivateInputField ();
 
 		// Requesting username existance status
-		Server.UsernameExists (username, UsernameExistanceReceival);
+		SplashServer.UsernameExists (username, UsernameExistanceReceival);
 
 		lastEnteredUsername = username;
 	}
@@ -225,13 +225,22 @@ public class LoginForm : MonoBehaviour
 		if (UserOrPassEmpty ())
 			return;
 
-		Server.PasswordMatches (usernameField.text, passwordField.text, PasswordMatchesReceival);
+		foreach (var player in WaitingLobby.currentPlayers)
+			if (player.name == usernameField.text) {
+				NetworkStatus.Show ("User already logged in", NetworkStatus.MessageType.failure);
+				usernameField.Select ();
+				return;
+			}
+
+
+		SplashServer.PasswordMatches (usernameField.text, passwordField.text, PasswordMatchesReceival);
 	}
+
 
 	void PasswordMatchesReceival (bool value)
 	{
 		if (value) {
-			Server.Login (usernameField.text, passwordField.text);
+			SplashServer.Login (usernameField.text, passwordField.text);
 			SplashMenus.currentUsername = usernameField.text;
 			
 			if (rememberToggle.isOn) {
@@ -254,7 +263,7 @@ public class LoginForm : MonoBehaviour
 			return;
 
 		if (passwordField.text == confirmField.text) {
-			Server.CreateUser (usernameField.text, passwordField.text);
+			SplashServer.CreateUser (usernameField.text, passwordField.text);
 			ShowLogin ();
 			HandleLogin ();
 		} 
@@ -279,7 +288,7 @@ public class LoginForm : MonoBehaviour
 
 	public void Logout ()
 	{
-		Server.Logout ();
+		SplashServer.Logout ();
 		SplashMenus.currentStep = SplashMenus.Steps.login;
 		tankSelection.Reset ();
 		TankCustomization.Reset ();

@@ -1,8 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System;
+using System.Collections.Generic;
 
-public class Server : Singleton<Server>
+public class SplashServer : Singleton<SplashServer>
 {
 	static NetworkView netView;
 	TankSelection tankSelection;
@@ -81,6 +82,7 @@ public class Server : Singleton<Server>
 
 	public static void Logout ()
 	{
+		netView.RPC ("SendLogout", RPCMode.Server);
 		NetworkStatus.Show ("Logged out", NetworkStatus.MessageType.success);
 	}
 	[RPC]
@@ -111,14 +113,8 @@ public class Server : Singleton<Server>
 	void SendRates (byte[] rates)
 	{ }
 
-	[RPC]
-	public void ReceiveDisableOption (bool taken0, bool taken1, bool taken2, bool taken3)
-	{
-		tankSelection.SetAvailability (0, taken0);
-		tankSelection.SetAvailability (1, taken1);
-		tankSelection.SetAvailability (2, taken2);
-		tankSelection.SetAvailability (3, taken3);
-	}
+
+
 
 
 	// Lobby
@@ -132,19 +128,25 @@ public class Server : Singleton<Server>
 	{ }
 
 	[RPC]
-	public void UserJoin (string username, int type)
+	void ReceivePlayerList (byte[] received)
 	{
-		waitingLobby.AddUser (username, type);
+		// The received byte array represents the serialization of a list containing player infos
+		List<PlayerInfo> playerInfos = NetworkUtils.ByteArrayToObject (received) as List<PlayerInfo>;
+		waitingLobby.PopulateList (playerInfos);
+
+		for (int i = 0; i < 4; i++)
+			tankSelection.SetAvailability (i, true);
+		foreach (PlayerInfo info in playerInfos) 
+			if (info.tankType.slotNr != NetworkConstants.NOT_SET)
+				tankSelection.SetAvailability (info.tankType.slotNr, false);
+
+
+		NetworkStatus.Show ("Received new player list", NetworkStatus.MessageType.success);
 	}
 
 	[RPC]
-	public void UserLeave (string username)
+	public void ReceiveGameStart ()
 	{
-		waitingLobby.RemoveUser (username);
+		LoadingManager.StartLoading ("Battlefield");
 	}
-
-
-
-
-	// Game
 }

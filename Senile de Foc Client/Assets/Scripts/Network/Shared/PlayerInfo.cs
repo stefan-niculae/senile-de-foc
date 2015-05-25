@@ -6,7 +6,8 @@ using System.Collections;
 public class PlayerInfo
 {
 	public string name;
-	public NetworkPlayer networkPlayer;
+	public bool ready;
+	public string ip;
 
 	public TankType tankType;
 	public Rates rates;
@@ -14,16 +15,23 @@ public class PlayerInfo
 
 	public PlayerInfo (NetworkPlayer networkPlayer)
 	{
-		this.networkPlayer = networkPlayer;
+		ip = networkPlayer.ipAddress;
 
-		tankType = new TankType (-1);
-		rates = new Rates (-1);
-		stats = new Stats ();
+		Reset ();
 	}
 
 	public override string ToString ()
 	{
-		return string.Format ("{0}\t{1}\t{2}\t{3}\t{4}", name, networkPlayer.ipAddress, tankType, rates, stats);
+		return string.Format ("{0}\t{1}\t{2}\t{3}\t{4}\t{5}", name, ready ? "R" : "N", ip, tankType, rates, stats);
+	}
+
+	public void Reset ()
+	{
+		name = "";
+		ready = false;
+		rates = new Rates (NetworkConstants.NOT_SET);
+		tankType = new TankType (NetworkConstants.NOT_SET);
+		stats = new Stats ();
 	}
 }
 
@@ -37,7 +45,10 @@ public class TankType
 		primary,
 		secondary;
 
-	public TankType (int slotNr, int bodyIndex = -1, int barrelIndex = -1, int primary = -1, int secondary = -1)
+	public TankType (int slotNr, int bodyIndex 	= NetworkConstants.NOT_SET, 
+	                 			 int barrelIndex= NetworkConstants.NOT_SET, 
+	                 			 int primary 	= NetworkConstants.NOT_SET, 
+	                 			 int secondary 	= NetworkConstants.NOT_SET)
 	{
 		this.slotNr = slotNr;
 

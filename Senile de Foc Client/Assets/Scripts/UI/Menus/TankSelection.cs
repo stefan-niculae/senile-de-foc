@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
 
@@ -52,10 +52,14 @@ public class TankSelection : MonoBehaviour
 
 	public void SetAvailability (int number, bool value)
 	{
-		// Can't disable the custom tank or the selected by this one tank
-		if (value == false && (number == 4 || number == SplashMenus.currentTankType))
+		// The tank selected by this is managed internally
+		if (number == SplashMenus.currentTankType)
 			return;
 
+		// Can't disable the custom tank
+		if (value == false && number == 4)
+			return;
+		print ("setting " + number + " to " + value); 
 		available [number] = value;
 		backgrounds [number].sprite = value ? availableBackground : unavailableBackground;
 	}
@@ -72,8 +76,8 @@ public class TankSelection : MonoBehaviour
 
 			TankType type = new TankType (number);
 			Rates rates = new Rates (number);
-			Server.SelectTankType (type);
-			Server.SelectRates (rates);
+			SplashServer.SelectTankType (type);
+			SplashServer.SelectRates (rates);
 
 
 			backgrounds [number].sprite = pickedBackground;

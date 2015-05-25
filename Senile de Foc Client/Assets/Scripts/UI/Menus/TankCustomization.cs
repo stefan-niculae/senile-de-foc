@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
 
@@ -87,9 +87,9 @@ public class TankCustomization : MonoBehaviour
 
 	public void Lockin ()
 	{
-		TankType type = new TankType (5, 
-		                              5, 
-		                              5 + customCannon, 
+		TankType type = new TankType (4, 
+		                              4, 
+		                              4 + customCannon, 
 		                              customCannon, 
 		                              customSpecial);
 		Rates rates = new Rates (
@@ -97,8 +97,8 @@ public class TankCustomization : MonoBehaviour
 									customizationBeans.values [1],
 									customizationBeans.values [2],
 									customizationBeans.values [3] );
-		Server.SelectTankType (type);
-		Server.SelectRates (rates);
+		SplashServer.SelectTankType (type);
+		SplashServer.SelectRates (rates);
 
 		SplashMenus.currentStep = SplashMenus.Steps.lobby;
 	}
