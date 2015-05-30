@@ -15,4 +15,12 @@ public class References : Singleton<References>
 
 	public GameObject tankPrefab;
 	public GameObject aboveInfoPrefab;
+
+	public GameObject[]
+		projectilePrefabs,
+		specialPrefabs; // TODO: electricity, gust, poison explosion prefabs
+
+	public Sprite[]
+		primarySprites,
+		secondarySprites;
 }

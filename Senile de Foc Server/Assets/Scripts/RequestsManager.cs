@@ -227,4 +227,11 @@ public class RequestsManager : MonoBehaviour
 	void ReceiveMatchStart ()
 	{ }
 
+
+	[RPC]
+	public void ReceiveHealthUpdate (int networkID, float amount)
+	{
+		log += networkID + (networkID < 5 ? "player" : "barrel") + " hp: " + amount;
+	}
+
 }

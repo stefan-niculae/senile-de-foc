@@ -5,10 +5,11 @@ using System.Collections.Generic;
 
 public class GameServer : Singleton<GameServer> 
 {
-	static NetworkView netView;
+	public static NetworkView netView;
 	public static PlayerInfo selfInfo;
 	Scoreboard scoreboard;
 	public List<PlayerInfo> connectedPlayers;
+	public Dictionary<int, Damagable> damageables;
 
 	void Awake ()
 	{
@@ -19,6 +20,8 @@ public class GameServer : Singleton<GameServer>
 			NetworkStatus.Show ("Received self info, waiting for others", NetworkStatus.MessageType.working);
 		});
 		connectedPlayers = new List<PlayerInfo> ();
+		if (damageables == null)
+			damageables = new Dictionary<int, Damagable> ();
 	}
 
 	static Action<PlayerInfo> onSelfInfoReceival;
@@ -56,6 +59,18 @@ public class GameServer : Singleton<GameServer>
 	void ReceiveMatchStart ()
 	{
 		NetworkStatus.Show ("Everyone connected, match starts", NetworkStatus.MessageType.success);
+		UIManager.Instance.SetVisibility (true);
 		MarkerManager.Instance.Spawn ();
+	}
+
+	public void SendHealthUpdate (int networkID, float amount)
+	{
+		GameServer.netView.RPC ("ReceiveHealthUpdate", RPCMode.Others, networkID, amount);
+	}
+
+	[RPC]
+	public void ReceiveHealthUpdate (int networkID, float amount)
+	{
+		damageables [networkID].amount = amount;
 	}
 }

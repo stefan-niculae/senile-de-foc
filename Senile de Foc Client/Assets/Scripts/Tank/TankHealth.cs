@@ -35,7 +35,13 @@ public class TankHealth : Damagable
 		minWait = 3;
 		maxWait = 6;
 	}
-	
+
+	public void RegisterNetworkID ()
+	{
+		networkID = tankInfo.playerInfo.orderNumber;
+		RegisterThis ();
+	}
+
 	override public void OnStart () 
 	{ }
 

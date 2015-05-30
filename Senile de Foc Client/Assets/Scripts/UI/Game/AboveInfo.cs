@@ -24,7 +24,7 @@ public class AboveInfo : Containable<AboveInfo>
 		username.text = player.playerInfo.name;
 
 		// The controlled player has the big static health bar usernamets own
-//		if (player.isMine) TODO: reenable
+		if (player.isMine)
 			health.gameObject.SetActive (false);
 	}
 

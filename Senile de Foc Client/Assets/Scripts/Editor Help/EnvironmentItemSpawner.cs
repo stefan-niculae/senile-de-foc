@@ -23,6 +23,9 @@ public class EnvironmentItemSpawner : MonoBehaviour
 	public bool randomlyRotate;
 	public float deformation;
 
+	public int startingID = 5; // to be uniquely identified over the network
+	int currentID;
+
 	float maxLeft, maxRight, maxTop, maxBot;
 
 	public void SpawnItems ()
@@ -37,6 +40,7 @@ public class EnvironmentItemSpawner : MonoBehaviour
 		// but because we place an extra condition - items may not override
 		// and thus the algorithm may be asked to spawn more items than the available space
 		int spawned = 0, epoch = 0;
+		currentID = startingID;
 		while (spawned < number && epoch < Constants.MAX_EPOCH) {
 			var successfulySpawned = Spawn (points);
 			if (successfulySpawned)
@@ -87,8 +91,13 @@ public class EnvironmentItemSpawner : MonoBehaviour
 
 			// Place it in the container
 			spawnedObj.transform.parent = container;
-
 			Deform (spawnedObj);
+
+			var damageable = spawnedObj.GetComponent <Damagable> ();
+			if (damageable != null) {
+				damageable.networkID = currentID;
+				currentID++;
+			}
 
 			// Generate a new item to spawn
 			toSpawn = null;

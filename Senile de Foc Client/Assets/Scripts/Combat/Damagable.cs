@@ -8,7 +8,9 @@ public abstract class Damagable : MonoBehaviour
 	protected float maxHp = 100;
 	public float respawnTime = 2;
 	public float damageAbsorbtion;
-	
+
+	public int networkID = NetworkConstants.NOT_SET;
+
 	[HideInInspector] public HealthBar bar;
 	public GameObject explosionPrefab;
 
@@ -17,7 +19,7 @@ public abstract class Damagable : MonoBehaviour
 	public List<DamageOverTime> activeDoTs;
 
 	float _amount;
-	protected float amount
+	public float amount
 	{
 		get
 		{ return _amount; }
@@ -29,7 +31,7 @@ public abstract class Damagable : MonoBehaviour
 				bar.Display (_amount, maxHp);
 		}
 	}
-	
+
 	void Awake ()
 	{
 		amount = maxHp;
@@ -40,8 +42,24 @@ public abstract class Damagable : MonoBehaviour
 		hidden.z = transform.position.z;
 
 		activeDoTs = new List<DamageOverTime> ();
+
+		if (networkID != NetworkConstants.NOT_SET)
+			RegisterThis ();
 	}
 	public abstract void OnAwake ();
+
+	protected void RegisterThis ()
+	{
+		try {
+			// I don't know why the gameserver script's awake runs after the damagable's awake
+			// I suspect it's because damagable has some infiltrations in scripts that run in edit mode
+			if (GameServer.Instance.damageables == null)
+				GameServer.Instance.damageables = new Dictionary<int, Damagable> ();
+			GameServer.Instance.damageables.Add (networkID, this);
+		} catch (ArgumentException argEx) {
+			Debug.LogWarningFormat ("Network ID {0} is already in the damagables dictionary" + argEx, networkID);
+		}
+	}
 
 	void Start ()
 	{
@@ -82,6 +100,8 @@ public abstract class Damagable : MonoBehaviour
 		
 		// Apply the damage
 		amount -= damage;
+
+		GameServer.Instance.SendHealthUpdate (networkID, amount);
 
 		// If it has killed the target
 		if (amount <= 0 && !alreadyExploded) {

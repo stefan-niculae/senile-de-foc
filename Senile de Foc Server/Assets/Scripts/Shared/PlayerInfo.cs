@@ -49,7 +49,18 @@ public class TankType
 		barrelIndex,
 		primary,
 		secondary;
-
+	
+	public int projectileType
+	{
+		get
+		{
+			int res = slotNr;
+			if (slotNr == 4) 		// custom tank
+				res += primary;  	// missile (0) or bullet (1)
+			return res;
+		}
+	}
+	
 	public TankType (int slotNr, int bodyIndex 	= NetworkConstants.NOT_SET, 
 	                 			 int barrelIndex= NetworkConstants.NOT_SET, 
 	                 			 int primary 	= NetworkConstants.NOT_SET, 

@@ -120,6 +120,7 @@
      <Compile Include="Assets\Scripts\UI\Menus\TankSelection.cs" />
      <Compile Include="Assets\Scripts\UI\Menus\Transition.cs" />
      <Compile Include="Assets\Scripts\UI\Menus\WaitingLobby.cs" />
+     <Compile Include="Assets\Scripts\UI\UIManager.cs" />
      <None Include="Assets\JMO Assets\Cartoon FX\Shaders (Mobile)\CFXM_MobileParticleAdd_Alpha8.shader" />
      <None Include="Assets\test-results\Assembly-CSharp-Editor.csproj-Debug-2015-05-19.xml" />
      <None Include="Assets\JMO Assets\Cartoon FX\Shaders\CFX4 Particle AlphaBlend+AddSoft VColor.shader" />

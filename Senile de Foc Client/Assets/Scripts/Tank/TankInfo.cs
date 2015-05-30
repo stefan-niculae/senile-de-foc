@@ -29,7 +29,7 @@ public class TankInfo : MonoBehaviour
 		movement 			= GetComponentInChildren <TankMovement> ();
 		cannon 				= GetComponentInChildren <Cannon> ();
 		barrel 				= GetComponentInChildren <TankBarrel> ();
-		projectile 			= cannon.effectPrefab.GetComponent <Projectile> (); // TODO set this according to type
+		projectile 			= cannon.effectPrefab.GetComponent <Projectile> ();
 		projectileExplosion = projectile.explosionPrefab.GetComponent <Explosion> ();
 		special 			= GetComponentInChildren <Secondary> ();
 	}
@@ -51,6 +51,9 @@ public class TankInfo : MonoBehaviour
 			cannon .cooldownFill = GameObject.Find ("Projectile Cooldown Fill").GetComponent <Image> ();
 			special.cooldownFill = GameObject.Find ("Secondary Cooldown Fill") .GetComponent <Image> ();
 
+			GameObject.Find ("Projectile Button").GetComponent <Image> ().sprite = References.Instance.primarySprites   [playerInfo.tankType.projectileType];
+			GameObject.Find ("Secondary Button") .GetComponent <Image> ().sprite = References.Instance.secondarySprites [playerInfo.tankType.secondary];
+
 		}
 
 		var aboveObj = GameObject.Instantiate (References.Instance.aboveInfoPrefab) as GameObject;
@@ -59,8 +62,6 @@ public class TankInfo : MonoBehaviour
 
 		if (!isMine)
 			health.bar = aboveInfo.health;
-			
-
 
 		ApplyRates ();
 		ApplySprites ();
@@ -70,6 +71,11 @@ public class TankInfo : MonoBehaviour
 
 	void ApplyRates () 
 	{
+		// Each tank has its own projectile (missle or bullet)
+		cannon .effectPrefab = References.Instance.projectilePrefabs [playerInfo.tankType.projectileType];
+		// Each tank has its own special effect, except for the custom one
+		special.effectPrefab = References.Instance.specialPrefabs    [playerInfo.tankType.secondary];
+
 		// We multiply by two because in the level select there are only 5 beans
 		// but computing rates espects values 0 - 10
 
@@ -84,7 +90,7 @@ public class TankInfo : MonoBehaviour
 		barrel.forwardSpeed = 		barrel.backwardSpeed / 2f;
 		projectile.speed = 			TankAttributes.Instance.projectileSpeed		.compute (playerInfo.rates.fireRate * 2);
 		
-		projectileExplosion.damage =TankAttributes.Instance.explosionDamage		.compute (playerInfo.rates.damage * 2);
+		projectileExplosion.damage =TankAttributes.Instance.explosionDamage		.compute (playerInfo.rates.damage * 2); Debug.Log (projectileExplosion.damage);
 		projectileExplosion.radius =TankAttributes.Instance.explosionRadius		.compute (playerInfo.rates.damage * 2);
 	}
 

@@ -23,16 +23,16 @@ public class TankAttributes : Singleton<TankAttributes>
 
 	public AttributeRate
 		damageAbsorbtion, 	// in 0-1 percentage
-		tankMass, 			// TODO
+		tankMass, 			// TODO maybe add variable tank mass
 		forwardSpeed,
 		backwardSpeed,
 		rotationSpeed,
 		explosionDamage, 	// in 0-1 health percentage
-		explosionRadius, 	// TODO: scale particle with this?
-		projectileSpeed,
-		projectileMass, 	// TODO
+		explosionRadius, 	// TODO: maybe scale particle with explosion damage
+		projectileSpeed,	
+		projectileMass, 	// TODO maybe add variable projectile mass
 		fireRate, 			// in seconds
-		barrelSpeed; 		// TODO switch check the backwards speed of this
+		barrelSpeed; 	
 
 	
 	public enum SpecialPower { mine, damageWave, DoTWave, pushWave };

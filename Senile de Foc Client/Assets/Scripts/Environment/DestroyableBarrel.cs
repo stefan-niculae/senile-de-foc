@@ -16,16 +16,14 @@ public class DestroyableBarrel : Damagable
 	}
 
 	public override void OnStart ()
-	{
-	}
+	{ }
 
 	public override void OnUpdate ()
 	{
 	}
 
 	public override void OnTakingDamage (TankInfo source)
-	{
-	}
+	{ }
 
 	public override void OnDeath (TankInfo source)
 	{
