@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
 
@@ -34,14 +34,14 @@ public abstract class BasicInfo : MonoBehaviour
 
 		
 		if (playerInfo.tankType.bodyIndex == NetworkConstants.NOT_SET)
-			body.sprite 	= SpriteReferences.Instance.invisible;
+			body.sprite 	= References.Instance.invisibleSprite;
 		else
-			body.sprite 	= SpriteReferences.Instance.bodies [playerInfo.tankType.bodyIndex];
+			body.sprite 	= References.Instance.bodySprites [playerInfo.tankType.bodyIndex];
 		
 		if (playerInfo.tankType.barrelIndex == NetworkConstants.NOT_SET)
-			barrel.sprite = SpriteReferences.Instance.invisible;
+			barrel.sprite = References.Instance.invisibleSprite;
 		else 
-			barrel.sprite = SpriteReferences.Instance.barrels [playerInfo.tankType.barrelIndex];
+			barrel.sprite = References.Instance.barrelSprites [playerInfo.tankType.barrelIndex];
 		
 		
 		if (username.text != SplashMenus.currentUsername) // TODO move current username out of the splash menus class

@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
 public class Explosion : Containable<Explosion>
@@ -10,7 +10,7 @@ public class Explosion : Containable<Explosion>
 		damage;
 	public GameObject DoTPrefab;
 
-	[HideInInspector] public PlayerStats source;
+	[HideInInspector] public TankInfo source;
 
 	void Awake ()
 	{
@@ -28,7 +28,7 @@ public class Explosion : Containable<Explosion>
 		Destroy (gameObject, TIME_TO_LIVE);
 	}
 	
-	public void Setup (PlayerStats source, Damagable ignore = null)
+	public void Setup (TankInfo source, Damagable ignore = null)
 	{
 		this.source = source;
 
@@ -53,7 +53,7 @@ public class Explosion : Containable<Explosion>
 		}
 	}
 
-	void ApplyDoT (PlayerStats source, Damagable affected)
+	void ApplyDoT (TankInfo source, Damagable affected)
 	{
 		if (DoTPrefab != null) {
 			var DoT = (Instantiate (DoTPrefab) as GameObject).GetComponent <DamageOverTime> ();

@@ -4,19 +4,12 @@ using System.Collections;
 public class PlayerInput : MonoBehaviour 
 {
 	TankMovement movement;
+	TankBarrel barrel;
 	Cannon cannon;
 	Secondary secondary;
-	TankBarrel barrel;
-
-	static int counter = 0;
 
 	void Awake ()
 	{
-		// Simulating a singleton
-		counter++;
-		if (counter > 1)
-			Debug.LogError ("More than one player input active!");
-
 		movement = GetComponentInChildren <TankMovement> ();
 		cannon = GetComponentInChildren <Cannon> ();
 		secondary = GetComponentInChildren <Secondary> ();
@@ -28,9 +21,8 @@ public class PlayerInput : MonoBehaviour
 		// Weapon handling
 		if (Input.GetButton ("Fire1"))
 			cannon.Fire ();
-		if (Input.GetButton ("Fire2")) { 
+		if (Input.GetButton ("Fire2"))
 			secondary.Fire ();
-		}
 
 		// Movement handling
 		var horiz 	= Input.GetAxis ("Horizontal");

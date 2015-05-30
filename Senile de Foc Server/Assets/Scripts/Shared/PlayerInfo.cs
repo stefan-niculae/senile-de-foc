@@ -6,8 +6,10 @@ using System.Collections;
 public class PlayerInfo
 {
 	public string name;
-	public bool ready;
 	public string ip;
+	public bool ready;
+	public bool loadedGame;
+	public int orderNumber;
 
 	public TankType tankType;
 	public Rates rates;
@@ -29,6 +31,9 @@ public class PlayerInfo
 	{
 		name = "";
 		ready = false;
+		loadedGame = false;
+		orderNumber = NetworkConstants.NOT_SET;
+
 		rates = new Rates (NetworkConstants.NOT_SET);
 		tankType = new TankType (NetworkConstants.NOT_SET);
 		stats = new Stats ();

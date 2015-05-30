@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using System;
 using System.Collections.Generic;
@@ -20,15 +20,13 @@ public abstract class Damagable : MonoBehaviour
 	protected float amount
 	{
 		get
-		{
-			return _amount;
-		}
+		{ return _amount; }
 		
 		set 
 		{
-			_amount = Mathf.Clamp (value, 0, 100);
+			_amount = Mathf.Clamp (value, 0, maxHp);
 			if (bar != null)
-				bar.Display (_amount, 100);
+				bar.Display (_amount, maxHp);
 		}
 	}
 	
@@ -75,7 +73,7 @@ public abstract class Damagable : MonoBehaviour
 	public abstract void OnUpdate ();
 
 	bool alreadyExploded;
-	public void TakeDamage (float damage, PlayerStats source)
+	public void TakeDamage (float damage, TankInfo source)
 	{
 		OnTakingDamage (source);
 
@@ -91,7 +89,7 @@ public abstract class Damagable : MonoBehaviour
 			Die (source);
 		}
 	}
-	public abstract void OnTakingDamage (PlayerStats source);	
+	public abstract void OnTakingDamage (TankInfo source);	
 
 	Rigidbody2D body;
 	public void GetPushed (Vector2 dir)
@@ -100,7 +98,7 @@ public abstract class Damagable : MonoBehaviour
 	}
 
 	Vector3 hidden = Constants.HIDDEN;
-	void Die (PlayerStats source)
+	void Die (TankInfo source)
 	{
 		OnDeath (source);
 		
@@ -112,9 +110,9 @@ public abstract class Damagable : MonoBehaviour
 
 		StartCoroutine (Respawn ());
 	}
-	public abstract void OnDeath (PlayerStats source);
+	public abstract void OnDeath (TankInfo source);
 
-	void Explode (PlayerStats source)
+	void Explode (TankInfo source)
 	{
 		alreadyExploded = true;
 		

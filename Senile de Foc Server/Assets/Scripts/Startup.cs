@@ -30,7 +30,7 @@ public class Startup : MonoBehaviour
 		status = "Initializing";
 		Network.InitializeServer (NetworkConstants.MAX_PLAYERS, 
 		                          NetworkConstants.PORT_NUMBER, 
-		                          false);
+		                          true);
 
 		status = "Registering host";
 		MasterServer.RegisterHost (NetworkConstants.GAME_TYPE,

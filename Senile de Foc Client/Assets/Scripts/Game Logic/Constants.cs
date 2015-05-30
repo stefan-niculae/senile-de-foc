@@ -7,7 +7,7 @@ public class Constants : MonoBehaviour
 	public static readonly int MAX_PLAYERS = 4;
 
 	// Don't forget to set the z coordinate before using this
-	public static readonly Vector3 HIDDEN = new Vector2 (1000f, 1000f);
+	public static readonly Vector3 HIDDEN = new Vector2 (10000f, 10000f);
 
 	// For comparisons of imprecise data (time, distance)
 	public static readonly float EPSILON = .01f;

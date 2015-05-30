@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
 public class DamageOverTime : Containable<DamageOverTime> 
@@ -10,7 +10,7 @@ public class DamageOverTime : Containable<DamageOverTime>
 	ParticleSystem particles;
 
 	public Damagable affected;
-	public PlayerStats source;
+	public TankInfo source;
 
 	void Awake ()
 	{
@@ -31,7 +31,7 @@ public class DamageOverTime : Containable<DamageOverTime>
 		}
 	}
 
-	public void AttachTo (PlayerStats source, Damagable affected)
+	public void AttachTo (TankInfo source, Damagable affected)
 	{
 		this.source = source;
 		this.affected = affected;

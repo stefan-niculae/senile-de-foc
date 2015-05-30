@@ -9,7 +9,7 @@ public class Projectile : Containable<Projectile>
 	public int maxCollisions; // number of times the bullet can bounce
 	public GameObject explosionPrefab;
 
-	[HideInInspector] public PlayerStats source;
+	[HideInInspector] public TankInfo source;
 	Rigidbody2D body;
 	Collider2D[] colliders;
 
@@ -21,7 +21,7 @@ public class Projectile : Containable<Projectile>
 		moveToContainer ("Projectiles");
 	}
 
-	public void Launch (Vector2 direction, PlayerStats source)
+	public void Launch (Vector2 direction, TankInfo source)
 	{
 		body.AddForce (speed * direction);
 

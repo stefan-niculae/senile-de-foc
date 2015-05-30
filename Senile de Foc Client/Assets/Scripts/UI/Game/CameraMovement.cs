@@ -78,11 +78,12 @@ public class CameraMovement : MonoBehaviour
 
 	void FollowPlayer ()
 	{
-		print ("remove this return");
-		return;
-		// Snapping to the player
-		target.x = player.position.x;
-		target.y = player.position.y;
+		// Only if the player has been spawned
+		if (player != null) {
+			// Snapping to the player
+			target.x = player.position.x;
+			target.y = player.position.y;
+		}
 
 		// Lerping doesn't work when moving diagonally (don't know why)
 		//		if (Mathf.Abs (transform.position.x - player.position.x) > followThreshold)

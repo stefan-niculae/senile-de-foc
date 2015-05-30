@@ -9,7 +9,7 @@ public class RequestsManager : MonoBehaviour
 	Database database;
 	NetworkView netView;
 	Dictionary <NetworkPlayer, PlayerInfo> connectedPlayers;
-
+	
 	public Text logText;
 	string log
 	{
@@ -41,6 +41,7 @@ public class RequestsManager : MonoBehaviour
 	void OnPlayerConnected (NetworkPlayer player)
 	{
 		log += "Player " + player + " connected from " + player.ipAddress + ":" + player.port;
+		log += "guid = " + player.guid;
 		connectedPlayers.Add (player, new PlayerInfo (player));
 
 		UpdatePlayers ();
@@ -53,6 +54,7 @@ public class RequestsManager : MonoBehaviour
 			connectedPlayers.Remove (p);
 
 		Network.RemoveRPCs(p);
+		Network.DestroyPlayerObjects(p);
 
 		UpdatePlayers ();
 	}
@@ -62,6 +64,8 @@ public class RequestsManager : MonoBehaviour
 		string str = "";
 
 		List <PlayerInfo> playerInfos = connectedPlayers.Values.ToList ();
+		for (int i = 0; i < playerInfos.Count; i++)
+			playerInfos [i].orderNumber = i;
 		foreach (PlayerInfo p in playerInfos)
 			str += p + "\n";
 
@@ -193,20 +197,34 @@ public class RequestsManager : MonoBehaviour
 
 	// Ingame
 	[RPC]
-	void RequestUsername (NetworkMessageInfo info)
+	void RequestInfo (NetworkMessageInfo messageInfo)
 	{
-		string name = connectedPlayers [info.sender].name;
+		PlayerInfo info = connectedPlayers [messageInfo.sender];
 
-		log += "Sending to " + info.sender.ipAddress + " the username " + name;
-		netView.RPC ("ReceiveUsername", info.sender, name);
+		log += "Sending to " + messageInfo.sender.ipAddress + " the info of " + info.name;
+		netView.RPC ("ReceiveInfo", messageInfo.sender, NetworkUtils.ObjectToByteArray (info));
+
+		connectedPlayers [messageInfo.sender].loadedGame = true;
+		UpdatePlayers ();
+
+		bool allLoaded = true;
+		foreach (var p in connectedPlayers.Values)
+			if (!p.loadedGame) {
+				allLoaded = false;
+				break;
+			}
+		if (allLoaded) {
+			log += "Everyone loaded the game scene => starting the match";
+			netView.RPC ("ReceiveMatchStart", RPCMode.Others);
+		}
+
 	}
 	[RPC]
-	void ReceiveUsername (string name)
+	void ReceiveInfo (byte[] bytes)
 	{ }
 
 	[RPC]
-	void RequestPlayerList (NetworkMessageInfo info)
-	{
-		netView.RPC ("ReceivePlayerList", info.sender, NetworkUtils.ObjectToByteArray (connectedPlayers.Values.ToList ()));
-	}
+	void ReceiveMatchStart ()
+	{ }
+
 }

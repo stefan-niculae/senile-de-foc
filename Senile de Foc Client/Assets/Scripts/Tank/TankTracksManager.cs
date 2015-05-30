@@ -6,7 +6,7 @@ public class TankTracksManager : Singleton<TankTracksManager>
 {
 	public GameObject trackPrefab;
 	public int maxTracks = 250;
-	public float treshold;
+	public float treshold = .25f;
 
 	TankTrack[] tracks;
 

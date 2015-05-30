@@ -7,16 +7,14 @@ public class TankMovement : MonoBehaviour
 		forwardSpeed,
 		backwardSpeed,
 		rotationSpeed;
-	Transform superParent;
 
 	Rigidbody2D body;
-	TankTracksManager tracks;
+//	TankTracksManager tracks; reenable
 
 	void Awake ()
 	{
 		// Setting the reference
 		body = GetComponent <Rigidbody2D> ();
-		superParent = transform.parent;
 	}
 
 	void Start ()
@@ -25,14 +23,7 @@ public class TankMovement : MonoBehaviour
 		rot = transform.rotation.eulerAngles;
 
 		// We do this and don't set it public because prefabs can't have non prefab fields preassigned
-		tracks = GameObject.Find ("Tracks").GetComponent <TankTracksManager> ();
-	}
-
-	void Update ()
-	{
-		// TODO: switch to UI health, username!
-		superParent.transform.position = transform.position;
-		transform.localPosition = Vector3.zero;
+//		tracks = GameObject.Find ("Tracks").GetComponent <TankTracksManager> (); reenable
 	}
 
 	Vector3 rot;
@@ -57,7 +48,7 @@ public class TankMovement : MonoBehaviour
 		body.AddForce (force);
 		
 		// Only spawn tracks if the tank is moving (and only for the player tank)
-		if (playerInput && vert != 0)
-			tracks.Show (transform.position, transform.rotation);
+//		if (playerInput && vert != 0)
+//			tracks.Show (transform.position, transform.rotation); reenable
 	}
 }

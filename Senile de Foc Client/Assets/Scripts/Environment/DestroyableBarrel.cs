@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
 public class DestroyableBarrel : Damagable
@@ -23,11 +23,11 @@ public class DestroyableBarrel : Damagable
 	{
 	}
 
-	public override void OnTakingDamage (PlayerStats source)
+	public override void OnTakingDamage (TankInfo source)
 	{
 	}
 
-	public override void OnDeath (PlayerStats source)
+	public override void OnDeath (TankInfo source)
 	{
 		//source.barrels++;
 		//TODO

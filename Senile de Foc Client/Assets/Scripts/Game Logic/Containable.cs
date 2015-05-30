@@ -11,6 +11,7 @@ public abstract class Containable <T> : MonoBehaviour
 
 	RectTransform selfRect;
 
+	// Remember to use this in awake in the derived classes
 	protected void moveToContainer (string name)
 	{
 		if (go == null) {

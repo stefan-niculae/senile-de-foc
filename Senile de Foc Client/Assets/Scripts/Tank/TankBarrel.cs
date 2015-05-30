@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
 public class TankBarrel : MonoBehaviour 
@@ -10,22 +10,17 @@ public class TankBarrel : MonoBehaviour
 		backwardSpeed,
 		forwardSpeed;
 
-	Transform stand;
-	Vector3 initialPos;
-	[HideInInspector] public Vector3 firePos;
-
-	void Awake ()
-	{
-		stand = transform.parent;
-		initialPos = transform.localPosition;
-		firePos = initialPos;
-		firePos.y -= fireOffset;
-	}
+	Vector3 restPos = new Vector3 (0, 0, -.2f);
+	Vector3 firePos;
 
 	public void Bounce ()
 	{
-		transform.localPosition = initialPos;
+		transform.localPosition = restPos;
 		goingBack = true;
+
+		float rot = transform.localRotation.eulerAngles.z * Mathf.Deg2Rad;
+		Vector3 coeffs = new Vector3 (Mathf.Sin (rot), -Mathf.Cos (rot));
+		firePos = restPos + fireOffset * coeffs;
 	}
 
 	void Update ()
@@ -52,10 +47,10 @@ public class TankBarrel : MonoBehaviour
 		if (goingFront) {
 			transform.localPosition = Vector3.MoveTowards (
 				transform.localPosition,
-				initialPos,
+				restPos,
 				forwardSpeed * Time.deltaTime);
 			
-			if (Vector2.Distance (transform.localPosition, initialPos) < EPSILON)
+			if (Vector2.Distance (transform.localPosition, restPos) < EPSILON)
 				goingFront = false;
 			
 		}
@@ -63,8 +58,10 @@ public class TankBarrel : MonoBehaviour
 
 	public void Rotate (Quaternion rot)
 	{
-		// We do this because the barrel should not rotate around its axis
-		// instead, it should rotate around the barrel stand
-		stand.rotation = rot;
+		// reenable?
+//		// We do this because the barrel should not rotate around its axis
+//		// instead, it should rotate around the barrel stand
+//		stand.rotation = rot;
+		transform.rotation = rot;
 	}
 }

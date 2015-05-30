@@ -1,10 +1,10 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
 
-public class Minimap : MonoBehaviour 
+public class Minimap : Singleton<Minimap> 
 {
-	public Transform controlledPlayer;
+	[HideInInspector] public Transform controlledPlayer;
 	public RawImage map;
 	public Image border;
 	
@@ -13,13 +13,7 @@ public class Minimap : MonoBehaviour
 	public float UISize = .25f;
 	public float UIBorder;
 	Rect UIRect;
-
-	void Awake ()
-	{
-		if (!controlledPlayer.GetComponent <PlayerStats> ().controlledPlayer)
-			Debug.LogError ("Wrong tank (not player controlled) attached to the minimap");
-	}
-
+	
 	void Start ()
 	{
 		float ratio = (float)Screen.width / Screen.height;
@@ -35,23 +29,23 @@ public class Minimap : MonoBehaviour
 	bool isTransparent;
 	void Update ()
 	{
-		Vector2 mouseViewport = Camera.main.ScreenToViewportPoint (Input.mousePosition);
-		Vector2 playerViewport = Camera.main.WorldToViewportPoint (controlledPlayer.position);
-		if (UIRect.Contains (mouseViewport) || UIRect.Contains (playerViewport) || Scoreboard.Instance.isShown) {
-			if (!isTransparent) {
-				isTransparent = true;
-				map.color = ApplyTransparency (map.color, transp);
-				border.color = ApplyTransparency (border.color, transp);
-			}
-		} 
-		else {
-			if (isTransparent) {
-				isTransparent = false;
-				map.color = ApplyTransparency (map.color, 1f / transp);
-				border.color = ApplyTransparency (border.color, 1f / transp);
+		if (controlledPlayer != null) {
+			Vector2 mouseViewport = Camera.main.ScreenToViewportPoint (Input.mousePosition);
+			Vector2 playerViewport = Camera.main.WorldToViewportPoint (controlledPlayer.position);
+			if (UIRect.Contains (mouseViewport) || UIRect.Contains (playerViewport) || Scoreboard.Instance.isShown) {
+				if (!isTransparent) {
+					isTransparent = true;
+					map.color = ApplyTransparency (map.color, transp);
+					border.color = ApplyTransparency (border.color, transp);
+				}
+			} else {
+				if (isTransparent) {
+					isTransparent = false;
+					map.color = ApplyTransparency (map.color, 1f / transp);
+					border.color = ApplyTransparency (border.color, 1f / transp);
+				}
 			}
 		}
-
 	}
 
 	Color ApplyTransparency (Color color, float percentage)

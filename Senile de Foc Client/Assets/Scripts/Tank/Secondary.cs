@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
 
@@ -7,15 +7,11 @@ public class Secondary : Weapon
 	public override void OnAwake ()
 	{
 		effectSpawnPoint = transform;
-		
-		if (stats.controlledPlayer)
-			cooldownFill = GameObject.Find ("Secondary Cooldown Fill").GetComponent <Image> ();
-
-		fireRate = 1.5f;
+		fireRate = 2f; // TODO maybe set this somewhere else?
 	}
 
 	public override void OnFire (GameObject spawnedEffect)
 	{
-		spawnedEffect.GetComponent <Explosion> ().Setup (stats, stats.health);
+		spawnedEffect.GetComponent <Explosion> ().Setup (tankInfo, tankInfo.health);
 	}
 }

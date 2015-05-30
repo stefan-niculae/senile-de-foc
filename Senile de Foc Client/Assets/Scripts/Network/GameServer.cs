@@ -6,41 +6,39 @@ using System.Collections.Generic;
 public class GameServer : Singleton<GameServer> 
 {
 	static NetworkView netView;
-	public string selfName;
+	public static PlayerInfo selfInfo;
 	Scoreboard scoreboard;
+	public List<PlayerInfo> connectedPlayers;
 
 	void Awake ()
 	{
 		netView = Instance.GetComponent <NetworkView> ();
 		scoreboard = GameObject.Find ("Scoreboard").GetComponent <Scoreboard> ();
-		SelfUsername (name => {
-			selfName = name;
-			netView.RPC ("RequestPlayerList", RPCMode.Server);
-
-			onSelfInfoReceival = playerInfo => {
-				TankManager.Instance.Spawn (playerInfo);
-				onSelfInfoReceival = null;
-			};
-
+		SelfInfo (info => {
+			selfInfo = info;
+			NetworkStatus.Show ("Received self info, waiting for others", NetworkStatus.MessageType.working);
 		});
+		connectedPlayers = new List<PlayerInfo> ();
 	}
 
-	static Action<string> onUsernameReceival;
-	public static void SelfUsername (Action<string> onReceival)
+	static Action<PlayerInfo> onSelfInfoReceival;
+	public static void SelfInfo (Action<PlayerInfo> onReceival)
 	{
-		onUsernameReceival = onReceival;
-		netView.RPC ("RequestUsername", RPCMode.Server);
+		onSelfInfoReceival = onReceival;
+		netView.RPC ("RequestInfo", RPCMode.Server);
+		NetworkStatus.Show ("Requesting self info", NetworkStatus.MessageType.working);
 	}
 	[RPC]
-	void RequestUsername ()
+	void RequestInfo ()
 	{ }
 	[RPC]
-	public void ReceiveUsername (string username)
+	public void ReceiveInfo (byte[] bytes)
 	{
-		onUsernameReceival (username);
+		PlayerInfo info = NetworkUtils.ByteArrayToObject (bytes) as PlayerInfo;
+		onSelfInfoReceival (info);
+		NetworkStatus.Show ("Connected as " + info.name, NetworkStatus.MessageType.success);
 	}
-
-	static Action<PlayerInfo> onSelfInfoReceival = null;
+	
 	[RPC]
 	void RequestPlayerList ()
 	{ }
@@ -48,15 +46,16 @@ public class GameServer : Singleton<GameServer>
 	void ReceivePlayerList (byte[] received)
 	{
 		// The received byte array represents the serialization of a list containing player infos
-		List<PlayerInfo> playerInfos = NetworkUtils.ByteArrayToObject (received) as List<PlayerInfo>;
-		scoreboard.PopulateList (playerInfos);
+		connectedPlayers = NetworkUtils.ByteArrayToObject (received) as List<PlayerInfo>;
+		scoreboard.PopulateList (connectedPlayers);
 
-		if (onSelfInfoReceival != null)
-			foreach (var player in playerInfos)
-				if (player.name == selfName) {
-					onSelfInfoReceival (player);
-					break;
-				}
+		NetworkStatus.Show ("Updated player list", NetworkStatus.MessageType.success);
+	}
 
+	[RPC]
+	void ReceiveMatchStart ()
+	{
+		NetworkStatus.Show ("Everyone connected, match starts", NetworkStatus.MessageType.success);
+		MarkerManager.Instance.Spawn ();
 	}
 }

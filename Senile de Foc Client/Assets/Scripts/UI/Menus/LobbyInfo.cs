@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
 
@@ -14,7 +14,7 @@ public class LobbyInfo : BasicInfo
 	public override void AdditionalValuesSet (PlayerInfo playerInfo)
 	{
 		if (playerInfo.ready)
-			checkmark.sprite = SpriteReferences.Instance.readyCheckmark;
+			checkmark.sprite = References.Instance.readyCheckmark;
 	}
 
 }

@@ -1,21 +1,21 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
 
 public abstract class Weapon : MonoBehaviour 
 {
 	public float fireRate;
-	public GameObject effectPrefab; // projectile (missle, bullet) or special power (blast, gust, poison, mine)
+	public GameObject effectPrefab; // projectile (missle, bullet) or special power (electricity, blast, gust, poison)
 
-	protected PlayerStats stats;
+	protected TankInfo tankInfo;
 	protected Transform effectSpawnPoint; // Don't forget to set this OnAwake!!
-	protected Image cooldownFill;
+	public Image cooldownFill;
 	ParticleSystem fireParticles;
 	AudioSource fireSound;
 
 	void Awake ()
 	{
-		stats = GetComponentInParent <PlayerStats> ();
+		tankInfo = GetComponentInParent <TankInfo> ();
 
 		OnAwake ();
 
