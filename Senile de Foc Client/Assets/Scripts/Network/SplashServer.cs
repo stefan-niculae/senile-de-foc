@@ -54,12 +54,11 @@ public class SplashServer : Singleton<SplashServer>
 	{
 		onPasswordMatchReceival = onReceival;
 		netView.RPC ("RequestPasswordMatch", RPCMode.Server, username, password);
+		NetworkStatus.Show ("Checking if password is correct", NetworkStatus.MessageType.working);
 	}
 	[RPC]
 	void RequestPasswordMatch (string username, string password)
-	{
-		NetworkStatus.Show ("Checking if password is correct", NetworkStatus.MessageType.working);
-	}
+	{ }
 	[RPC]
 	public void ReceivePasswordMatch (bool value)
 	{

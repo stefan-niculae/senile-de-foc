@@ -12,8 +12,8 @@ public class TankInfo : MonoBehaviour
 	[HideInInspector] public Cannon cannon;
 	[HideInInspector] public TankBarrel barrel;
 	[HideInInspector] public Projectile projectile;
-	[HideInInspector] public Explosion projectileExplosion;
 	[HideInInspector] public Secondary special;
+	[HideInInspector] public ExplosionStats cannonProjectileExplosionStats;
 	
 
 	AboveInfo aboveInfo;
@@ -30,7 +30,6 @@ public class TankInfo : MonoBehaviour
 		cannon 				= GetComponentInChildren <Cannon> ();
 		barrel 				= GetComponentInChildren <TankBarrel> ();
 		projectile 			= cannon.effectPrefab.GetComponent <Projectile> ();
-		projectileExplosion = projectile.explosionPrefab.GetComponent <Explosion> ();
 		special 			= GetComponentInChildren <Secondary> ();
 	}
 
@@ -90,8 +89,8 @@ public class TankInfo : MonoBehaviour
 		barrel.forwardSpeed = 		barrel.backwardSpeed / 2f;
 		projectile.speed = 			TankAttributes.Instance.projectileSpeed		.compute (playerInfo.rates.fireRate * 2);
 		
-		projectileExplosion.damage =TankAttributes.Instance.explosionDamage		.compute (playerInfo.rates.damage * 2); Debug.Log (projectileExplosion.damage);
-		projectileExplosion.radius =TankAttributes.Instance.explosionRadius		.compute (playerInfo.rates.damage * 2);
+		cannonProjectileExplosionStats.damage =TankAttributes.Instance.explosionDamage		.compute (playerInfo.rates.damage * 2);	
+		cannonProjectileExplosionStats.radius =TankAttributes.Instance.explosionRadius		.compute (playerInfo.rates.damage * 2);
 	}
 
 	void ApplySprites ()

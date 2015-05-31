@@ -141,7 +141,7 @@ public abstract class Damagable : MonoBehaviour
 			transform.position,
 			Quaternion.identity) as GameObject;
 
-		explosion.GetComponent <Explosion> ().Setup (source, this);
+		explosion.GetComponent <Explosion> ().Setup (source, ignore: this);
 	}
 	
 	public IEnumerator Respawn (bool firstSpawn = false)

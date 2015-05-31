@@ -4,10 +4,7 @@ using System.Collections;
 public class Explosion : Containable<Explosion>
 {
 	static readonly float TIME_TO_LIVE = 5f;
-	public float 
-		radius,
-		force,
-		damage;
+	public ExplosionStats stats;
 	public GameObject DoTPrefab;
 
 	[HideInInspector] public TankInfo source;
@@ -28,24 +25,27 @@ public class Explosion : Containable<Explosion>
 		Destroy (gameObject, TIME_TO_LIVE);
 	}
 	
-	public void Setup (TankInfo source, Damagable ignore = null)
+	public void Setup (TankInfo source, ExplosionStats stats = null, Damagable ignore = null)
 	{
 		this.source = source;
+		if (stats != null)
+			this.stats = stats;
+		print (gameObject.name + " stats: " + stats + " this dmg = " + this.stats.damage + " arg dmg = " + stats.damage);
 
-		DamageAround (ignore);
+		DamageAround (ignore: ignore);
 	}
 
 	void DamageAround (Damagable ignore)
 	{
-		Collider2D[] around = Physics2D.OverlapCircleAll (transform.position, radius);
+		Collider2D[] around = Physics2D.OverlapCircleAll (transform.position, stats.radius);
 
 		foreach (Collider2D coll in around) {
 			var damagable = coll.GetComponent <Damagable> ();
 			if (damagable != null && damagable != ignore) {
 
-				damagable.TakeDamage (damage, source);
+				damagable.TakeDamage (stats.damage, source);
 
-				var dir = (coll.transform.position - transform.position) * force;
+				var dir = (coll.transform.position - transform.position) * stats.force;
 				damagable.GetPushed (dir);
 
 				ApplyDoT (source, damagable);
@@ -60,4 +60,12 @@ public class Explosion : Containable<Explosion>
 			DoT.AttachTo (source, affected);
 		}
 	}
+}
+
+[System.Serializable]
+public class ExplosionStats
+{
+	public float damage;
+	public float radius;
+	public float force;
 }

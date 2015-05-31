@@ -8,7 +8,7 @@ public class Projectile : Containable<Projectile>
 	public float speed;
 	public int maxCollisions; // number of times the bullet can bounce
 	public GameObject explosionPrefab;
-
+	
 	[HideInInspector] public TankInfo source;
 	Rigidbody2D body;
 	Collider2D[] colliders;
@@ -87,8 +87,7 @@ public class Projectile : Containable<Projectile>
 			explosionPrefab,
 			pointOfCollision,
 			Quaternion.identity) as GameObject;
-
-		explosion.GetComponent <Explosion> ().Setup (source);
+		explosion.GetComponent <Explosion> ().Setup (source, source.cannonProjectileExplosionStats);
 		Destroy (gameObject);
 	}
 }

@@ -60,7 +60,7 @@ public class InstantiateAndFollow : MonoBehaviour
 				barrel.position = pointer.position;
 				
 				body.rotation = transform.rotation;
-				barrel.rotation = transform.rotation;
+				barrel.rotation = pointer.rotation;
 			}
 		}
 	}

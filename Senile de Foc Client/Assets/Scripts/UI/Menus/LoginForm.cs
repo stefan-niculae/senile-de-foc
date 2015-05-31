@@ -225,15 +225,25 @@ public class LoginForm : MonoBehaviour
 		if (UserOrPassEmpty ())
 			return;
 
-		foreach (var player in WaitingLobby.currentPlayers)
-			if (player.name == usernameField.text) {
-				NetworkStatus.Show ("User already logged in", NetworkStatus.MessageType.failure);
-				usernameField.Select ();
-				return;
-			}
+		SplashServer.UsernameExists (usernameField.text, UsernameCheckReceival);
+	}
 
-
-		SplashServer.PasswordMatches (usernameField.text, passwordField.text, PasswordMatchesReceival);
+	void UsernameCheckReceival (bool exists)
+	{
+		if (!exists) {
+			NetworkStatus.Show ("Saved username no longer exists, re-create it", NetworkStatus.MessageType.failure);
+			usernameField.Select ();
+		}
+		else {
+			foreach (var player in WaitingLobby.currentPlayers)
+				if (player.name == usernameField.text) {
+					NetworkStatus.Show ("User already logged in", NetworkStatus.MessageType.failure);
+					usernameField.Select ();
+					return;
+				}
+		
+			SplashServer.PasswordMatches (usernameField.text, passwordField.text, PasswordMatchesReceival);
+		}
 	}
 
 
