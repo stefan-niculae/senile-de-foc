@@ -35,7 +35,7 @@ public class NetworkManager : MonoBehaviour
 
 	void ConnectToLocal ()
 	{
-		NetworkStatus.Show ("Couldn't get host list from master server, connecting to local server", NetworkStatus.MessageType.working);
+		NetworkStatus.Show ("Master server offline, connecting to local server", NetworkStatus.MessageType.working);
 		Network.Connect (NetworkConstants.LOCAL_SERVER_IP,
 		                 NetworkConstants.PORT_NUMBER);
 	}
