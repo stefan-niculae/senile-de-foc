@@ -50,7 +50,7 @@ public abstract class Weapon : MonoBehaviour
 			if (playSound) // TODO: make two sounds, one for bullets, one for special
 				fireSound.Play ();
 
-			// The special waves don't have a muzzle flash
+			// The special waves don't have a muzzle flash so this is set to null
 			if (fireParticles != null)
 				fireParticles.Play ();
 		}
@@ -59,10 +59,11 @@ public abstract class Weapon : MonoBehaviour
 
 	void SpawnEffect ()
 	{
-		GameObject spawned = Instantiate (
+		GameObject spawned = Network.Instantiate (
 			effectPrefab,
 			effectSpawnPoint.position,
-			Quaternion.identity) as GameObject;
+			Quaternion.identity,
+			0) as GameObject;
 		OnFire (spawned);
 	}
 }

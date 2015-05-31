@@ -49,18 +49,18 @@ public class InstantiateAndFollow : MonoBehaviour
 	{
 		if (isFollowing) {
 			if (netView.isMine) {
-				transform.position = body.position;
-				pointer.position = barrel.position;
+				transform	.position = body		.position;
+				pointer		.position = barrel		.position;
 
-				transform.rotation = body.rotation;
-				pointer.rotation = barrel.rotation;
+				transform	.rotation = body		.rotation;
+				pointer		.rotation = barrel		.rotation;
 			}
 			else {
-				body.position = transform.position;
-				barrel.position = pointer.position;
+				body		.position = transform	.position;
+				barrel		.position = pointer		.position;
 				
-				body.rotation = transform.rotation;
-				barrel.rotation = pointer.rotation;
+				body		.rotation = transform	.rotation;
+				barrel		.rotation = pointer		.rotation;
 			}
 		}
 	}

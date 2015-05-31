@@ -27,10 +27,17 @@ public class NetworkManager : MonoBehaviour
 			yield return new WaitForEndOfFrame ();
 		} while (hostData.Length == 0 && Time.time < endSearchTime);
 
-		if (hostData.Length == 0)
-			NetworkStatus.Show ("No servers found", NetworkStatus.MessageType.failure);
+		if (hostData.Length == 0) 
+			ConnectToLocal ();
 		else 
 			ConnectToFound ();
+	}
+
+	void ConnectToLocal ()
+	{
+		NetworkStatus.Show ("Couldn't get host list from master server, connecting to local server", NetworkStatus.MessageType.working);
+		Network.Connect (NetworkConstants.LOCAL_SERVER_IP,
+		                 NetworkConstants.PORT_NUMBER);
 	}
 
 	void OnConnectedToServer ()
@@ -48,7 +55,7 @@ public class NetworkManager : MonoBehaviour
 		if (hostData.Length > 1)
 			Debug.Log ("More than one servers found");
 		
-		NetworkStatus.Show ("Connecting to sserver", NetworkStatus.MessageType.working);
+		NetworkStatus.Show ("Connecting to server", NetworkStatus.MessageType.working);
 		Network.Connect (hostData [0]);
 	}
 

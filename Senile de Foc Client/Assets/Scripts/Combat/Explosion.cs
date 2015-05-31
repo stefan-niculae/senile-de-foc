@@ -30,7 +30,6 @@ public class Explosion : Containable<Explosion>
 		this.source = source;
 		if (stats != null)
 			this.stats = stats;
-		print (gameObject.name + " stats: " + stats + " this dmg = " + this.stats.damage + " arg dmg = " + stats.damage);
 
 		DamageAround (ignore: ignore);
 	}

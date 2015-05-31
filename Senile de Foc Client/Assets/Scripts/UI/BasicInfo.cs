@@ -44,7 +44,7 @@ public abstract class BasicInfo : MonoBehaviour
 			barrel.sprite = References.Instance.barrelSprites [playerInfo.tankType.barrelIndex];
 		
 		
-		if (username.text != SplashMenus.currentUsername) // TODO move current username out of the splash menus class
+		if (username.text != SplashMenus.currentUsername)
 			highlight.enabled = false;
 		
 		AdditionalValuesSet (playerInfo);
