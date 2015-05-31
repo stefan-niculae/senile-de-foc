@@ -10,7 +10,7 @@ public class Minimap : Singleton<Minimap>
 	
 	public float transp = .8f;
 
-	public float UISize = .25f;
+	public float UISize = .3f;
 	public float UIBorder;
 	Rect UIRect;
 	

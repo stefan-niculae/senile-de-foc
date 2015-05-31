@@ -6,6 +6,7 @@ public class TankInfo : MonoBehaviour
 {
 	public PlayerInfo playerInfo;
 	public bool isMine;
+	public IngameInfo scoreboardInfo;
 
 	[HideInInspector] public TankHealth health;
 	[HideInInspector] public TankMovement movement;
@@ -52,7 +53,6 @@ public class TankInfo : MonoBehaviour
 
 			GameObject.Find ("Projectile Button").GetComponent <Image> ().sprite = References.Instance.primarySprites   [playerInfo.tankType.projectileType];
 			GameObject.Find ("Secondary Button") .GetComponent <Image> ().sprite = References.Instance.secondarySprites [playerInfo.tankType.secondary];
-
 		}
 
 		var aboveObj = GameObject.Instantiate (References.Instance.aboveInfoPrefab) as GameObject;
@@ -99,16 +99,21 @@ public class TankInfo : MonoBehaviour
 		barrel.gameObject.GetComponent <SpriteRenderer> ().sprite		= References.Instance.barrelSprites [playerInfo.tankType.barrelIndex];
 	}
 
-	void OnSerializeNetworkView (BitStream stream, NetworkMessageInfo info)
+//	void OnSerializeNetworkView (BitStream stream, NetworkMessageInfo info)
+//	{
+//		stream.Serialize (ref playerInfo.tankType.bodyIndex);
+//		stream.Serialize (ref playerInfo.tankType.barrelIndex);
+//
+//		if (stream.isReading)
+//			ApplySprites ();
+//	}
+
+	public void ShowStatsRecap ()
 	{
-		stream.Serialize (ref playerInfo.tankType.bodyIndex);
-		stream.Serialize (ref playerInfo.tankType.barrelIndex);
-
-		print ("on serialize network view: sender = " + info.sender.ipAddress + ", is writing = " + stream.isWriting);
-
-		if (stream.isReading)
-			ApplySprites ();
+		kills.amount  = playerInfo.stats.kills;
+		deaths.amount = playerInfo.stats.deaths;
 	}
+
 }
 
 [System.Serializable]
@@ -136,13 +141,6 @@ public class GUIStat
 	{
 		this.textHandle = textHandle;
 		Reset ();
-	}
-
-	// Oh operator overloading, how I've missed thee
-	public static GUIStat operator ++ (GUIStat stat)
-	{
-		stat.amount++;
-		return stat;
 	}
 
 	public void Reset ()

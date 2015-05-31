@@ -234,4 +234,11 @@ public class RequestsManager : MonoBehaviour
 		log += networkID + (networkID < 5 ? "player" : "barrel") + " hp: " + amount;
 	}
 
+
+	[RPC]
+	void ReceiveStatsUpdate (int orderNumber, byte[] statsBytes)
+	{
+		var stats = NetworkUtils.ByteArrayToObject (statsBytes) as Stats;
+		log += "Player ord. nr" + orderNumber + " new stats " + stats;
+	}
 }

@@ -55,25 +55,35 @@ public class TankHealth : Damagable
 	
 	public override void OnDeath (TankInfo source)
 	{
+		var haveStatsUpdated = new HashSet <TankInfo> ();
+
 		// Increase this player's death count
-		tankInfo.deaths++;
+		tankInfo.playerInfo.stats.deaths++;
+		haveStatsUpdated.Add (tankInfo);
 
 		// The source will never be null because even if a barrel kills
 		// still that barrel must have been shot by a player (and so on)
 
 		// And the other player's kill count
-		if (source != tankInfo) // but not on a suicide
-			source.kills++;
+		if (source != tankInfo) {// but not on a suicide
+			source.playerInfo.stats.kills++;
+			haveStatsUpdated.Add (source);
+		}
 		
 		// And each hitter's (except the killer) assist count
-		foreach (var hitter in hitters) {
+		foreach (var hitter in hitters) 
 			// TODO: shooty shoots abstract once, i kill shooty, i kill abstract
 			// abstract gets a null reference on hitter
 			if (hitter != source) {
-//				hitter.assists++;
-				//TODO
+				hitter.playerInfo.stats.assists++;
+				haveStatsUpdated.Add (hitter);
 			}
+
+		foreach (var tank in haveStatsUpdated) {
+			GameServer.Instance.SendStatsUpdate (tank.playerInfo.orderNumber, tank.playerInfo.stats);
+			tank.ShowStatsRecap ();
 		}
+
 		// Clear the hitters list for the next death
 		hitters.Clear ();
 

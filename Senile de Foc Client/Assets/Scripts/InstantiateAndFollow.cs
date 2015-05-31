@@ -27,17 +27,21 @@ public class InstantiateAndFollow : MonoBehaviour
 	public void Build ()
 	{
 		var tank = Instantiate (References.Instance.tankPrefab, 
-		                        transform.position, 
+		                        new Vector3 (transform.position.x, transform.position.y, 0),
 		                        transform.rotation) as GameObject;
 		tank.transform.parent = tankContainer;
+		var tankInfo = tank.GetComponent <TankInfo> ();
+		var playerInfo = MarkerManager.Instance.PlayerFromSpawnPos (transform.position);
 
 		// We assign each player a spawn position
 		// and we use that to uniquely identify them before initialization
-		tank.GetComponent <TankInfo> ().Initialize (MarkerManager.Instance.PlayerFromSpawnPos (transform.position), 
-		                                            netView.isMine);
+		tankInfo.Initialize (playerInfo, 
+                             netView.isMine);
+
+		GameServer.Instance.orderNrToTankInfo [playerInfo.orderNumber] = tankInfo;
 
 		var trackManager = Instantiate (References.Instance.trackManagerPrefab) as GameObject;
-		tank.GetComponent<TankInfo> ().movement.tracks = trackManager.GetComponent <TankTracksManager> ();
+		tankInfo.movement.tracks = trackManager.GetComponent <TankTracksManager> ();
 
 		body = tank.transform;
 		barrel = Utils.childWithName (body, "Barrel");

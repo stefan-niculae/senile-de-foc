@@ -5,7 +5,6 @@ using System.Collections.Generic;
 public class Scoreboard : Singleton<Scoreboard>
 {
 	public GameObject ingameInfoPrefab;
-	public List <PlayerInfo> currentPlayers;
 
 	Transform container;
 	static readonly float DISTANCE = 50f;
@@ -17,7 +16,6 @@ public class Scoreboard : Singleton<Scoreboard>
 	void Awake ()
 	{
 		shownPos = transform.localPosition;
-		currentPlayers = new List <PlayerInfo> ();
 		container = GameObject.Find ("Players Info").transform;
 	}
 
@@ -30,8 +28,6 @@ public class Scoreboard : Singleton<Scoreboard>
 
 	public void PopulateList (List <PlayerInfo> playerInfos)
 	{
-		currentPlayers = playerInfos;
-		
 		foreach (Transform child in container)
 			if (child != container)
 				Destroy (child.gameObject);
@@ -46,6 +42,5 @@ public class Scoreboard : Singleton<Scoreboard>
 			shownPlayer.transform.localPosition = pos;
 			shownPlayer.transform.SetParent (container, false);
 		}
-
 	}
 }

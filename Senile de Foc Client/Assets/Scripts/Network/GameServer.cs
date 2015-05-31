@@ -10,6 +10,7 @@ public class GameServer : Singleton<GameServer>
 	Scoreboard scoreboard;
 	public List<PlayerInfo> connectedPlayers;
 	public Dictionary<int, Damagable> damageables;
+	public Dictionary<int, TankInfo> orderNrToTankInfo;
 
 	void Awake ()
 	{
@@ -22,6 +23,7 @@ public class GameServer : Singleton<GameServer>
 		connectedPlayers = new List<PlayerInfo> ();
 		if (damageables == null)
 			damageables = new Dictionary<int, Damagable> ();
+		orderNrToTankInfo = new Dictionary<int, TankInfo> ();
 	}
 
 	static Action<PlayerInfo> onSelfInfoReceival;
@@ -72,5 +74,22 @@ public class GameServer : Singleton<GameServer>
 	public void ReceiveHealthUpdate (int networkID, float amount)
 	{
 		damageables [networkID].amount = amount;
+	}
+
+
+	public void SendStatsUpdate (int orderNumber, Stats stats)
+	{
+		netView.RPC ("ReceiveStatsUpdate", RPCMode.All, orderNumber, NetworkUtils.ObjectToByteArray (stats));
+	}
+	[RPC]
+	void ReceiveStatsUpdate (int orderNumber, byte[] statsBytes)
+	{
+		var stats = NetworkUtils.ByteArrayToObject (statsBytes) as Stats;
+		orderNrToTankInfo [orderNumber].playerInfo.stats = stats;
+		// TODO do something with this list and dictionarys
+		foreach (var p in connectedPlayers)
+			if (p.orderNumber == orderNumber)
+				p.stats = stats;
+		scoreboard.PopulateList (connectedPlayers);
 	}
 }

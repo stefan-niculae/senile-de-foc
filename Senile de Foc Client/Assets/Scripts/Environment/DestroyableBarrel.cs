@@ -27,8 +27,9 @@ public class DestroyableBarrel : Damagable
 
 	public override void OnDeath (TankInfo source)
 	{
-		//source.barrels++;
-		//TODO
+		source.playerInfo.stats.barrels++;
+		GameServer.Instance.SendStatsUpdate (source.playerInfo.orderNumber, source.playerInfo.stats);
+		source.ShowStatsRecap ();
 	}
 
 	public override void OnRespawn (bool firstTime)

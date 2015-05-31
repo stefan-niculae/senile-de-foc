@@ -23,7 +23,7 @@ public class IngameInfo : BasicInfo
 	public override void AdditionalValuesSet (PlayerInfo playerInfo)
 	{
 		kills.text 		= playerInfo.stats.kills.ToString ();
-		deaths.text 	= playerInfo.stats.kills.ToString ();
+		deaths.text 	= playerInfo.stats.deaths.ToString ();
 		assists.text 	= playerInfo.stats.assists.ToString ();
 		barrels.text	= playerInfo.stats.barrels.ToString ();
 
