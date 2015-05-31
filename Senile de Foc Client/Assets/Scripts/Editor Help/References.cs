@@ -16,7 +16,7 @@ public class References : Singleton<References>
 
 	public GameObject[]
 		projectilePrefabs,
-		specialPrefabs; // TODO: electricity, gust, poison explosion prefabs
+		specialPrefabs;
 
 	public Sprite[]
 		primarySprites,

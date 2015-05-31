@@ -36,7 +36,7 @@ public class LoginForm : MonoBehaviour
 		set { 		 PlayerPrefs.SetString (savedUserKey, value); }
 	}
 
-	// TODO switch from plain text password to hashcode storing
+	// TODO maybe switch from plain text password to hashcode storing
 	string savedPassKey = "savedPass";
 	string savedPass
 	{

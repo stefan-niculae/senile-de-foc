@@ -49,7 +49,6 @@ public class Utils : MonoBehaviour
 	 */
 	public static Quaternion LookAt2D (Transform transf, Vector2 target)
 	{
-		// TODO: FKIN GET THIS TO WORK X(
 		// I dont know what's the math behind this
 		var dir = target - (Vector2)transf.position;
 		var angle = Mathf.Atan2 (dir.y, dir.x) * Mathf.Rad2Deg;

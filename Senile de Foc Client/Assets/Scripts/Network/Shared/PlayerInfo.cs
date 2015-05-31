@@ -1,9 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System;
 
 
 [System.Serializable]
-public class PlayerInfo
+public class PlayerInfo : IComparable
 {
 	public string name;
 	public string ip;
@@ -25,6 +26,18 @@ public class PlayerInfo
 	public override string ToString ()
 	{
 		return string.Format ("{0}\t{1}\t{2}\t{3}\t{4}\t{5}", name, ready ? "R" : "N", ip, tankType, rates, stats);
+	}
+
+	public int CompareTo (object obj)
+	{
+		if (obj == null)
+			return 1;
+
+		PlayerInfo other = obj as PlayerInfo;
+		if (other != null)
+			return this.stats.CompareTo (other.stats);
+		else
+			throw new ArgumentException ("Object is not a Player Info");
 	}
 	
 	public void Reset ()
@@ -145,24 +158,49 @@ public class Rates
 }
 
 [System.Serializable]
-public class Stats
+public class Stats : IComparable
 {
 	public int
 		kills,
 		deaths,
 		assists,
 		barrels;
+
+	public float KDratio
+	{
+		get 
+		{
+			return (float)kills / deaths;
+		}
+	}
 	
 	public Stats ()
 	{
 		kills =
-			deaths = 
-				assists = 
-				barrels = 0;
+		deaths = 
+		assists = 
+		barrels = 0;
 	}
 	
 	public override string ToString ()
 	{
 		return string.Format ("{0}\t{1}\t{2}\t{3}", kills, deaths, assists, barrels);
+	}
+
+	/**
+	 * 		< 0 	this < obj
+	 * 		= 0 	this = obj
+	 * 		> 0 	this > obj
+	 */
+	public int CompareTo (object obj)
+	{
+		if (obj == null)
+			return 1;
+
+		Stats other = obj as Stats;
+		if (other != null)
+			return this.KDratio.CompareTo (other.KDratio);
+		else
+			throw new ArgumentException ("Object is not a Stat");
 	}
 }

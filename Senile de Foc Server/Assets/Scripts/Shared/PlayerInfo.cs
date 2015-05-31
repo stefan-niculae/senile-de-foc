@@ -1,39 +1,52 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System;
 
 
 [System.Serializable]
-public class PlayerInfo
+public class PlayerInfo : IComparable
 {
 	public string name;
 	public string ip;
 	public bool ready;
 	public bool loadedGame;
 	public int orderNumber;
-
+	
 	public TankType tankType;
 	public Rates rates;
 	public Stats stats;
-
+	
 	public PlayerInfo (NetworkPlayer networkPlayer)
 	{
 		ip = networkPlayer.ipAddress;
-
+		
 		Reset ();
 	}
-
+	
 	public override string ToString ()
 	{
 		return string.Format ("{0}\t{1}\t{2}\t{3}\t{4}\t{5}", name, ready ? "R" : "N", ip, tankType, rates, stats);
 	}
-
+	
+	public int CompareTo (object obj)
+	{
+		if (obj == null)
+			return 1;
+		
+		PlayerInfo other = obj as PlayerInfo;
+		if (other != null)
+			return this.stats.CompareTo (other.stats);
+		else
+			throw new ArgumentException ("Object is not a Player Info");
+	}
+	
 	public void Reset ()
 	{
 		name = "";
 		ready = false;
 		loadedGame = false;
 		orderNumber = NetworkConstants.NOT_SET;
-
+		
 		rates = new Rates (NetworkConstants.NOT_SET);
 		tankType = new TankType (NetworkConstants.NOT_SET);
 		stats = new Stats ();
@@ -62,35 +75,35 @@ public class TankType
 	}
 	
 	public TankType (int slotNr, int bodyIndex 	= NetworkConstants.NOT_SET, 
-	                 			 int barrelIndex= NetworkConstants.NOT_SET, 
-	                 			 int primary 	= NetworkConstants.NOT_SET, 
-	                 			 int secondary 	= NetworkConstants.NOT_SET)
+	                 int barrelIndex= NetworkConstants.NOT_SET, 
+	                 int primary 	= NetworkConstants.NOT_SET, 
+	                 int secondary 	= NetworkConstants.NOT_SET)
 	{
 		this.slotNr = slotNr;
-
+		
 		if (slotNr >= 0 && slotNr < 4)
 			bodyIndex =
-			barrelIndex = slotNr;
-
+				barrelIndex = slotNr;
+		
 		if (slotNr == 0 || slotNr == 1)
 			primary = 0;
 		if (slotNr == 2 || slotNr == 3)
 			primary = 1;
-
+		
 		if (slotNr >= 0 && slotNr < 4)
 			secondary  = slotNr;
-
+		
 		this.bodyIndex = bodyIndex;
 		this.barrelIndex = barrelIndex;
 		this.primary = primary;
 		this.secondary = secondary;
 	}
-
+	
 	public override string ToString ()
 	{
 		return string.Format ("{0}\t{1}\t{2}\t{3}\t{4}", slotNr, bodyIndex, barrelIndex, primary, secondary);
 	}
-
+	
 }
 
 [System.Serializable]
@@ -101,7 +114,7 @@ public class Rates
 		fireRate,
 		armor,
 		speed;
-
+	
 	public Rates (int presetType)
 	{
 		if (presetType == 0) {
@@ -129,7 +142,7 @@ public class Rates
 			speed 	= 4;
 		}
 	}
-
+	
 	public Rates (int damage, int fireRate, int armor, int speed)
 	{
 		this.damage = damage;
@@ -137,7 +150,7 @@ public class Rates
 		this.armor = armor;
 		this.speed = speed;
 	}
-
+	
 	public override string ToString ()
 	{
 		return string.Format ("{0}\t{1}\t{2}\t{3}", damage, fireRate, armor, speed);
@@ -145,24 +158,49 @@ public class Rates
 }
 
 [System.Serializable]
-public class Stats
+public class Stats : IComparable
 {
 	public int
 		kills,
 		deaths,
 		assists,
 		barrels;
-
+	
+	public float KDratio
+	{
+		get 
+		{
+			return (float)kills / deaths;
+		}
+	}
+	
 	public Stats ()
 	{
 		kills =
-		deaths = 
-		assists = 
-		barrels = 0;
+			deaths = 
+				assists = 
+				barrels = 0;
 	}
-
+	
 	public override string ToString ()
 	{
 		return string.Format ("{0}\t{1}\t{2}\t{3}", kills, deaths, assists, barrels);
+	}
+	
+	/**
+	 * 		< 0 	this < obj
+	 * 		= 0 	this = obj
+	 * 		> 0 	this > obj
+	 */
+	public int CompareTo (object obj)
+	{
+		if (obj == null)
+			return 1;
+		
+		Stats other = obj as Stats;
+		if (other != null)
+			return this.KDratio.CompareTo (other.KDratio);
+		else
+			throw new ArgumentException ("Object is not a Stat");
 	}
 }

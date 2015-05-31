@@ -1,0 +1,2 @@
+battlefield tanks: tank attributes
+explosion dmg base val  1

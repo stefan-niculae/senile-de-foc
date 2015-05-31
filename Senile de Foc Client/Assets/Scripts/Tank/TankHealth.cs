@@ -24,7 +24,7 @@ public class TankHealth : Damagable
 //			respawnCountdown = GameObject.Find ("Respawn Countdown").GetComponent <Countdown> ();
 //		}
 
-		respawnTime = 1; // TODO set a reasonable respawn time
+		respawnTime = 5; // TODO set a reasonable respawn time
 
 		damaged = new ThresholdParticle[3];
 		damaged [0] = new ThresholdParticle (75, Utils.childWithName (tankInfo.transform, "Lightly Damaged"), 	170, 190);// flame just in the back
@@ -87,8 +87,10 @@ public class TankHealth : Damagable
 		// Clear the hitters list for the next death
 		hitters.Clear ();
 
-		if (camMovement != null) 
+		if (tankInfo.isMine) {
 			camMovement.HandleDeath ();
+			UIManager.Instance.SetPlayerPanelVisibility (false);
+		}
 
 		// Start the countdown
 		if (respawnCountdown != null)
@@ -110,6 +112,8 @@ public class TankHealth : Damagable
 			transform.position = new Vector3 (point.position.x, point.position.y, transform.position.z);
 			tankInfo.movement.rot = point.rotation.eulerAngles;
 			transform.localRotation = point.rotation;
+
+			UIManager.Instance.SetPlayerPanelVisibility (true);
 		}
 	}
 }

@@ -8,9 +8,12 @@ public class UIManager : Singleton<UIManager>
 	public GameObject loadingGraphic;
 	CameraMovement camMovement;
 
+	GameObject playerPanel;
+
 	void Awake ()
 	{
 		camMovement = GameObject.Find ("Main Camera").GetComponent <CameraMovement> ();
+		playerPanel = Utils.childWithName (transform, "Controlled Player Panel").gameObject;
 		SetVisibility (false);
 	}
 
@@ -31,5 +34,10 @@ public class UIManager : Singleton<UIManager>
 
 		Array.ForEach (togglable, t => t.SetActive (value));
 		loadingGraphic.SetActive (!value);
+	}
+
+	public void SetPlayerPanelVisibility (bool value)
+	{
+		playerPanel.SetActive (value);
 	}
 }

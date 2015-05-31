@@ -31,7 +31,8 @@ public class Scoreboard : Singleton<Scoreboard>
 		foreach (Transform child in container)
 			if (child != container)
 				Destroy (child.gameObject);
-
+		
+		playerInfos.Sort ();
 		for (int i = 0; i < playerInfos.Count; i++) {
 			Vector3 pos = container.localPosition;
 			pos.y = i * DISTANCE * -1;

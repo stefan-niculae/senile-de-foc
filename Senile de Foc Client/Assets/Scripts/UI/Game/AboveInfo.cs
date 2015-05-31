@@ -9,6 +9,8 @@ public class AboveInfo : Containable<AboveInfo>
 	ParticleSystem locatorParticles;
 	TankInfo player;
 
+	const float TOP_MARGIN = 1.85f;
+
 	void Awake ()
 	{
 		moveToContainer ("Above Infos");
@@ -51,10 +53,11 @@ public class AboveInfo : Containable<AboveInfo>
 	{
 		if (player != null) {
 			var pos = (Vector2)Camera.main.WorldToScreenPoint (player.transform.position);
-			// TODO keep the info inside the screen
-//			pos.y = Mathf.Clamp (pos.y, 
-//			                     float.NegativeInfinity, 
-//			                     Camera.main.WorldToScreenPoint (new Vector2 (0f, GameWorld.maxTop)).y);
+
+			var maxY = Camera.main.WorldToScreenPoint (new Vector2 (0, GameWorld.maxTop - TOP_MARGIN)).y;
+			if (pos.y > maxY)
+				pos.y = maxY;
+			
 			transform.position = pos;
 		}
 	}
