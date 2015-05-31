@@ -8,7 +8,7 @@ public class TankHealth : Damagable
 	TankInfo tankInfo;
 	
 	List <TankInfo> hitters;
-	CameraMovement camMovement;
+	[HideInInspector] public CameraMovement camMovement;
 	Countdown respawnCountdown;
 	ParticleSystem spawnParticles;
 
@@ -19,12 +19,12 @@ public class TankHealth : Damagable
 		tankInfo = GetComponentInParent <TankInfo> ();
 		spawnParticles = Utils.childWithName (tankInfo.transform, "Spawn Particles").GetComponent <ParticleSystem> ();;
 		
-		if (tankInfo.isMine) {
-			camMovement = Camera.main.GetComponent <CameraMovement> ();
-			respawnCountdown = GameObject.Find ("Respawn Countdown").GetComponent <Countdown> ();
-		}
+//		if (tankInfo.isMine) {
+//			camMovement = Camera.main.GetComponent <CameraMovement> ();
+//			respawnCountdown = GameObject.Find ("Respawn Countdown").GetComponent <Countdown> ();
+//		}
 
-		respawnTime = 2; // TODO set a reasonable respawn time
+		respawnTime = 1; // TODO set a reasonable respawn time
 
 		damaged = new ThresholdParticle[3];
 		damaged [0] = new ThresholdParticle (75, Utils.childWithName (tankInfo.transform, "Lightly Damaged"), 	170, 190);// flame just in the back
@@ -87,7 +87,7 @@ public class TankHealth : Damagable
 		// Clear the hitters list for the next death
 		hitters.Clear ();
 
-		if (camMovement != null)
+		if (camMovement != null) 
 			camMovement.HandleDeath ();
 
 		// Start the countdown
@@ -102,11 +102,14 @@ public class TankHealth : Damagable
 		
 		spawnParticles.Play ();
 
-		// Position
+		// On the first spawn, positions are not randomly taken
+		// they are given out in using the order number
 		if (!firstSpawn) {
 			var point = GameWorld.RandomSpawnPoint ();
-			transform.position = point.position;
-			transform.rotation = point.rotation;
+			// Keep the height, just move on up-down left-right
+			transform.position = new Vector3 (point.position.x, point.position.y, transform.position.z);
+			tankInfo.movement.rot = point.rotation.eulerAngles;
+			transform.localRotation = point.rotation;
 		}
 	}
 }

@@ -53,6 +53,8 @@ public class TankInfo : MonoBehaviour
 
 			GameObject.Find ("Projectile Button").GetComponent <Image> ().sprite = References.Instance.primarySprites   [playerInfo.tankType.projectileType];
 			GameObject.Find ("Secondary Button") .GetComponent <Image> ().sprite = References.Instance.secondarySprites [playerInfo.tankType.secondary];
+
+			health.camMovement = Camera.main.GetComponent <CameraMovement> ();
 		}
 
 		var aboveObj = GameObject.Instantiate (References.Instance.aboveInfoPrefab) as GameObject;

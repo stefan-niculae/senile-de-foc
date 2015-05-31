@@ -4,7 +4,7 @@ using System.Collections;
 public class CameraMovement : MonoBehaviour 
 {
 	public Transform player;
-	public bool followingPlayer = true;
+	public bool isFollowingPlayer = true;
 
 	public float followSpeed;
 	public float followThreshold; // distance the player can move before the camera catches up
@@ -36,14 +36,14 @@ public class CameraMovement : MonoBehaviour
 	{
 		// Y switches following / not following the player
 		if (Input.GetKeyDown (KeyCode.Y))
-			followingPlayer = !followingPlayer;
+			isFollowingPlayer = !isFollowingPlayer;
 		
 		// Holding space is not a toogle
 		HandleHolding ();
 
 		target = camTransf.position;
 
-		if (followingPlayer)
+		if (isFollowingPlayer)
 			FollowPlayer ();
 		else 
 			RegisterBumps ();
@@ -61,17 +61,17 @@ public class CameraMovement : MonoBehaviour
 	{
 		// On press, remember the toggle value and camera position
 		if (Input.GetKeyDown (KeyCode.Space)) {
-			valueBeforeHolding = followingPlayer;
+			valueBeforeHolding = isFollowingPlayer;
 			posBeforeHolding = camTransf.position;
 		}
 
 		if (Input.GetKey (KeyCode.Space))
-			followingPlayer = true;
+			isFollowingPlayer = true;
 
 		if (Input.GetKeyUp (KeyCode.Space)) {
-			followingPlayer = valueBeforeHolding;
+			isFollowingPlayer = valueBeforeHolding;
 			// If the camera was not set to follow before holding, return it to where it was
-			if (!followingPlayer)
+			if (!isFollowingPlayer)
 				camTransf.position = posBeforeHolding;
 		}
 	}
@@ -118,11 +118,11 @@ public class CameraMovement : MonoBehaviour
 		movedLastCall = (beforeMove != target);
 	}
 
-	bool valueBeforeDeath;
+	bool wasFollowingBeforeDeath;
 	public void HandleDeath ()
 	{
-		valueBeforeDeath = followingPlayer;
-		followingPlayer = false;
+		wasFollowingBeforeDeath = isFollowingPlayer;
+		isFollowingPlayer = false;
 	}
 
 	public void HandleRespawn ()
@@ -133,6 +133,6 @@ public class CameraMovement : MonoBehaviour
 		transform.position = pos;
 
 		// And resume the old following value
-		followingPlayer = valueBeforeDeath;
+		isFollowingPlayer = wasFollowingBeforeDeath;
 	}
 }

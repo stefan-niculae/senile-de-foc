@@ -23,7 +23,7 @@ public class TankMovement : MonoBehaviour
 		rot = transform.rotation.eulerAngles;
 	}
 
-	Vector3 rot;
+	[HideInInspector] public Vector3 rot; // to be changed on respawn
 	public void Move (float horiz, float vert, bool playerInput = false, float targetRot = float.NaN)
 	{
 		horiz = Mathf.Clamp (horiz, -1f, 1f);

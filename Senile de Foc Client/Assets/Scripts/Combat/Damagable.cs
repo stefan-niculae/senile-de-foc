@@ -6,7 +6,7 @@ using System.Collections.Generic;
 public abstract class Damagable : MonoBehaviour 
 {
 	protected float maxHp = 100;
-	public float respawnTime = 2;
+	protected float respawnTime;
 	public float damageAbsorbtion;
 
 	public int networkID = NetworkConstants.NOT_SET;
@@ -126,7 +126,6 @@ public abstract class Damagable : MonoBehaviour
 
 		// Teleport the body far away
 		transform.position = hidden;
-		
 
 		StartCoroutine (Respawn ());
 	}
