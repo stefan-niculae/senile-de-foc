@@ -83,10 +83,14 @@ public class Projectile : Containable<Projectile>
 
 	void Explode ()
 	{
-		GameObject explosion = Instantiate (
+		GameObject explosion = Network.Instantiate (
 			explosionPrefab,
 			pointOfCollision,
-			Quaternion.identity) as GameObject;
+			Quaternion.identity,
+			0) as GameObject;
+		// Since we only set it up on the client that shoot it, 
+		// the damage only happens once
+		// but the particles are shown everywhere
 		explosion.GetComponent <Explosion> ().Setup (source, source.cannonProjectileExplosionStats);
 		Destroy (gameObject);
 	}
