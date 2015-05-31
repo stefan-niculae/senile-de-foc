@@ -9,7 +9,7 @@ public class TankMovement : MonoBehaviour
 		rotationSpeed;
 
 	Rigidbody2D body;
-//	TankTracksManager tracks; reenable
+	[HideInInspector] public TankTracksManager tracks;
 
 	void Awake ()
 	{
@@ -21,9 +21,6 @@ public class TankMovement : MonoBehaviour
 	{
 		// Setting up references
 		rot = transform.rotation.eulerAngles;
-
-		// We do this and don't set it public because prefabs can't have non prefab fields preassigned
-//		tracks = GameObject.Find ("Tracks").GetComponent <TankTracksManager> (); reenable
 	}
 
 	Vector3 rot;
@@ -48,7 +45,7 @@ public class TankMovement : MonoBehaviour
 		body.AddForce (force);
 		
 		// Only spawn tracks if the tank is moving (and only for the player tank)
-//		if (playerInput && vert != 0)
-//			tracks.Show (transform.position, transform.rotation); reenable
+		if (playerInput && vert != 0)
+			tracks.Show (transform.position, transform.rotation);
 	}
 }

@@ -63,6 +63,7 @@ public class DamageOverTime : Containable<DamageOverTime>
 
 	public void Clear ()
 	{
-		Destroy (gameObject);
+		if (GetComponent <NetworkView> ().isMine)
+			Network.Destroy (gameObject);
 	}
 }

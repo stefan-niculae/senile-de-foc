@@ -7,11 +7,9 @@ public class References : Singleton<References>
 		bodySprites,
 		barrelSprites;
 
-	public Sprite
-		readyCheckmark;
+	public Sprite readyCheckmark;
 
-	public Sprite
-		invisibleSprite;
+	public Sprite invisibleSprite;
 
 	public GameObject tankPrefab;
 	public GameObject aboveInfoPrefab;
@@ -23,4 +21,7 @@ public class References : Singleton<References>
 	public Sprite[]
 		primarySprites,
 		secondarySprites;
+
+	public GameObject trackManagerPrefab;
+	public GameObject trackPrefab;
 }

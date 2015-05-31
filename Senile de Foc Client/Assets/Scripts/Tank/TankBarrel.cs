@@ -58,10 +58,6 @@ public class TankBarrel : MonoBehaviour
 
 	public void Rotate (Quaternion rot)
 	{
-		// reenable?
-//		// We do this because the barrel should not rotate around its axis
-//		// instead, it should rotate around the barrel stand
-//		stand.rotation = rot;
 		transform.rotation = rot;
 	}
 }

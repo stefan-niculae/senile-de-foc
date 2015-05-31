@@ -3,7 +3,7 @@ using System.Collections;
 using System;
 using System.Collections.Generic;
 
-public class Utils : MonoBehaviour 
+public class Utils : MonoBehaviour
 {
 	// TODO: make more tests on this function and also move them in a tests file!!!
 	void DistributionTest ()
@@ -191,5 +191,18 @@ public class Utils : MonoBehaviour
 		for (int i = 0; i < toDel.Length; i++)
 			if (toDel[i] != null && toDel[i] != container && toDel[i].tag != "Polygon")
 				DestroyImmediate (toDel[i].gameObject, false);
+	}
+
+
+	public static void NetworkDestroy (MonoBehaviour caller, GameObject obj, float time)
+	{
+		caller.StartCoroutine (Utils.WaitAndNetworkDestroy (obj, time));
+	}
+
+	static IEnumerator WaitAndNetworkDestroy (GameObject obj, float time)
+	{
+		yield return new WaitForSeconds (time);
+		if (obj != null)
+			Network.Destroy (obj);
 	}
 }

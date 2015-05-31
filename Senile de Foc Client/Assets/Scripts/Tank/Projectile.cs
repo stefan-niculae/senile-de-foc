@@ -28,7 +28,8 @@ public class Projectile : Containable<Projectile>
 		this.source = source;
 
 		// Automatically destroy in a while if the bullet got stuck
-		Destroy (gameObject, TIME_TO_LIVE);
+		if (GetComponent <NetworkView> ().isMine)
+			Utils.NetworkDestroy (this, gameObject, TIME_TO_LIVE);
 	}
 
 	int timesCollided;
@@ -92,6 +93,8 @@ public class Projectile : Containable<Projectile>
 		// the damage only happens once
 		// but the particles are shown everywhere
 		explosion.GetComponent <Explosion> ().Setup (source, source.cannonProjectileExplosionStats);
-		Destroy (gameObject);
+		
+		if (GetComponent <NetworkView> ().isMine)
+			Network.Destroy (gameObject);
 	}
 }

@@ -22,9 +22,10 @@ public class Explosion : Containable<Explosion>
 //		transform.position = pos;
 
 		// We don't destroy this immediately so that the particles may show
-		Destroy (gameObject, TIME_TO_LIVE);
+		if (GetComponent <NetworkView> ().isMine)
+			Utils.NetworkDestroy (this, gameObject, TIME_TO_LIVE);
 	}
-	
+
 	public void Setup (TankInfo source, ExplosionStats stats = null, Damagable ignore = null)
 	{
 		this.source = source;

@@ -35,7 +35,10 @@ public class InstantiateAndFollow : MonoBehaviour
 		// and we use that to uniquely identify them before initialization
 		tank.GetComponent <TankInfo> ().Initialize (MarkerManager.Instance.PlayerFromSpawnPos (transform.position), 
 		                                            netView.isMine);
-		
+
+		var trackManager = Instantiate (References.Instance.trackManagerPrefab) as GameObject;
+		tank.GetComponent<TankInfo> ().movement.tracks = trackManager.GetComponent <TankTracksManager> ();
+
 		body = tank.transform;
 		barrel = Utils.childWithName (body, "Barrel");
 		

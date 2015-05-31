@@ -2,13 +2,17 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
-public class TankTracksManager : Singleton<TankTracksManager> 
+public class TankTracksManager : Containable<TankTracksManager> 
 {
-	public GameObject trackPrefab;
-	public int maxTracks = 250;
-	public float treshold = .25f;
+	const int 	MAX_TRACKS 	= 100;
+	const float THRESHOLD 	= .25f;
 
 	TankTrack[] tracks;
+
+	void Awake ()
+	{
+		moveToContainer ("Track Managers");
+	}
 
 	void Start ()
 	{
@@ -16,10 +20,10 @@ public class TankTracksManager : Singleton<TankTracksManager>
 		hidden.z = transform.position.z;
 		TankTrack.hidden = hidden;
 
-		tracks = new TankTrack[maxTracks];
-		for (int i = 0; i < maxTracks; i++) {
+		tracks = new TankTrack [MAX_TRACKS];
+		for (int i = 0; i < MAX_TRACKS; i++) {
 			GameObject spawned = Instantiate (
-				trackPrefab,
+				References.Instance.trackPrefab,
 				hidden,
 				Quaternion.identity) as GameObject;
 
@@ -32,7 +36,7 @@ public class TankTracksManager : Singleton<TankTracksManager>
 	public void Show (Vector3 pos, Quaternion rot)
 	{
 		// Do not spawn tracks too close to eachother
-		if (Vector2.Distance (pos, lastPos) < treshold)
+		if (Vector2.Distance (pos, lastPos) < THRESHOLD)
 			return;
 		lastPos = pos;
 
@@ -40,6 +44,6 @@ public class TankTracksManager : Singleton<TankTracksManager>
 
 		tracks[index].MoveTo (pos, rot);
 		// Circularly get to the next index
-		index = (index + 1) % maxTracks;
+		index = (index + 1) % MAX_TRACKS;
 	}
 }
