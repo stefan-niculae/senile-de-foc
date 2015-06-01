@@ -7,7 +7,6 @@ public class GameServer : Singleton<GameServer>
 {
 	public static NetworkView netView;
 	public static PlayerInfo selfInfo;
-	Scoreboard scoreboard;
 	public List<PlayerInfo> connectedPlayers;
 	public Dictionary<int, Damagable> damageables;
 	public Dictionary<int, TankInfo> orderNrToTankInfo;
@@ -15,7 +14,6 @@ public class GameServer : Singleton<GameServer>
 	void Awake ()
 	{
 		netView = Instance.GetComponent <NetworkView> ();
-		scoreboard = GameObject.Find ("Scoreboard").GetComponent <Scoreboard> ();
 		SelfInfo (info => {
 			selfInfo = info;
 			NetworkStatus.Show ("Received self info, waiting for others", NetworkStatus.MessageType.working);
@@ -52,7 +50,7 @@ public class GameServer : Singleton<GameServer>
 	{
 		// The received byte array represents the serialization of a list containing player infos
 		connectedPlayers = NetworkUtils.ByteArrayToObject (received) as List<PlayerInfo>;
-		scoreboard.PopulateList (connectedPlayers);
+		Scoreboard.Instance.PopulateList (connectedPlayers);
 
 		NetworkStatus.Show ("Updated player list", NetworkStatus.MessageType.success);
 	}
@@ -61,8 +59,9 @@ public class GameServer : Singleton<GameServer>
 	void ReceiveMatchStart ()
 	{
 		NetworkStatus.Show ("Everyone connected, match starts", NetworkStatus.MessageType.success);
-		UIManager.Instance.SetVisibility (true);
+		UIManager.Instance.PlayingView ();
 		MarkerManager.Instance.Spawn ();
+
 	}
 
 	public void SendHealthUpdate (int networkID, float amount)
@@ -90,6 +89,6 @@ public class GameServer : Singleton<GameServer>
 		foreach (var p in connectedPlayers)
 			if (p.orderNumber == orderNumber)
 				p.stats = stats;
-		scoreboard.PopulateList (connectedPlayers);
+		Scoreboard.Instance.PopulateList (connectedPlayers);
 	}
 }

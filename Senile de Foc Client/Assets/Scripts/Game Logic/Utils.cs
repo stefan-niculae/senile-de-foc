@@ -204,4 +204,11 @@ public class Utils : MonoBehaviour
 		if (obj != null)
 			Network.Destroy (obj);
 	}
+
+	public static string FloatToTime (float toConvert)
+	{
+		return string.Format("{0:#0}:{1:00}", 
+			Mathf.FloorToInt (toConvert  / 60),	// minutes
+			Mathf.FloorToInt (toConvert) % 60);	// seconds
+	}
 }

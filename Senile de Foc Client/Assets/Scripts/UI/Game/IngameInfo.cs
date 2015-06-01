@@ -9,7 +9,7 @@ public class IngameInfo : BasicInfo
 	Text assists;
 	Text barrels;
 
-	Text respawn;
+	Text respawn;//unused
 
 	public override void AdditionalReferencesSet ()
 	{

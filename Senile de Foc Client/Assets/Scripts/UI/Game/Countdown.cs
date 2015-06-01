@@ -5,9 +5,8 @@ using System;
 
 public class Countdown : MonoBehaviour 
 {
-	public GameObject overlay = null;
-
 	Text textHandle;
+	public string toAppend;
 
 	float _val;
 	float val
@@ -16,17 +15,14 @@ public class Countdown : MonoBehaviour
 		set
 		{
 			_val = value;
-			textHandle.text = val.ToString ("F2");
+			textHandle.text = Utils.FloatToTime (_val) + toAppend;
 		}
 	}
 
 	void Awake ()
 	{
 		textHandle = GetComponent <Text> ();
-		textHandle.enabled = false;
-
-		if (overlay != null)
-			overlay.SetActive (false);
+		textHandle.text = "";
 	}
 
 	Action onCompletion = null;
@@ -37,11 +33,6 @@ public class Countdown : MonoBehaviour
 			Debug.LogErrorFormat ("Countdown started with time {0}", time);
 
 		val = time;
-
-		if (overlay != null)
-			overlay.SetActive (true);
-		textHandle.enabled = true;
-
 		this.onCompletion = onCompletion;
 	}
 
@@ -57,8 +48,7 @@ public class Countdown : MonoBehaviour
 
 	void Finished ()
 	{
-		textHandle.enabled = false;
-		overlay.SetActive (false);
+		textHandle.text = "";
 
 		if (onCompletion != null)
 			onCompletion ();

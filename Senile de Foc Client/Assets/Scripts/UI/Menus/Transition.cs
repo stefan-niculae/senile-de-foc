@@ -4,7 +4,7 @@ using System;
 
 public class Transition : MonoBehaviour 
 {
-	public enum Properties { scale, position };
+	public enum Properties { scale, position, rotation };
 	[HideInInspector] public Properties property;
 
 	Vector3 start;
@@ -32,8 +32,12 @@ public class Transition : MonoBehaviour
 	{
 		if (property == Properties.scale)
 			return transform.localScale;
-		else
+		if (property == Properties.position)
 			return transform.localPosition;
+		if (property == Properties.rotation)
+			return transform.localRotation.eulerAngles;
+
+		return Vector3.zero; // will never reach this
 	}
 
 	void ChangeTo (Vector3 value)
@@ -42,6 +46,8 @@ public class Transition : MonoBehaviour
 			transform.localScale = value;
 		if (property == Properties.position)
 			transform.localPosition = value;
+		if (property == Properties.rotation)
+			transform.localRotation = Quaternion.Euler (value);
 	}
 	
 	public void TransitionTo (Vector3 destination, float duration = float.NaN, Action callback = null)

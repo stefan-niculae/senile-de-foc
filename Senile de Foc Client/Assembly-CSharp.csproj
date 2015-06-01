@@ -1,133 +1,134 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>10.0.20506</ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{A3A8F88C-1D6D-A82A-D4B1-56260BDF5AC2}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <AssemblyName>Assembly-CSharp</AssemblyName>
-    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <BaseDirectory>Assets</BaseDirectory>
+	<Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+	<Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+	<ProductVersion>10.0.20506</ProductVersion>
+	<SchemaVersion>2.0</SchemaVersion>
+	<ProjectGuid>{A3A8F88C-1D6D-A82A-D4B1-56260BDF5AC2}</ProjectGuid>
+	<OutputType>Library</OutputType>
+	<AppDesignerFolder>Properties</AppDesignerFolder>
+	<RootNamespace></RootNamespace>
+	<AssemblyName>Assembly-CSharp</AssemblyName>
+	<TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+	<FileAlignment>512</FileAlignment>
+	<BaseDirectory>Assets</BaseDirectory>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>True</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>False</Optimize>
-    <OutputPath>Temp\bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE;UNITY_5_0_1;UNITY_5_0;UNITY_5;ENABLE_LICENSE_RENAME;ENABLE_NEW_BUGREPORTER;ENABLE_2D_PHYSICS;ENABLE_4_6_FEATURES;ENABLE_AUDIO;ENABLE_CACHING;ENABLE_CLOTH;ENABLE_DUCK_TYPING;ENABLE_FRAME_DEBUGGER;ENABLE_GENERICS;ENABLE_HOME_SCREEN;ENABLE_IMAGEEFFECTS;ENABLE_LIGHT_PROBES_LEGACY;ENABLE_MICROPHONE;ENABLE_MULTIPLE_DISPLAYS;ENABLE_NEW_HIERARCHY;ENABLE_PHYSICS;ENABLE_PHYSICS_PHYSX3;ENABLE_PLUGIN_INSPECTOR;ENABLE_SHADOWS;ENABLE_SINGLE_INSTANCE_BUILD_SETTING;ENABLE_SPRITES;ENABLE_TERRAIN;ENABLE_UNITYEVENTS;ENABLE_WEBCAM;ENABLE_WWW;ENABLE_AUDIOMIXER_SUSPEND;ENABLE_NONPRO;INCLUDE_DYNAMIC_GI;INCLUDE_GI;INCLUDE_IL2CPP;PLATFORM_SUPPORTS_MONO;RENDER_SOFTWARE_CURSOR;UNITY_STANDALONE_OSX;UNITY_STANDALONE;ENABLE_SUBSTANCE;ENABLE_GAMECENTER;ENABLE_TEXTUREID_MAP;ENABLE_RUNTIME_GI;ENABLE_MOVIES;ENABLE_NETWORK;ENABLE_MONO;ENABLE_PROFILER;UNITY_EDITOR;UNITY_EDITOR_64;UNITY_EDITOR_OSX</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <NoWarn>0169</NoWarn>
+	<DebugSymbols>true</DebugSymbols>
+	<DebugType>full</DebugType>
+	<Optimize>false</Optimize>
+	<OutputPath>Temp\bin\Debug\</OutputPath>
+	<DefineConstants>DEBUG;TRACE;UNITY_5_0_1;UNITY_5_0;UNITY_5;ENABLE_LICENSE_RENAME;ENABLE_NEW_BUGREPORTER;ENABLE_2D_PHYSICS;ENABLE_4_6_FEATURES;ENABLE_AUDIO;ENABLE_CACHING;ENABLE_CLOTH;ENABLE_DUCK_TYPING;ENABLE_FRAME_DEBUGGER;ENABLE_GENERICS;ENABLE_HOME_SCREEN;ENABLE_IMAGEEFFECTS;ENABLE_LIGHT_PROBES_LEGACY;ENABLE_MICROPHONE;ENABLE_MULTIPLE_DISPLAYS;ENABLE_NEW_HIERARCHY;ENABLE_PHYSICS;ENABLE_PHYSICS_PHYSX3;ENABLE_PLUGIN_INSPECTOR;ENABLE_SHADOWS;ENABLE_SINGLE_INSTANCE_BUILD_SETTING;ENABLE_SPRITES;ENABLE_TERRAIN;ENABLE_UNITYEVENTS;ENABLE_WEBCAM;ENABLE_WWW;ENABLE_AUDIOMIXER_SUSPEND;ENABLE_NONPRO;INCLUDE_DYNAMIC_GI;INCLUDE_GI;INCLUDE_IL2CPP;PLATFORM_SUPPORTS_MONO;RENDER_SOFTWARE_CURSOR;UNITY_STANDALONE_WIN;UNITY_STANDALONE;ENABLE_SUBSTANCE;ENABLE_TEXTUREID_MAP;ENABLE_RUNTIME_GI;ENABLE_MOVIES;ENABLE_NETWORK;ENABLE_MONO;ENABLE_PROFILER;UNITY_EDITOR;UNITY_EDITOR_64;UNITY_EDITOR_OSX</DefineConstants>
+	<ErrorReport>prompt</ErrorReport>
+	<WarningLevel>4</WarningLevel>
+	<NoWarn>0169</NoWarn>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>True</Optimize>
-    <OutputPath>Temp\bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <NoWarn>0169</NoWarn>
+	<DebugType>pdbonly</DebugType>
+	<Optimize>true</Optimize>
+	<OutputPath>Temp\bin\Release\</OutputPath>
+	<DefineConstants>TRACE</DefineConstants>
+	<ErrorReport>prompt</ErrorReport>
+	<WarningLevel>4</WarningLevel>
+	<NoWarn>0169</NoWarn>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="UnityEngine">
-      <HintPath>..\..\..\..\Applications\Unity\Unity.app\Contents\Frameworks\Managed\UnityEngine.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEditor">
-      <HintPath>..\..\..\..\Applications\Unity\Unity.app\Contents\Frameworks\Managed\UnityEditor.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Xml" />
+	<Reference Include="System" />
+    <Reference Include="System.XML" />
+	<Reference Include="System.Core" />
+	<Reference Include="System.Xml.Linq" />
+	<Reference Include="UnityEngine">
+	  <HintPath>/Applications/Unity/Unity.app/Contents/Frameworks/Managed/UnityEngine.dll</HintPath>
+	</Reference>
+	<Reference Include="UnityEditor">
+	  <HintPath>/Applications/Unity/Unity.app/Contents/Frameworks/Managed/UnityEditor.dll</HintPath>
+	</Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\JMO Assets\Cartoon FX\Scripts\CFX2_AutoRotate.cs" />
-    <Compile Include="Assets\JMO Assets\Cartoon FX\Scripts\CFX_AutoDestructShuriken.cs" />
-    <Compile Include="Assets\JMO Assets\Cartoon FX\Scripts\CFX_AutoRotate.cs" />
-    <Compile Include="Assets\JMO Assets\Cartoon FX\Scripts\CFX_AutodestructWhenNoChildren.cs" />
-    <Compile Include="Assets\JMO Assets\Cartoon FX\Scripts\CFX_InspectorHelp.cs" />
-    <Compile Include="Assets\JMO Assets\Cartoon FX\Scripts\CFX_LightFlicker.cs" />
-    <Compile Include="Assets\JMO Assets\Cartoon FX\Scripts\CFX_LightIntensityFade.cs" />
-    <Compile Include="Assets\JMO Assets\Cartoon FX\Scripts\CFX_ShurikenThreadFix.cs" />
-    <Compile Include="Assets\JMO Assets\Cartoon FX\Spawn System\CFX_SpawnSystem.cs" />
-    <Compile Include="Assets\PrefabEvolution\Sources\EvolvePrefab.cs" />
-    <Compile Include="Assets\PrefabEvolution\Sources\PEExposedProperties.cs" />
-    <Compile Include="Assets\PrefabEvolution\Sources\PEHideFlagsUtility.cs" />
-    <Compile Include="Assets\PrefabEvolution\Sources\PELinkage.cs" />
-    <Compile Include="Assets\PrefabEvolution\Sources\PEModifications.cs" />
-    <Compile Include="Assets\PrefabEvolution\Sources\PEPrefabScript.cs" />
-    <Compile Include="Assets\Scripts\Combat\Damagable.cs" />
-    <Compile Include="Assets\Scripts\Combat\DamageOverTime.cs" />
-    <Compile Include="Assets\Scripts\Combat\Explosion.cs" />
-    <Compile Include="Assets\Scripts\Editor Help\BorderSpawner.cs" />
-    <Compile Include="Assets\Scripts\Editor Help\EnvironmentItemSpawner.cs" />
-    <Compile Include="Assets\Scripts\Editor Help\OnOffTurner.cs" />
-    <Compile Include="Assets\Scripts\Editor Help\References.cs" />
-    <Compile Include="Assets\Scripts\Environment\DestroyableBarrel.cs" />
-    <Compile Include="Assets\Scripts\Environment\TilingBasedOnScale.cs" />
-    <Compile Include="Assets\Scripts\Game Logic\Constants.cs" />
-    <Compile Include="Assets\Scripts\Game Logic\Containable.cs" />
-    <Compile Include="Assets\Scripts\Game Logic\GameWorld.cs" />
-    <Compile Include="Assets\Scripts\Game Logic\Singleton.cs" />
-    <Compile Include="Assets\Scripts\Game Logic\Utils.cs" />
-    <Compile Include="Assets\Scripts\InstantiateAndFollow.cs" />
-    <Compile Include="Assets\Scripts\Loading\FirstScene.cs" />
-    <Compile Include="Assets\Scripts\Loading\LoadingManager.cs" />
-    <Compile Include="Assets\Scripts\Network\GameServer.cs" />
-    <Compile Include="Assets\Scripts\Network\MarkerManager.cs" />
-    <Compile Include="Assets\Scripts\Network\NetworkManager.cs" />
-    <Compile Include="Assets\Scripts\Network\NetworkStatus.cs" />
-    <Compile Include="Assets\Scripts\Network\Shared\NetworkConstants.cs" />
-    <Compile Include="Assets\Scripts\Network\Shared\NetworkUtils.cs" />
-    <Compile Include="Assets\Scripts\Network\Shared\PlayerInfo.cs" />
-    <Compile Include="Assets\Scripts\Network\SplashServer.cs" />
-    <Compile Include="Assets\Scripts\Tank\Cannon.cs" />
-    <Compile Include="Assets\Scripts\Tank\DragParent.cs" />
-    <Compile Include="Assets\Scripts\Tank\Input\FiringAI.cs" />
-    <Compile Include="Assets\Scripts\Tank\Input\Patrol.cs" />
-    <Compile Include="Assets\Scripts\Tank\Input\PlayerInput.cs" />
-    <Compile Include="Assets\Scripts\Tank\Projectile.cs" />
-    <Compile Include="Assets\Scripts\Tank\Secondary.cs" />
-    <Compile Include="Assets\Scripts\Tank\TankAttributes.cs" />
-    <Compile Include="Assets\Scripts\Tank\TankBarrel.cs" />
-    <Compile Include="Assets\Scripts\Tank\TankHealth.cs" />
-    <Compile Include="Assets\Scripts\Tank\TankInfo.cs" />
-    <Compile Include="Assets\Scripts\Tank\TankMovement.cs" />
-    <Compile Include="Assets\Scripts\Tank\TankTrack.cs" />
-    <Compile Include="Assets\Scripts\Tank\TankTracksManager.cs" />
-    <Compile Include="Assets\Scripts\Tank\Weapon.cs" />
-    <Compile Include="Assets\Scripts\Tests\BetweenTest.cs" />
-    <Compile Include="Assets\Scripts\UI\BasicInfo.cs" />
-    <Compile Include="Assets\Scripts\UI\Game\AboveInfo.cs" />
-    <Compile Include="Assets\Scripts\UI\Game\CameraMovement.cs" />
-    <Compile Include="Assets\Scripts\UI\Game\Countdown.cs" />
-    <Compile Include="Assets\Scripts\UI\Game\HealthBar.cs" />
-    <Compile Include="Assets\Scripts\UI\Game\IngameInfo.cs" />
-    <Compile Include="Assets\Scripts\UI\Game\Minimap.cs" />
-    <Compile Include="Assets\Scripts\UI\Game\Scoreboard.cs" />
-    <Compile Include="Assets\Scripts\UI\Menus\AttributeBeans.cs" />
-    <Compile Include="Assets\Scripts\UI\Menus\LobbyInfo.cs" />
-    <Compile Include="Assets\Scripts\UI\Menus\LoginForm.cs" />
-    <Compile Include="Assets\Scripts\UI\Menus\MirrorImage.cs" />
-    <Compile Include="Assets\Scripts\UI\Menus\SplashMenus.cs" />
-    <Compile Include="Assets\Scripts\UI\Menus\TankCustomization.cs" />
-    <Compile Include="Assets\Scripts\UI\Menus\TankOption.cs" />
-    <Compile Include="Assets\Scripts\UI\Menus\TankSelection.cs" />
-    <Compile Include="Assets\Scripts\UI\Menus\Transition.cs" />
-    <Compile Include="Assets\Scripts\UI\Menus\WaitingLobby.cs" />
-    <Compile Include="Assets\Scripts\UI\UIManager.cs" />
-    <None Include="Assets\JMO Assets\Cartoon FX\Shaders\CFX4 Particle AlphaBlend+AddSoft VColor.shader" />
-    <Reference Include="UnityEngine.UI">
-      <HintPath>..\..\..\..\Applications\Unity\Unity.app\Contents\UnityExtensions\Unity\GUISystem\UnityEngine.UI.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEditor.iOS.Extensions.Xcode">
-      <HintPath>..\..\..\..\Applications\Unity\Unity.app\Contents\PlaybackEngines\iossupport\UnityEditor.iOS.Extensions.Xcode.dll</HintPath>
-    </Reference>
-    <None Include="Assets\JMO Assets\Cartoon FX\Shaders %28Mobile%29\CFXM_MobileParticleAdd_Alpha8.shader" />
+     <Compile Include="Assets\JMO Assets\Cartoon FX\Scripts\CFX2_AutoRotate.cs" />
+     <Compile Include="Assets\JMO Assets\Cartoon FX\Scripts\CFX_AutoDestructShuriken.cs" />
+     <Compile Include="Assets\JMO Assets\Cartoon FX\Scripts\CFX_AutoRotate.cs" />
+     <Compile Include="Assets\JMO Assets\Cartoon FX\Scripts\CFX_AutodestructWhenNoChildren.cs" />
+     <Compile Include="Assets\JMO Assets\Cartoon FX\Scripts\CFX_InspectorHelp.cs" />
+     <Compile Include="Assets\JMO Assets\Cartoon FX\Scripts\CFX_LightFlicker.cs" />
+     <Compile Include="Assets\JMO Assets\Cartoon FX\Scripts\CFX_LightIntensityFade.cs" />
+     <Compile Include="Assets\JMO Assets\Cartoon FX\Scripts\CFX_ShurikenThreadFix.cs" />
+     <Compile Include="Assets\JMO Assets\Cartoon FX\Spawn System\CFX_SpawnSystem.cs" />
+     <Compile Include="Assets\PrefabEvolution\Sources\EvolvePrefab.cs" />
+     <Compile Include="Assets\PrefabEvolution\Sources\PEExposedProperties.cs" />
+     <Compile Include="Assets\PrefabEvolution\Sources\PEHideFlagsUtility.cs" />
+     <Compile Include="Assets\PrefabEvolution\Sources\PELinkage.cs" />
+     <Compile Include="Assets\PrefabEvolution\Sources\PEModifications.cs" />
+     <Compile Include="Assets\PrefabEvolution\Sources\PEPrefabScript.cs" />
+     <Compile Include="Assets\Scripts\Combat\Damagable.cs" />
+     <Compile Include="Assets\Scripts\Combat\DamageOverTime.cs" />
+     <Compile Include="Assets\Scripts\Combat\Explosion.cs" />
+     <Compile Include="Assets\Scripts\Editor Help\BorderSpawner.cs" />
+     <Compile Include="Assets\Scripts\Editor Help\EnvironmentItemSpawner.cs" />
+     <Compile Include="Assets\Scripts\Editor Help\References.cs" />
+     <Compile Include="Assets\Scripts\Environment\DestroyableBarrel.cs" />
+     <Compile Include="Assets\Scripts\Environment\TilingBasedOnScale.cs" />
+     <Compile Include="Assets\Scripts\Game Logic\Constants.cs" />
+     <Compile Include="Assets\Scripts\Game Logic\Containable.cs" />
+     <Compile Include="Assets\Scripts\Game Logic\GameWorld.cs" />
+     <Compile Include="Assets\Scripts\Game Logic\Singleton.cs" />
+     <Compile Include="Assets\Scripts\Game Logic\Utils.cs" />
+     <Compile Include="Assets\Scripts\InstantiateAndFollow.cs" />
+     <Compile Include="Assets\Scripts\Loading\FirstScene.cs" />
+     <Compile Include="Assets\Scripts\Loading\LoadingManager.cs" />
+     <Compile Include="Assets\Scripts\Network\GameServer.cs" />
+     <Compile Include="Assets\Scripts\Network\MarkerManager.cs" />
+     <Compile Include="Assets\Scripts\Network\NetworkManager.cs" />
+     <Compile Include="Assets\Scripts\Network\NetworkStatus.cs" />
+     <Compile Include="Assets\Scripts\Network\Shared\NetworkConstants.cs" />
+     <Compile Include="Assets\Scripts\Network\Shared\NetworkUtils.cs" />
+     <Compile Include="Assets\Scripts\Network\Shared\PlayerInfo.cs" />
+     <Compile Include="Assets\Scripts\Network\SplashServer.cs" />
+     <Compile Include="Assets\Scripts\Tank\Cannon.cs" />
+     <Compile Include="Assets\Scripts\Tank\DragParent.cs" />
+     <Compile Include="Assets\Scripts\Tank\Input\FiringAI.cs" />
+     <Compile Include="Assets\Scripts\Tank\Input\Patrol.cs" />
+     <Compile Include="Assets\Scripts\Tank\Input\PlayerInput.cs" />
+     <Compile Include="Assets\Scripts\Tank\Projectile.cs" />
+     <Compile Include="Assets\Scripts\Tank\Secondary.cs" />
+     <Compile Include="Assets\Scripts\Tank\TankAttributes.cs" />
+     <Compile Include="Assets\Scripts\Tank\TankBarrel.cs" />
+     <Compile Include="Assets\Scripts\Tank\TankHealth.cs" />
+     <Compile Include="Assets\Scripts\Tank\TankInfo.cs" />
+     <Compile Include="Assets\Scripts\Tank\TankMovement.cs" />
+     <Compile Include="Assets\Scripts\Tank\TankTrack.cs" />
+     <Compile Include="Assets\Scripts\Tank\TankTracksManager.cs" />
+     <Compile Include="Assets\Scripts\Tank\Weapon.cs" />
+     <Compile Include="Assets\Scripts\Tests\BetweenTest.cs" />
+     <Compile Include="Assets\Scripts\UI\BasicInfo.cs" />
+     <Compile Include="Assets\Scripts\UI\Game\AboveInfo.cs" />
+     <Compile Include="Assets\Scripts\UI\Game\CameraMovement.cs" />
+     <Compile Include="Assets\Scripts\UI\Game\Countdown.cs" />
+     <Compile Include="Assets\Scripts\UI\Game\HealthBar.cs" />
+     <Compile Include="Assets\Scripts\UI\Game\IngameInfo.cs" />
+     <Compile Include="Assets\Scripts\UI\Game\Minimap.cs" />
+     <Compile Include="Assets\Scripts\UI\Game\RespawnFrame.cs" />
+     <Compile Include="Assets\Scripts\UI\Game\Scoreboard.cs" />
+     <Compile Include="Assets\Scripts\UI\Menus\AttributeBeans.cs" />
+     <Compile Include="Assets\Scripts\UI\Menus\LobbyInfo.cs" />
+     <Compile Include="Assets\Scripts\UI\Menus\LoginForm.cs" />
+     <Compile Include="Assets\Scripts\UI\Menus\MirrorImage.cs" />
+     <Compile Include="Assets\Scripts\UI\Menus\SplashMenus.cs" />
+     <Compile Include="Assets\Scripts\UI\Menus\TankCustomization.cs" />
+     <Compile Include="Assets\Scripts\UI\Menus\TankOption.cs" />
+     <Compile Include="Assets\Scripts\UI\Menus\TankSelection.cs" />
+     <Compile Include="Assets\Scripts\UI\Menus\Transition.cs" />
+     <Compile Include="Assets\Scripts\UI\Menus\WaitingLobby.cs" />
+     <Compile Include="Assets\Scripts\UI\UIManager.cs" />
+     <None Include="Assets\JMO Assets\Cartoon FX\Shaders (Mobile)\CFXM_MobileParticleAdd_Alpha8.shader" />
+     <None Include="Assets\JMO Assets\Cartoon FX\Shaders\CFX4 Particle AlphaBlend+AddSoft VColor.shader" />
+ <Reference Include="UnityEngine.UI">
+ <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEditor.iOS.Extensions.Xcode">
+ <HintPath>/Applications/Unity/Unity.app/Contents/PlaybackEngines/iossupport/UnityEditor.iOS.Extensions.Xcode.dll</HintPath>
+ </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
@@ -137,4 +138,5 @@
   <Target Name="AfterBuild">
   </Target>
   -->
+  
 </Project>

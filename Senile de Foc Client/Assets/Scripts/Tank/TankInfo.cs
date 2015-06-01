@@ -45,6 +45,7 @@ public class TankInfo : MonoBehaviour
 
 		if (isMine) {
 			health.bar = GameObject.Find ("Static Health Bar").GetComponent <HealthBar> ();
+			print (playerInfo.name + " has the static");
 			Camera.main.GetComponent <CameraMovement> ().player = transform;
 			Minimap.Instance.controlledPlayer = transform;
 
@@ -61,8 +62,10 @@ public class TankInfo : MonoBehaviour
 		aboveInfo = aboveObj.GetComponent <AboveInfo> ();
 		aboveInfo.Initialize (this);
 
-		if (!isMine)
+		if (!isMine) {
 			health.bar = aboveInfo.health;
+			print (playerInfo.name + " has above");
+		}
 
 		ApplyRates ();
 		ApplySprites ();

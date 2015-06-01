@@ -73,8 +73,8 @@ public class LoginForm : MonoBehaviour
 
 
 		// Transition initialization
-		bgBotUp = bgBotTrans.transform.localPosition;
-		bgBotDown = bgBotUp + new Vector3 (0, -89, 0);
+		bgBotUp 	= bgBotTrans.transform.localPosition;
+		bgBotDown 	= bgBotUp + new Vector3 (0, -89, 0);
 		bgBotTrans	.Initialize (Transition.Properties.position, 	bgBotUp, 		Constants.SMALL_DURATION);
 
 

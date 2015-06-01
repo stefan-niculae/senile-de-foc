@@ -9,7 +9,7 @@ public class TankHealth : Damagable
 	
 	List <TankInfo> hitters;
 	[HideInInspector] public CameraMovement camMovement;
-	Countdown respawnCountdown;
+	Countdown respawnCountdown;//unused
 	ParticleSystem spawnParticles;
 
 	override public void OnAwake ()
@@ -18,11 +18,6 @@ public class TankHealth : Damagable
 		
 		tankInfo = GetComponentInParent <TankInfo> ();
 		spawnParticles = Utils.childWithName (tankInfo.transform, "Spawn Particles").GetComponent <ParticleSystem> ();;
-		
-//		if (tankInfo.isMine) {
-//			camMovement = Camera.main.GetComponent <CameraMovement> ();
-//			respawnCountdown = GameObject.Find ("Respawn Countdown").GetComponent <Countdown> ();
-//		}
 
 		respawnTime = 5; // TODO set a reasonable respawn time
 
@@ -89,7 +84,7 @@ public class TankHealth : Damagable
 
 		if (tankInfo.isMine) {
 			camMovement.HandleDeath ();
-			UIManager.Instance.SetPlayerPanelVisibility (false);
+			UIManager.Instance.DeadView ();
 		}
 
 		// Start the countdown
@@ -113,7 +108,7 @@ public class TankHealth : Damagable
 			tankInfo.movement.rot = point.rotation.eulerAngles;
 			transform.localRotation = point.rotation;
 
-			UIManager.Instance.SetPlayerPanelVisibility (true);
+			UIManager.Instance.AliveView ();
 		}
 	}
 }
