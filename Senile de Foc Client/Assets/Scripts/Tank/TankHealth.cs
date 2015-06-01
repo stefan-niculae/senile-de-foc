@@ -19,7 +19,7 @@ public class TankHealth : Damagable
 		tankInfo = GetComponentInParent <TankInfo> ();
 		spawnParticles = Utils.childWithName (tankInfo.transform, "Spawn Particles").GetComponent <ParticleSystem> ();;
 
-		respawnTime = 5; // TODO set a reasonable respawn time
+		respawnTime = 20; // TODO set a reasonable respawn time
 
 		damaged = new ThresholdParticle[3];
 		damaged [0] = new ThresholdParticle (75, Utils.childWithName (tankInfo.transform, "Lightly Damaged"), 	170, 190);// flame just in the back

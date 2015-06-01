@@ -1,15 +1,14 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System;
+using System.Collections.Generic;
 
 public class UIManager : Singleton<UIManager> 
 {
 	CameraMovement camMovement;
 	GameObject loadingGraphic;
 
-	Transform hidden;
-	Transform shown;
-
+	Transform settings;
 	Transform KDPanel;
 	Transform playerPanel;
 	Transform minimap;
@@ -17,7 +16,7 @@ public class UIManager : Singleton<UIManager>
 	Transform scoreboard;
 	[HideInInspector] public Transform respawn;
 	Transform matchOver;
-	Transform controlsFrame;
+	Transform controls;
 
 	Transform musicBan;
 	Transform soundBan;
@@ -47,7 +46,7 @@ public class UIManager : Singleton<UIManager>
 				SetVisibility (false, matchOver);
 
 				SetVisibility (false, KDPanel, playerPanel, minimap);
-				SetVisibility (false, darkOverlay, scoreboard, respawn, controlsFrame);
+				SetVisibility (false, darkOverlay, scoreboard, respawn, controls);
 
 				SetVisibility (false, musicBan, soundBan);
 				break;
@@ -77,7 +76,7 @@ public class UIManager : Singleton<UIManager>
 
 
 			case State.matchOver:
-				SetVisibility (false, KDPanel, playerPanel, minimap);
+				SetVisibility (false, KDPanel, playerPanel, minimap, settings);
 				SetVisibility (false, darkOverlay, respawn, scoreboard);
 				SetVisibility (true, matchOver);
 				break;
@@ -90,9 +89,7 @@ public class UIManager : Singleton<UIManager>
 		camMovement = Camera.main.GetComponent <CameraMovement> ();
 		loadingGraphic = GameObject.Find ("Loading Graphic");
 
-		hidden = Utils.childWithName (transform, "Hidden");
-		shown  = Utils.childWithName (transform, "Canvas");
-
+		settings		= Utils.childWithName (transform, "Settings");
 		KDPanel 		= Utils.childWithName (transform, "KD Panel");
 		playerPanel 	= Utils.childWithName (transform, "Controlled Player Panel");
 		minimap 		= Utils.childWithName (transform, "Minimap");
@@ -100,7 +97,7 @@ public class UIManager : Singleton<UIManager>
 		scoreboard 		= Utils.childWithName (transform, "Scoreboard");
 		respawn 		= Utils.childWithName (transform, "Respawn Frame");
 		matchOver 		= Utils.childWithName (transform, "Match Over");
-		controlsFrame	= Utils.childWithName (transform, "Controls");
+		controls		= Utils.childWithName (transform, "Controls");
 
 		matchTimer 		= Utils.childWithName (scoreboard, "Match Countdown").GetComponent <Countdown> ();
 
@@ -115,21 +112,25 @@ public class UIManager : Singleton<UIManager>
 	{
 		Array.ForEach (elements,
 			elem => {
+				var pos = elem.position;
 				if (visible)
-					elem.transform.position += Constants.HIDDEN;
+					pos.y += Constants.HIDDEN.y;
 				else
-					elem.transform.position -= Constants.HIDDEN;
-//				elem.SetParent (visible ? shown : hidden, false);
-//				if (elem == darkOverlay) // overlay should not cover ui elements
-//					elem.SetSiblingIndex (1);
-				
+					pos.y -= Constants.HIDDEN.y;
+				elem.position = pos;
+
+				// If you want to take a look at the controls and you are respawning, the respawn goes away
+				if (elem == controls &&  visible && Mathf.Abs (respawn.position.y) < Constants.HIDDEN.y / 2)
+					respawn.position = new Vector3 (respawn.position.x, respawn.position.y + Constants.HIDDEN.y, 0);
+				if (elem == controls && !visible && respawn.position.y >  Constants.HIDDEN.y / 2)
+					respawn.position = new Vector3 (respawn.position.x, respawn.position.y - Constants.HIDDEN.y, 0);
 			});
 	}
 
 	public void SetControlsVisibility (bool value)
 	{
-		poppedFrame = value ? controlsFrame : null;
-		SetVisibility (value, controlsFrame);
+		poppedFrame = value ? controls : null;
+		SetVisibility (value, controls);
 	}
 
 	public void ShowCredits ()
@@ -146,12 +147,20 @@ public class UIManager : Singleton<UIManager>
 		SetVisibility (value, soundBan);
 	}
 
+	public bool ClearPopup ()
+	{
+		if (poppedFrame != null) {
+			SetVisibility (false, poppedFrame);
+			poppedFrame = null;
+			return true;
+		}
+		return false;
+	}
+
 	void Update ()
 	{
 		if (Input.GetKeyDown (KeyCode.Escape)) {
-			if (poppedFrame == controlsFrame)
-				SetControlsVisibility (false);
-			else
+			if (!ClearPopup ())
 				IngameSettings.Instance.Toggle ();
 		}
 	}
