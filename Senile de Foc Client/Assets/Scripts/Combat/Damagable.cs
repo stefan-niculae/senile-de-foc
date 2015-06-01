@@ -9,7 +9,7 @@ public abstract class Damagable : MonoBehaviour
 	protected float respawnTime;
 	public float damageAbsorbtion;
 
-	public int networkID = NetworkConstants.NOT_SET;
+	[HideInInspector] public int networkID = NetworkConstants.NOT_SET;
 
 	[HideInInspector] public HealthBar bar;
 	public GameObject explosionPrefab;
@@ -27,10 +27,33 @@ public abstract class Damagable : MonoBehaviour
 		set 
 		{
 			_amount = Mathf.Clamp (value, 0, maxHp);
+
+			// Barrels don't have a health bar
 			if (bar != null)
 				bar.Display (_amount, maxHp);
+
+			if (amount == 0)
+				ZeroHealth ();
 		}
 	}
+
+	Vector3 deathPosition;
+	void ZeroHealth ()
+	{
+		deathPosition = transform.position;
+		// Teleport the body far away
+		transform.position = hidden;
+
+		StartCoroutine (Respawn ());
+
+		// Clear DoTs (they do not transfer after death)
+		foreach (var DoT in activeDoTs)
+			DoT.Clear ();
+		activeDoTs.Clear ();
+
+		OnZeroHealth ();
+	}
+	public abstract void OnZeroHealth ();
 
 	void Awake ()
 	{
@@ -43,12 +66,15 @@ public abstract class Damagable : MonoBehaviour
 
 		activeDoTs = new List<DamageOverTime> ();
 
-		if (networkID != NetworkConstants.NOT_SET)
-			RegisterThis ();
+		if (networkID != NetworkConstants.NOT_SET && tag != "Player") {
+			if (networkID < 5)
+				Debug.LogFormat ("on awake registering {0} with id {1}", name, networkID);
+			RegisterThis (networkID);
+		}
 	}
 	public abstract void OnAwake ();
 
-	protected void RegisterThis ()
+	protected void RegisterThis (int networkID)
 	{
 		try {
 			// I don't know why the gameserver script's awake runs after the damagable's awake
@@ -57,7 +83,7 @@ public abstract class Damagable : MonoBehaviour
 				GameServer.Instance.damageables = new Dictionary<int, Damagable> ();
 			GameServer.Instance.damageables.Add (networkID, this);
 		} catch (ArgumentException argEx) {
-			Debug.LogWarningFormat ("Network ID {0} is already in the damagables dictionary" + argEx, networkID);
+			Debug.LogWarningFormat ("Network ID {0} is already in the damagables dictionary\n{2}", networkID, argEx);
 		}
 	}
 
@@ -121,24 +147,19 @@ public abstract class Damagable : MonoBehaviour
 	void Die (TankInfo source)
 	{
 		OnDeath (source);
-		
 		Explode (source);
-
-		// Teleport the body far away
-		transform.position = hidden;
-
-		StartCoroutine (Respawn ());
 	}
 	public abstract void OnDeath (TankInfo source);
 
 	void Explode (TankInfo source)
 	{
 		alreadyExploded = true;
-		
-		GameObject explosion = Instantiate (
+
+		GameObject explosion = Network.Instantiate (
 			explosionPrefab,
-			transform.position,
-			Quaternion.identity) as GameObject;
+			deathPosition,
+			Quaternion.identity,
+			0) as GameObject;
 
 		explosion.GetComponent <Explosion> ().Setup (source, ignore: this);
 	}
@@ -158,11 +179,6 @@ public abstract class Damagable : MonoBehaviour
 		foreach (var d in damaged)
 			foreach (var p in d.particles)
 				p.Stop ();
-
-		// Clear DoTs (they do not transfer after death)
-		foreach (var DoT in activeDoTs)
-			DoT.Clear ();
-
 	}
 	public abstract void OnRespawn (bool firstSpawn);
 }

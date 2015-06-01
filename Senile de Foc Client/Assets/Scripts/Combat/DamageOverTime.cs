@@ -47,6 +47,11 @@ public class DamageOverTime : Containable<DamageOverTime>
 	IEnumerator Expire ()
 	{
 		yield return new WaitForSeconds (duration);
+
+		// It might have been removed as a result of dying
+		if (affected.activeDoTs.Contains (this))
+			affected.activeDoTs.Remove (this);
+		
 		Clear ();
 	}
 

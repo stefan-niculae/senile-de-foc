@@ -59,7 +59,7 @@ public class GameServer : Singleton<GameServer>
 	void ReceiveMatchStart ()
 	{
 		NetworkStatus.Show ("Everyone connected, match starts", NetworkStatus.MessageType.success);
-		UIManager.Instance.state = UIManager.State.playing;
+		((IngameUIManager)IngameUIManager.Instance).state = IngameUIManager.State.playing;
 		MarkerManager.Instance.Spawn ();
 
 	}
@@ -71,7 +71,6 @@ public class GameServer : Singleton<GameServer>
 	[RPC]
 	public void ReceiveHealthUpdate (int networkID, float amount)
 	{
-		print ("received network health update for " + networkID + " amount " + amount + " self order number = " + selfInfo.orderNumber);
 		damageables [networkID].amount = amount;
 	}
 

@@ -63,6 +63,9 @@ public class TankInfo : MonoBehaviour
 			input.enabled = true;
 		}
 
+
+		health.RegisterNetworkID ();
+
 		var aboveObj = GameObject.Instantiate (References.Instance.aboveInfoPrefab) as GameObject;
 		aboveInfo = aboveObj.GetComponent <AboveInfo> ();
 		aboveInfo.Initialize (this);

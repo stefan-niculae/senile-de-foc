@@ -3,24 +3,33 @@ using System.Collections;
 
 public class DestroyableBarrel : Damagable
 {
+	Vector3 initialPos;
+	const float REAPPARITION_DURATION = 2;
+	SpriteRenderer spriteRenderer;
+
 	public override void OnAwake ()
 	{
 		maxHp = 25;
 		respawnTime = 5;
 
-		damaged = new ThresholdParticle[1];
+		spriteRenderer = GetComponent <SpriteRenderer> ();
+
+		damaged = new ThresholdParticle [1];
 		damaged [0] = new ThresholdParticle (maxHp / 2f, Utils.childWithName (transform, "Damaged Barrel"));
 
 		minWait = 4;
 		maxWait = 6;
+
+		initialPos = transform.position;
 	}
 
 	public override void OnStart ()
-	{ }
+	{
+		SetTransparency (0);
+	}
 
 	public override void OnUpdate ()
-	{
-	}
+	{ }
 
 	public override void OnTakingDamage (TankInfo source)
 	{ }
@@ -32,10 +41,29 @@ public class DestroyableBarrel : Damagable
 		source.ShowStatsRecap ();
 	}
 
-	public override void OnRespawn (bool firstTime)
-	{
-		// TODO: make alpha scale from 0 to 1 here
-
+	public override void OnZeroHealth ()
+	{ 
+		SetTransparency (0);
 	}
 
+	public override void OnRespawn (bool firstTime)
+	{
+		transform.position = initialPos;
+		spawnTime = Time.time;
+	}
+
+	float spawnTime;
+	void Update ()
+	{
+		float coeff = (Time.time - spawnTime) / REAPPARITION_DURATION;
+		if (coeff <= 1)
+			SetTransparency (coeff);
+	}
+
+	void SetTransparency (float amount)
+	{
+		var col = spriteRenderer.color;
+		col.a = amount;
+		spriteRenderer.color = col;
+	}
 }

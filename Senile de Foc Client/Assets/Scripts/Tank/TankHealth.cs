@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class TankHealth : Damagable
 {
-	TankInfo tankInfo;
+	[HideInInspector] public TankInfo tankInfo;
 	
 	List <TankInfo> hitters;
 	[HideInInspector] public CameraMovement camMovement;
@@ -34,7 +34,7 @@ public class TankHealth : Damagable
 	public void RegisterNetworkID ()
 	{
 		networkID = tankInfo.playerInfo.orderNumber;
-		RegisterThis ();
+		RegisterThis (networkID);
 	}
 
 	override public void OnStart () 
@@ -60,7 +60,7 @@ public class TankHealth : Damagable
 		// still that barrel must have been shot by a player (and so on)
 
 		// And the other player's kill count
-		if (source != tankInfo) {// but not on a suicide
+		if (source != tankInfo) { // but not on a suicide
 			source.playerInfo.stats.kills++;
 			haveStatsUpdated.Add (source);
 		}
@@ -84,7 +84,7 @@ public class TankHealth : Damagable
 
 		if (tankInfo.isMine) {
 			camMovement.HandleDeath ();
-			UIManager.Instance.state = UIManager.State.dead;
+			((IngameUIManager)IngameUIManager.Instance).state = IngameUIManager.State.dead;
 			tankInfo.input.enabled = false;
 		}
 
@@ -92,6 +92,10 @@ public class TankHealth : Damagable
 		if (tankInfo.isMine)
 			respawnCountdown.StartIt (respawnTime);
 		
+	}
+
+	public override void OnZeroHealth ()
+	{
 		Scoreboard.Instance.StartCountdownFor (tankInfo.playerInfo.orderNumber, tankInfo.health.respawnTime);
 	}
 	
@@ -100,7 +104,7 @@ public class TankHealth : Damagable
 		if (camMovement != null && !firstSpawn)
 			camMovement.HandleRespawn ();
 
-		if (tankInfo.isMine)
+		if (tankInfo.isMine && !firstSpawn)
 			tankInfo.input.enabled = true;
 		
 		spawnParticles.Play ();
@@ -114,7 +118,7 @@ public class TankHealth : Damagable
 			tankInfo.movement.rot = point.rotation.eulerAngles;
 			transform.localRotation = point.rotation;
 
-			UIManager.Instance.state = UIManager.State.alive;
+			((IngameUIManager)IngameUIManager.Instance).state = IngameUIManager.State.alive;
 		}
 	}
 }

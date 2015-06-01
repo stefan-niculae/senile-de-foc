@@ -10,6 +10,7 @@ public class Scoreboard : Singleton<Scoreboard>
 	static readonly float DISTANCE = 50f;
 
 	public bool isShown;
+	[HideInInspector] public Transform respawn;
 
 	Dictionary <int, IngameInfo> orderNumToIngameInfo;
 
@@ -23,11 +24,12 @@ public class Scoreboard : Singleton<Scoreboard>
 	{
 		isShown = Input.GetKey (KeyCode.Tab);
 
-		transform.localPosition 				 = new Vector3 ( isShown ? 0 : Constants.HIDDEN.x, 					transform.localPosition.y, 0);
-		UIManager.Instance.respawn.localPosition = new Vector3 (!isShown ? 0 : Constants.HIDDEN.x, UIManager.Instance.respawn.localPosition.y, 0);
+		transform.localPosition	= new Vector3 ( isShown ? 0 : Constants.HIDDEN.x, transform.localPosition.y, 0);
+		if (respawn != null)
+			respawn.localPosition 	= new Vector3 (!isShown ? 0 : Constants.HIDDEN.x, respawn.localPosition.y, 0);
 
 		if (isShown)
-			UIManager.Instance.ClearPopup ();
+			((IngameUIManager)IngameUIManager.Instance).ClearPopup ();
 	}
 
 	public void PopulateList (List <PlayerInfo> playerInfos)

@@ -12,23 +12,40 @@ public class SoundManager : Singleton<SoundManager>
 		sfxSource	= Utils.childWithName (transform, "SFX")	.GetComponent <AudioSource> ();
 	}
 
-	bool musicEnabled = true;
-	public void ToggleMusic ()
+	const string MUSIC_KEY = "musicEnabled";
+	public bool musicEnabled
 	{
-		musicEnabled = !musicEnabled;
-		musicSource.mute = !musicEnabled;
-		UIManager.Instance.SetMusicBan (!musicEnabled);
+		get { return PlayerPrefs.GetInt (MUSIC_KEY, 1) == 1; }
+		set
+		{
+			PlayerPrefs.SetInt (MUSIC_KEY, value ? 1 : 0);
+			musicSource.mute = !value;
+			UIManager.Instance.SetMusicBan (!value);
+		}
 	}
 
-	bool soundEnabled = true;
-	public void ToggleSound ()
+	const string SOUND_KEY = "soundEnabled";
+	public bool soundEnabled
 	{
-		soundEnabled = !soundEnabled;
-		AudioListener.volume = soundEnabled ? 1 : 0;
-		UIManager.Instance.SetSoundBan (!soundEnabled);
+		get { return PlayerPrefs.GetInt (SOUND_KEY, 1) == 1; }
+		set
+		{
+			PlayerPrefs.SetInt (SOUND_KEY, value ? 1 : 0);
+			AudioListener.volume = value ? 1 : 0;
+			UIManager.Instance.SetSoundBan (!value);
 
-		if (soundEnabled != musicEnabled)
-			ToggleMusic ();
+			if (!soundEnabled && musicEnabled)
+				musicEnabled = false;
+		}
+	}
+
+	void Start ()
+	{
+//		PlayerPrefs.DeleteKey (SOUND_KEY);
+//		PlayerPrefs.DeleteKey (MUSIC_KEY);
+		// To restore player pref values
+		musicEnabled = musicEnabled;
+		soundEnabled = soundEnabled;
 	}
 
 	public void PlayClip (AudioClip clip)

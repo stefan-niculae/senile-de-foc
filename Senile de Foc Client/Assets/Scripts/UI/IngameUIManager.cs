@@ -1,10 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
-using System;
-using System.Collections.Generic;
 
-public class UIManager : Singleton<UIManager> 
+public class IngameUIManager : UIManager
 {
+
 	CameraMovement camMovement;
 	GameObject loadingGraphic;
 
@@ -18,12 +17,11 @@ public class UIManager : Singleton<UIManager>
 	Transform matchOver;
 	Transform controls;
 
-	Transform musicBan;
-	Transform soundBan;
-
 	Transform poppedFrame;
 
 	Countdown matchTimer;
+
+
 
 	public enum State { loading, playing, dead, alive, matchOver };
 	State _state;
@@ -47,8 +45,6 @@ public class UIManager : Singleton<UIManager>
 
 				SetVisibility (false, KDPanel, playerPanel, minimap);
 				SetVisibility (false, darkOverlay, scoreboard, respawn, controls);
-
-				SetVisibility (false, musicBan, soundBan);
 				break;
 
 
@@ -84,7 +80,7 @@ public class UIManager : Singleton<UIManager>
 		}
 	}
 
-	void Awake ()
+	public override void AwakeRferences ()
 	{
 		camMovement = Camera.main.GetComponent <CameraMovement> ();
 		loadingGraphic = GameObject.Find ("Loading Graphic");
@@ -100,33 +96,20 @@ public class UIManager : Singleton<UIManager>
 		controls		= Utils.childWithName (transform, "Controls");
 
 		matchTimer 		= Utils.childWithName (scoreboard, "Match Countdown").GetComponent <Countdown> ();
-
-		musicBan 		= Utils.childWithName (transform, "Music Ban");
-		soundBan 		= Utils.childWithName (transform, "Sound Ban");
+		Scoreboard.Instance.respawn = respawn;
 
 		state = State.loading;
 	}
 
-	// Public because ingamesettings also uses this
-	public void SetVisibility (bool visible, params Transform[] elements)
+	public override void OnVisibilityChange (Transform elem, bool visible)
 	{
-		Array.ForEach (elements,
-			elem => {
-				var pos = elem.position;
-				if (visible)
-					pos.y += Constants.HIDDEN.y;
-				else
-					pos.y -= Constants.HIDDEN.y;
-				elem.position = pos;
-
-				// If you want to take a look at the controls and you are respawning, the respawn goes away
-				if (elem == controls &&  visible && Mathf.Abs (respawn.position.y) < Constants.HIDDEN.y / 2)
-					respawn.position = new Vector3 (respawn.position.x, respawn.position.y + Constants.HIDDEN.y, 0);
-				if (elem == controls && !visible && respawn.position.y >  Constants.HIDDEN.y / 2)
-					respawn.position = new Vector3 (respawn.position.x, respawn.position.y - Constants.HIDDEN.y, 0);
-			});
+		// If you want to take a look at the controls and you are respawning, the respawn goes away
+		if (elem == controls &&  visible && Mathf.Abs (respawn.position.y) < Constants.HIDDEN.y / 2)
+			respawn.position = new Vector3 (respawn.position.x, respawn.position.y + Constants.HIDDEN.y, 0);
+		if (elem == controls && !visible && respawn.position.y >  Constants.HIDDEN.y / 2)
+			respawn.position = new Vector3 (respawn.position.x, respawn.position.y - Constants.HIDDEN.y, 0);
 	}
-
+		
 	public void SetControlsVisibility (bool value)
 	{
 		poppedFrame = value ? controls : null;
@@ -136,15 +119,6 @@ public class UIManager : Singleton<UIManager>
 	public void ShowCredits ()
 	{
 		print ("Credits: Stefan Niculae - implementation, Adrian Brojbeanu - testing, Hung Trinh - moral support");
-	}
-
-	public void SetMusicBan (bool value)
-	{
-		SetVisibility (value, musicBan);
-	}
-	public void SetSoundBan (bool value)
-	{
-		SetVisibility (value, soundBan);
 	}
 
 	public bool ClearPopup ()
@@ -161,7 +135,7 @@ public class UIManager : Singleton<UIManager>
 	{
 		if (Input.GetKeyDown (KeyCode.Escape)) {
 			if (!ClearPopup ())
-				IngameSettings.Instance.Toggle ();
+				Settings.Instance.Toggle ();
 		}
 	}
 }

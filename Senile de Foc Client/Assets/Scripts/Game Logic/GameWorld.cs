@@ -28,8 +28,8 @@ public class GameWorld : MonoBehaviour
 		// Getting the spawn points
 		var spawnPointsContainer = GameObject.Find ("Spawn Positions").transform;
 		spawnPoints = new Transform [4];
-		spawnPoints [0] = Utils.childWithName (spawnPointsContainer, "Left Up");
-		spawnPoints [1] = Utils.childWithName (spawnPointsContainer, "Left Down");
+		spawnPoints [0] = Utils.childWithName (spawnPointsContainer, "Left Down");
+		spawnPoints [1] = Utils.childWithName (spawnPointsContainer, "Left Up");
 		spawnPoints [2] = Utils.childWithName (spawnPointsContainer, "Right Down");
 		spawnPoints [3] = Utils.childWithName (spawnPointsContainer, "Right Up");
 	}

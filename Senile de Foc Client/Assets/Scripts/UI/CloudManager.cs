@@ -8,7 +8,7 @@ public class CloudManager : Singleton<CloudManager>
 	public Sprite[] sprites;
 
 	const float OVERFLOW_PER = .11f;
-	const int CLOUD_COUNT = 12;
+	const int CLOUD_COUNT = 7;
 
 	const float SCALE_VARIANCE = .15f;
 	const float ROT_VARIANCE = 10;
@@ -29,11 +29,8 @@ public class CloudManager : Singleton<CloudManager>
 		topRight = tr.anchoredPosition;
 		 
 		var diff = topRight.x - botLeft.x;
-		print ("botleft = " + botLeft + "topright = " + topRight);
-		print ("diff = " + diff);
 		maxLeft  = botLeft.x  - diff * OVERFLOW_PER;
 		maxRight = topRight.x + diff * OVERFLOW_PER;
-		print ("max elft = " + maxLeft + " max right = " + maxRight); 
 	}
 
 	void Start ()

@@ -1,9 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class IngameSettings : Singleton<IngameSettings> 
+public class Settings : Singleton<Settings> 
 {
 	bool isExpanded = false;
+
+	public Vector3 deltaPos;
 
 	Transition bandTransition;
 	Vector3 upPos;
@@ -14,7 +16,7 @@ public class IngameSettings : Singleton<IngameSettings>
 		bandTransition = Utils.childWithName (transform, "Band").GetComponent <Transition> ();
 
 		downPos = bandTransition.transform.localPosition;
-		upPos = downPos + new Vector3 (0, 260, 0);
+		upPos = downPos + deltaPos;
 		bandTransition.Initialize (Transition.Properties.position, upPos, Constants.SMALL_DURATION);
 	}
 

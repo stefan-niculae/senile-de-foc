@@ -31,7 +31,6 @@ public class Explosion : Containable<Explosion>
 		this.source = source;
 		if (stats != null)
 			this.stats = stats;
-
 		DamageAround (ignore: ignore);
 	}
 
@@ -56,7 +55,7 @@ public class Explosion : Containable<Explosion>
 	void ApplyDoT (TankInfo source, Damagable affected)
 	{
 		if (DoTPrefab != null) {
-			var DoT = (Instantiate (DoTPrefab) as GameObject).GetComponent <DamageOverTime> ();
+			var DoT = (Network.Instantiate (DoTPrefab, Vector3.zero, Quaternion.identity, 0) as GameObject).GetComponent <DamageOverTime> ();
 			DoT.AttachTo (source, affected);
 		}
 	}
@@ -68,4 +67,9 @@ public class ExplosionStats
 	public float damage;
 	public float radius;
 	public float force;
+
+	public override string ToString ()
+	{
+		return string.Format ("Damage: {0}, Radius: {1}, Force: {2}", damage, radius, force);
+	}
 }
