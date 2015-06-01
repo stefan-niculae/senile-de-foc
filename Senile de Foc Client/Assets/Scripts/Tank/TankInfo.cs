@@ -15,6 +15,7 @@ public class TankInfo : MonoBehaviour
 	[HideInInspector] public Projectile projectile;
 	[HideInInspector] public Secondary special;
 	[HideInInspector] public ExplosionStats cannonProjectileExplosionStats;
+	[HideInInspector] public PlayerInput input;
 	
 
 	AboveInfo aboveInfo;
@@ -56,6 +57,10 @@ public class TankInfo : MonoBehaviour
 
 			health.camMovement = Camera.main.GetComponent <CameraMovement> ();
 			health.respawnCountdown = GameObject.Find ("Respawn Time Text").GetComponent <Countdown> ();
+
+
+			input = GetComponent <PlayerInput> ();
+			input.enabled = true;
 		}
 
 		var aboveObj = GameObject.Instantiate (References.Instance.aboveInfoPrefab) as GameObject;

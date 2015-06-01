@@ -45,9 +45,6 @@ public class InstantiateAndFollow : MonoBehaviour
 
 		body = tank.transform;
 		barrel = Utils.childWithName (body, "Barrel");
-		
-		if (netView.isMine)
-			tank.GetComponent <PlayerInput> ().enabled = true;
 
 		isFollowing = true;
 	}

@@ -24,7 +24,7 @@ public class SoundManager : Singleton<SoundManager>
 	public void ToggleSound ()
 	{
 		soundEnabled = !soundEnabled;
-		sfxSource.mute = !soundEnabled;
+		AudioListener.volume = soundEnabled ? 1 : 0;
 		UIManager.Instance.SetSoundBan (!soundEnabled);
 
 		if (soundEnabled != musicEnabled)

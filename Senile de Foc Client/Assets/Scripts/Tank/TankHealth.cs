@@ -85,6 +85,7 @@ public class TankHealth : Damagable
 		if (tankInfo.isMine) {
 			camMovement.HandleDeath ();
 			UIManager.Instance.state = UIManager.State.dead;
+			tankInfo.input.enabled = false;
 		}
 
 		// Start the countdown for the controlled player
@@ -98,6 +99,9 @@ public class TankHealth : Damagable
 	{	
 		if (camMovement != null && !firstSpawn)
 			camMovement.HandleRespawn ();
+
+		if (tankInfo.isMine)
+			tankInfo.input.enabled = true;
 		
 		spawnParticles.Play ();
 

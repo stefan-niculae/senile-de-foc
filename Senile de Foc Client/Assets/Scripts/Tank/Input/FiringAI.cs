@@ -20,7 +20,7 @@ public class FiringAI : MonoBehaviour
 	// We use a wrapper because invoke repeating requires a string
 	void FireWrapper ()
 	{
-		weapon.Fire (false);
+		weapon.Fire ();
 	}
 
 }
