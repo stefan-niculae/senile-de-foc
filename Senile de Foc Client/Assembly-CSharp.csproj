@@ -107,6 +107,7 @@
      <Compile Include="Assets\Scripts\UI\Game\Countdown.cs" />
      <Compile Include="Assets\Scripts\UI\Game\HealthBar.cs" />
      <Compile Include="Assets\Scripts\UI\Game\IngameInfo.cs" />
+     <Compile Include="Assets\Scripts\UI\Game\IngameSettings.cs" />
      <Compile Include="Assets\Scripts\UI\Game\Minimap.cs" />
      <Compile Include="Assets\Scripts\UI\Game\RespawnFrame.cs" />
      <Compile Include="Assets\Scripts\UI\Game\Scoreboard.cs" />
@@ -120,6 +121,7 @@
      <Compile Include="Assets\Scripts\UI\Menus\TankSelection.cs" />
      <Compile Include="Assets\Scripts\UI\Menus\Transition.cs" />
      <Compile Include="Assets\Scripts\UI\Menus\WaitingLobby.cs" />
+     <Compile Include="Assets\Scripts\UI\SoundManager.cs" />
      <Compile Include="Assets\Scripts\UI\UIManager.cs" />
      <None Include="Assets\JMO Assets\Cartoon FX\Shaders (Mobile)\CFXM_MobileParticleAdd_Alpha8.shader" />
      <None Include="Assets\JMO Assets\Cartoon FX\Shaders\CFX4 Particle AlphaBlend+AddSoft VColor.shader" />

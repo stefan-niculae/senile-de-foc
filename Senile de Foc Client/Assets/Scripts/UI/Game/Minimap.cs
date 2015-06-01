@@ -32,7 +32,8 @@ public class Minimap : Singleton<Minimap>
 		if (controlledPlayer != null) {
 			Vector2 mouseViewport = Camera.main.ScreenToViewportPoint (Input.mousePosition);
 			Vector2 playerViewport = Camera.main.WorldToViewportPoint (controlledPlayer.position);
-			if (UIRect.Contains (mouseViewport) || UIRect.Contains (playerViewport) || Scoreboard.Instance.isShown) {
+			if (UIRect.Contains (mouseViewport) || UIRect.Contains (playerViewport) || 
+				(Scoreboard.Instance.isShown && UIManager.Instance.state != UIManager.State.dead)) {
 				if (!isTransparent) {
 					isTransparent = true;
 					map.color = ApplyTransparency (map.color, transp);

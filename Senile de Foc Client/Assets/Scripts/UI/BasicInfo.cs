@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 public abstract class BasicInfo : MonoBehaviour 
 {
-	Text username;
+	[HideInInspector] public Text username;
 	Image highlight;
 	Image body;
 	Image barrel;

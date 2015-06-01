@@ -9,7 +9,7 @@ public class Countdown : MonoBehaviour
 	public string toAppend;
 
 	float _val;
-	float val
+	public float val
 	{
 		get { return _val; }
 		set

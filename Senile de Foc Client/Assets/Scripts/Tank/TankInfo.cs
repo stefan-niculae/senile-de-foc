@@ -45,7 +45,6 @@ public class TankInfo : MonoBehaviour
 
 		if (isMine) {
 			health.bar = GameObject.Find ("Static Health Bar").GetComponent <HealthBar> ();
-			print (playerInfo.name + " has the static");
 			Camera.main.GetComponent <CameraMovement> ().player = transform;
 			Minimap.Instance.controlledPlayer = transform;
 
@@ -56,16 +55,16 @@ public class TankInfo : MonoBehaviour
 			GameObject.Find ("Secondary Button") .GetComponent <Image> ().sprite = References.Instance.secondarySprites [playerInfo.tankType.secondary];
 
 			health.camMovement = Camera.main.GetComponent <CameraMovement> ();
+			health.respawnCountdown = GameObject.Find ("Respawn Time Text").GetComponent <Countdown> ();
 		}
 
 		var aboveObj = GameObject.Instantiate (References.Instance.aboveInfoPrefab) as GameObject;
 		aboveInfo = aboveObj.GetComponent <AboveInfo> ();
 		aboveInfo.Initialize (this);
 
-		if (!isMine) {
+		if (!isMine)
 			health.bar = aboveInfo.health;
-			print (playerInfo.name + " has above");
-		}
+		
 
 		ApplyRates ();
 		ApplySprites ();

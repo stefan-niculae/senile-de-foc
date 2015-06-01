@@ -24,4 +24,8 @@ public class References : Singleton<References>
 
 	public GameObject trackManagerPrefab;
 	public GameObject trackPrefab;
+
+	public Color 
+		aliveColor,
+		deadColor;
 }

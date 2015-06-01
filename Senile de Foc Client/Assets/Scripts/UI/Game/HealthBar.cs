@@ -16,7 +16,6 @@ public class HealthBar : MonoBehaviour
 
 	public void Display (float amount, float maxAmount)
 	{
-		print (name + " filled to " + amount); 
 		var pos = barFill.localPosition;
 		var coeff = 1f - amount / maxAmount;
 		pos.x = -coeff * fillLength;

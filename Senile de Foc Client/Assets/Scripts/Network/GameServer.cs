@@ -59,7 +59,7 @@ public class GameServer : Singleton<GameServer>
 	void ReceiveMatchStart ()
 	{
 		NetworkStatus.Show ("Everyone connected, match starts", NetworkStatus.MessageType.success);
-		UIManager.Instance.PlayingView ();
+		UIManager.Instance.state = UIManager.State.playing;
 		MarkerManager.Instance.Spawn ();
 
 	}

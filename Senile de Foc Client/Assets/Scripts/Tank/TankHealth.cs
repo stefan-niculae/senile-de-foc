@@ -9,7 +9,7 @@ public class TankHealth : Damagable
 	
 	List <TankInfo> hitters;
 	[HideInInspector] public CameraMovement camMovement;
-	Countdown respawnCountdown;//unused
+	[HideInInspector] public Countdown respawnCountdown;
 	ParticleSystem spawnParticles;
 
 	override public void OnAwake ()
@@ -84,12 +84,14 @@ public class TankHealth : Damagable
 
 		if (tankInfo.isMine) {
 			camMovement.HandleDeath ();
-			UIManager.Instance.DeadView ();
+			UIManager.Instance.state = UIManager.State.dead;
 		}
 
-		// Start the countdown
-		if (respawnCountdown != null)
+		// Start the countdown for the controlled player
+		if (tankInfo.isMine)
 			respawnCountdown.StartIt (respawnTime);
+		
+		Scoreboard.Instance.StartCountdownFor (tankInfo.playerInfo.orderNumber, tankInfo.health.respawnTime);
 	}
 	
 	public override void OnRespawn (bool firstSpawn)
@@ -108,7 +110,7 @@ public class TankHealth : Damagable
 			tankInfo.movement.rot = point.rotation.eulerAngles;
 			transform.localRotation = point.rotation;
 
-			UIManager.Instance.AliveView ();
+			UIManager.Instance.state = UIManager.State.alive;
 		}
 	}
 }

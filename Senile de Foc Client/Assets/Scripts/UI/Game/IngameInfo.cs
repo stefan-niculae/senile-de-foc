@@ -9,7 +9,7 @@ public class IngameInfo : BasicInfo
 	Text assists;
 	Text barrels;
 
-	Text respawn;//unused
+	[HideInInspector] public Countdown respawn;
 
 	public override void AdditionalReferencesSet ()
 	{
@@ -17,7 +17,7 @@ public class IngameInfo : BasicInfo
 		deaths 	= Utils.childWithName (transform, "Deaths")	.GetComponent <Text> ();
 		assists = Utils.childWithName (transform, "Assists").GetComponent <Text> ();
 		barrels = Utils.childWithName (transform, "Barrels").GetComponent <Text> ();
-		respawn = Utils.childWithName (transform, "Respawn").GetComponent <Text> ();
+		respawn = Utils.childWithName (transform, "Respawn").GetComponent <Countdown> ();
 	}
 
 	public override void AdditionalValuesSet (PlayerInfo playerInfo)
@@ -26,8 +26,6 @@ public class IngameInfo : BasicInfo
 		deaths.text 	= playerInfo.stats.deaths.ToString ();
 		assists.text 	= playerInfo.stats.assists.ToString ();
 		barrels.text	= playerInfo.stats.barrels.ToString ();
-
-		//TODO respawn time here
 	}
 
 }
