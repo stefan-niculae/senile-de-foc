@@ -39,8 +39,8 @@ public class Scoreboard : Singleton<Scoreboard>
 				Destroy (child.gameObject);
 		orderNumToIngameInfo.Clear ();
 
-		// TODO i think i have to reverse this sort
-		playerInfos.Sort ();
+		// Sort descending
+		playerInfos.Sort ((a, b) => -a.CompareTo (b));
 		for (int i = 0; i < playerInfos.Count; i++) {
 			Vector3 pos = container.localPosition;
 			pos.y = i * DISTANCE * -1;

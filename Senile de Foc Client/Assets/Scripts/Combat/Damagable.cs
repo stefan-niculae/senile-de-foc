@@ -31,29 +31,8 @@ public abstract class Damagable : MonoBehaviour
 			// Barrels don't have a health bar
 			if (bar != null)
 				bar.Display (_amount, maxHp);
-
-			if (amount == 0)
-				ZeroHealth ();
 		}
 	}
-
-	Vector3 deathPosition;
-	void ZeroHealth ()
-	{
-		deathPosition = transform.position;
-		// Teleport the body far away
-		transform.position = hidden;
-
-		StartCoroutine (Respawn ());
-
-		// Clear DoTs (they do not transfer after death)
-		foreach (var DoT in activeDoTs)
-			DoT.Clear ();
-		activeDoTs.Clear ();
-
-		OnZeroHealth ();
-	}
-	public abstract void OnZeroHealth ();
 
 	void Awake ()
 	{
@@ -149,6 +128,16 @@ public abstract class Damagable : MonoBehaviour
 	{
 		OnDeath (source);
 		Explode (source);
+
+		// Teleport the body far away
+		transform.position = hidden;
+
+		// Clear DoTs (they do not transfer after death)
+		foreach (var DoT in activeDoTs)
+			DoT.Clear ();
+		activeDoTs.Clear ();
+
+		StartCoroutine (Respawn ());
 	}
 	public abstract void OnDeath (TankInfo source);
 
@@ -158,7 +147,7 @@ public abstract class Damagable : MonoBehaviour
 
 		GameObject explosion = Network.Instantiate (
 			explosionPrefab,
-			deathPosition,
+			transform.position,
 			Quaternion.identity,
 			0) as GameObject;
 

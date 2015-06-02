@@ -85,18 +85,15 @@ public class TankHealth : Damagable
 
 
 		if (tankInfo.isMine) {
-			tankInfo.ShowStatsRecap ();
-			camMovement.HandleDeath ();
-			((IngameUIManager)IngameUIManager.Instance).state = IngameUIManager.State.dead;
-			tankInfo.input.enabled = false;
-			respawnCountdown.StartIt (respawnTime);
-			HittersDisplay.Instance.PopulateList (hittersList);
-		}
-	}
+			camMovement.HandleDeath (); // camera doesn't go to the hidden, instead it can be controlled
+			tankInfo.input.enabled = false; // disable movement and firing
 
-	public override void OnZeroHealth ()
-	{
-		Scoreboard.Instance.StartCountdownFor (tankInfo.playerInfo.orderNumber, tankInfo.health.respawnTime);
+			tankInfo.ShowStatsRecap (); // KD persistent show
+			((IngameUIManager)IngameUIManager.Instance).state = IngameUIManager.State.dead; // show the dark overlay and respawn frame
+			respawnCountdown.StartIt (respawnTime); // start the respawn timer on the respawn frame
+			HittersDisplay.Instance.PopulateList (hittersList);
+			Scoreboard.Instance.StartCountdownFor (tankInfo.playerInfo.orderNumber, tankInfo.health.respawnTime);
+		}
 	}
 	
 	public override void OnRespawn (bool firstSpawn)

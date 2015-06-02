@@ -36,14 +36,10 @@ public class DestroyableBarrel : Damagable
 
 	public override void OnDeath (TankInfo source)
 	{
+		SetTransparency (0);
 		source.playerInfo.stats.barrels++;
 		GameServer.Instance.SendStatsUpdate (source.playerInfo.orderNumber);
 		source.ShowStatsRecap ();
-	}
-
-	public override void OnZeroHealth ()
-	{ 
-		SetTransparency (0);
 	}
 
 	public override void OnRespawn (bool firstTime)

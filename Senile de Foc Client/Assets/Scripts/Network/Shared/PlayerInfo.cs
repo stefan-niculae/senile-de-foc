@@ -167,12 +167,7 @@ public class Stats : IComparable
 		barrels;
 
 	public float KDratio
-	{
-		get 
-		{
-			return (float)kills / deaths;
-		}
-	}
+	{ get { return (float)kills / deaths; } }
 	
 	public Stats ()
 	{
@@ -198,8 +193,57 @@ public class Stats : IComparable
 			return 1;
 
 		Stats other = obj as Stats;
-		if (other != null)
-			return this.KDratio.CompareTo (other.KDratio);
+		if (other != null) {
+			float rt = this.KDratio;
+			float ro = other.KDratio;
+
+			// let x, y, z be nonzero floats
+			// 0 	means 0 / x
+			// inf	means x / 0
+			// NaN  means 0 / 0
+			// x    means y / z
+
+			if (rt == 0) {
+				if (ro == 0)
+					return this.deaths.CompareTo (other.deaths) * -1;
+				else if (float.IsInfinity (ro))
+					return +1;
+				else if (float.IsNaN (ro))
+					return +1;
+				else
+					return +1;
+			}
+			else if (float.IsInfinity (rt)) {
+				if (ro == 0)
+					return -1;
+				else if (float.IsInfinity (ro))
+					return this.kills.CompareTo (other.kills);
+				else if (float.IsNaN (ro))
+					return -1;
+				else
+					return +1;
+			}
+			else if (float.IsNaN (rt)) {
+				if (ro == 0)
+					return -1;
+				else if (float.IsInfinity (ro))
+					return +1;
+				else if (float.IsNaN (ro))
+					return  0;
+				else
+					return +1;
+			}
+			else {
+				if (ro == 0)
+					return -1;
+				else if (float.IsInfinity (ro))
+					return +1;
+				else if (float.IsNaN (ro))
+					return -1;
+				else
+					return this.kills.CompareTo (other.kills);
+			}
+		}
 		else
 			throw new ArgumentException ("Object is not a Stat");
 	}
