@@ -122,7 +122,7 @@ public class IngameUIManager : UIManager
 
 	public void ShowCredits ()
 	{
-		print ("Credits: Stefan Niculae - implementation, Adrian Brojbeanu - testing, Hung Trinh - moral support");
+		print ("Credits: Stefan Niculae - implementation, Adrian Brojbeanu - documentation, Hung Trinh - testing");
 	}
 
 	public bool ClearPopup ()

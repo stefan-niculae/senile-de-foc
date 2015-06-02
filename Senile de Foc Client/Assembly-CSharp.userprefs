@@ -1,11 +1,9 @@
 ﻿<Properties StartupItem="Assembly-CSharp.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Tank/TankHealth.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="../Senile de Foc Server/Assets/Scripts/Database.cs">
     <Files>
-      <File FileName="Assets/Scripts/Combat/Damagable.cs" Line="52" Column="23" />
-      <File FileName="Assets/Scripts/Combat/Explosion.cs" Line="16" Column="2" />
-      <File FileName="Assets/Scripts/Tank/TankHealth.cs" Line="45" Column="2" />
-      <File FileName="Assets/Scripts/Network/GameServer.cs" Line="6" Column="1" />
+      <File FileName="../Senile de Foc Server/Assets/Scripts/Database.cs" Line="7" Column="21" />
+      <File FileName="../Senile de Foc Server/Assets/Scripts/RequestsManager.cs" Line="243" Column="36" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

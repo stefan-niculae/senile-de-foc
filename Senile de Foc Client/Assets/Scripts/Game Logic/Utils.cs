@@ -5,7 +5,6 @@ using System.Collections.Generic;
 
 public class Utils : MonoBehaviour
 {
-	// TODO tests
 	void DistributionTest ()
 	{
 		int[] p = new int[] { 50, 30, 20 };
@@ -132,9 +131,7 @@ public class Utils : MonoBehaviour
 
 		return array [index];
 	}
-
-	// TODO tests
-	// a <= b or b <= a
+		
 	public static bool CustomBetween (float value, float a, float b)
 	{
 		return 

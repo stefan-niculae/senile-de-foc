@@ -27,12 +27,12 @@ public class TankSelection : MonoBehaviour
 		backgrounds [3] = GameObject.Find ("Sneaky Background")	.GetComponent <Image> ();
 		backgrounds [4] = GameObject.Find ("Custom Background")	.GetComponent <Image> ();
 
-		lockInButton = GameObject.Find ("Lock In Button").GetComponent <Button> ();
+		lockInButton 		= GameObject.Find ("Lock In Button")	.GetComponent <Button> ();
 
-		lockinButtonTrans = GameObject.Find ("Lock In Button").GetComponent <Transition> ();
-		customizeButtonTrans = GameObject.Find ("Customize Button").GetComponent <Transition> ();
+		lockinButtonTrans 	= GameObject.Find ("Lock In Button")	.GetComponent <Transition> ();
+		customizeButtonTrans= GameObject.Find ("Customize Button")	.GetComponent <Transition> ();
 
-		lockinButtonTrans		.Initialize (Transition.Properties.scale, 	Vector3.one, 	Constants.SMALL_DURATION);
+		lockinButtonTrans		.Initialize (Transition.Properties.scale, Vector3.one, 	Constants.SMALL_DURATION);
 		customizeButtonTrans	.Initialize (Transition.Properties.scale, Vector3.zero, Constants.SMALL_DURATION);
 
 

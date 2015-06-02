@@ -44,7 +44,7 @@ public class Scoreboard : Singleton<Scoreboard>
 	public void PopulateList (List <PlayerInfo> playerInfos)
 	{
 		// Sort descending
-		playerInfos.Sort ((a, b) => -a.CompareTo (b));
+		playerInfos.Sort ();
 		for (int i = 0; i < playerInfos.Count; i++) {
 
 			if (!orderNumToIngameInfo.ContainsKey (playerInfos [i].orderNumber)) {

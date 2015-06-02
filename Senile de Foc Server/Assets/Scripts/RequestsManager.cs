@@ -229,16 +229,25 @@ public class RequestsManager : MonoBehaviour
 
 
 	[RPC]
-	public void ReceiveHealthUpdate (int networkID, float amount)
+	public void ReceiveDamageAnnouncement (float damage, int source, int destination)
 	{
-		log += networkID + (networkID < 5 ? "player" : "barrel") + " hp: " + amount;
+		log += source + " applied " + damage + " to " + destination;
 	}
 
 
 	[RPC]
 	void ReceiveStatsUpdate (int orderNumber, byte[] statsBytes)
 	{
+		string username = "";
+		foreach (var p in connectedPlayers)
+			if (p.Value.orderNumber == orderNumber) {
+				username = p.Value.name;
+				break;
+			}
+
 		var stats = NetworkUtils.ByteArrayToObject (statsBytes) as Stats;
-		log += "Player ord. nr" + orderNumber + " new stats " + stats;
+		log += username + " new stats " + stats;
+
+		database.UpdateHighscore (username, stats.kills);
 	}
 }
