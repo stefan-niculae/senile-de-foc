@@ -20,37 +20,43 @@ public class Scoreboard : Singleton<Scoreboard>
 		orderNumToIngameInfo = new Dictionary<int, IngameInfo> ();
 	}
 
+	void Start ()
+	{
+		// Clear the dummy player infos created in the editor
+		foreach (Transform child in container)
+			if (child != container)
+				Destroy (child.gameObject);
+	}
+
 	void Update ()
 	{
 		isShown = Input.GetKey (KeyCode.Tab);
 
-		transform.localPosition	= new Vector3 ( isShown ? 0 : Constants.HIDDEN.x, transform.localPosition.y, 0);
+		transform.localPosition	 = new Vector3 ( isShown ? 0 : Constants.HIDDEN.x, transform.localPosition.y, 0);
 		if (respawn != null)
-			respawn.localPosition 	= new Vector3 (!isShown ? 0 : Constants.HIDDEN.x, respawn.localPosition.y, 0);
+			respawn.localPosition= new Vector3 (!isShown ? 0 : Constants.HIDDEN.x, respawn.localPosition.y, 0);
 
-		if (isShown)
+		if (isShown) 
 			((IngameUIManager)IngameUIManager.Instance).ClearPopup ();
+		
 	}
 
 	public void PopulateList (List <PlayerInfo> playerInfos)
 	{
-		foreach (Transform child in container)
-			if (child != container)
-				Destroy (child.gameObject);
-		orderNumToIngameInfo.Clear ();
-
 		// Sort descending
 		playerInfos.Sort ((a, b) => -a.CompareTo (b));
 		for (int i = 0; i < playerInfos.Count; i++) {
-			Vector3 pos = container.localPosition;
-			pos.y = i * DISTANCE * -1;
 
-			GameObject shownPlayer = Instantiate (ingameInfoPrefab) as GameObject;
-			orderNumToIngameInfo [playerInfos [i].orderNumber] = shownPlayer.GetComponent <IngameInfo> ();
+			if (!orderNumToIngameInfo.ContainsKey (playerInfos [i].orderNumber)) {
+				GameObject shownPlayer = Instantiate (ingameInfoPrefab) as GameObject;
+				shownPlayer.transform.SetParent (container, false);
+				orderNumToIngameInfo [playerInfos [i].orderNumber] = shownPlayer.GetComponent <IngameInfo> ();
+			}
 
-			shownPlayer.GetComponent <IngameInfo> ().SetValues (playerInfos [i]);
-			shownPlayer.transform.localPosition = pos;
-			shownPlayer.transform.SetParent (container, false);
+			var ingameInfo = orderNumToIngameInfo [playerInfos [i].orderNumber];
+			ingameInfo.SetValues (playerInfos [i]);
+			ingameInfo.transform.position = container.position;
+			ingameInfo.transform.localPosition = new Vector3 (0, i * DISTANCE * -1 + 100, 0); // I don't know where that +100 comes from...
 		}
 	}
 

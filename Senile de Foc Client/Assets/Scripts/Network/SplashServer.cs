@@ -12,7 +12,6 @@ public class SplashServer : Singleton<SplashServer>
 	void Awake ()
 	{
 		netView = Instance.GetComponent <NetworkView> ();
-//		PlayerPrefs.DeleteAll ();
 
 		tankSelection = GameObject.Find ("Menu Logic").GetComponent <TankSelection> ();
 		waitingLobby = GameObject.Find ("Menu Logic").GetComponent <WaitingLobby> ();

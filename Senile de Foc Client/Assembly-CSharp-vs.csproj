@@ -116,6 +116,7 @@
      <Compile Include="Assets\Scripts\UI\Game\Scoreboard.cs" />
      <Compile Include="Assets\Scripts\UI\Game\Settings.cs" />
      <Compile Include="Assets\Scripts\UI\IngameUIManager.cs" />
+     <Compile Include="Assets\Scripts\UI\MatchOver.cs" />
      <Compile Include="Assets\Scripts\UI\Menus\AttributeBeans.cs" />
      <Compile Include="Assets\Scripts\UI\Menus\LobbyInfo.cs" />
      <Compile Include="Assets\Scripts\UI\Menus\LoginForm.cs" />

@@ -73,8 +73,12 @@ public class IngameUIManager : UIManager
 
 			case State.matchOver:
 				SetVisibility (false, KDPanel, playerPanel, minimap, settings);
-				SetVisibility (false, darkOverlay, respawn, scoreboard);
-				SetVisibility (true, matchOver);
+				SetVisibility (false, respawn, scoreboard);
+				SetVisibility (true, matchOver, darkOverlay);
+
+				MatchOver.Instance.YankPlayers ();
+				Scoreboard.Instance.enabled = false;
+				GameServer.Instance.orderNrToTankInfo [GameServer.selfInfo.orderNumber].input.enabled = false;
 				break;
 			}
 		}

@@ -26,6 +26,12 @@ public class LoginForm : MonoBehaviour
 	Button createButton;
 
 
+	string enteredUsername
+	{
+		get { return usernameField.text.ToUpper (); }
+	}
+
+
 
 	Toggle rememberToggle;
 
@@ -225,7 +231,7 @@ public class LoginForm : MonoBehaviour
 		if (UserOrPassEmpty ())
 			return;
 
-		SplashServer.UsernameExists (usernameField.text, UsernameCheckReceival);
+		SplashServer.UsernameExists (enteredUsername, UsernameCheckReceival);
 	}
 
 	void UsernameCheckReceival (bool exists)
@@ -236,13 +242,13 @@ public class LoginForm : MonoBehaviour
 		}
 		else {
 			foreach (var player in WaitingLobby.currentPlayers)
-				if (player.name == usernameField.text) {
+				if (player.name == enteredUsername) {
 					NetworkStatus.Show ("User already logged in", NetworkStatus.MessageType.failure);
 					usernameField.Select ();
 					return;
 				}
 		
-			SplashServer.PasswordMatches (usernameField.text, passwordField.text, PasswordMatchesReceival);
+			SplashServer.PasswordMatches (enteredUsername, passwordField.text, PasswordMatchesReceival);
 		}
 	}
 
@@ -250,11 +256,11 @@ public class LoginForm : MonoBehaviour
 	void PasswordMatchesReceival (bool value)
 	{
 		if (value) {
-			SplashServer.Login (usernameField.text, passwordField.text);
-			SplashMenus.currentUsername = usernameField.text;
+			SplashServer.Login (enteredUsername, passwordField.text);
+			SplashMenus.currentUsername = enteredUsername;
 			
 			if (rememberToggle.isOn) {
-				savedUser = usernameField.text;
+				savedUser = enteredUsername;
 				savedPass = passwordField.text;
 			}
 			// No else here, don't clear the saved user if a guest enters!
@@ -273,7 +279,7 @@ public class LoginForm : MonoBehaviour
 			return;
 
 		if (passwordField.text == confirmField.text) {
-			SplashServer.CreateUser (usernameField.text, passwordField.text);
+			SplashServer.CreateUser (enteredUsername, passwordField.text);
 			ShowLogin ();
 			HandleLogin ();
 		} 
@@ -283,7 +289,7 @@ public class LoginForm : MonoBehaviour
 
 	bool UserOrPassEmpty ()
 	{
-		if (usernameField.text == "") {
+		if (enteredUsername == "") {
 			usernameField.Select ();
 			return true;
 		}
