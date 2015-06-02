@@ -25,7 +25,7 @@ public class RespawnFrame : MonoBehaviour
 		bgBotTrans 		= Utils.childWithName (transform, "Background Bot")	.GetComponent <Transition> ();
 		bgMidTrans 		= Utils.childWithName (transform, "Background Mid")	.GetComponent <Transition> ();
 		arrowTrans 		= Utils.childWithName (transform, "Toggler Arrow")	.GetComponent <Transition> ();
-		hitters 		= Utils.childWithName (transform, "Hitters")		.gameObject;
+		hitters 		= Utils.childWithName (transform, "Hitters Info")	.gameObject;
 
 		bgBotDown 	= bgBotTrans.transform.localPosition;
 		bgBotUp 	= bgBotDown + new Vector3 (0, 218.1f, 0);

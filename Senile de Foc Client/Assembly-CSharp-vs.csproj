@@ -108,6 +108,8 @@
      <Compile Include="Assets\Scripts\UI\Game\CameraMovement.cs" />
      <Compile Include="Assets\Scripts\UI\Game\Countdown.cs" />
      <Compile Include="Assets\Scripts\UI\Game\HealthBar.cs" />
+     <Compile Include="Assets\Scripts\UI\Game\HitterInfo.cs" />
+     <Compile Include="Assets\Scripts\UI\Game\HittersDisplay.cs" />
      <Compile Include="Assets\Scripts\UI\Game\IngameInfo.cs" />
      <Compile Include="Assets\Scripts\UI\Game\Minimap.cs" />
      <Compile Include="Assets\Scripts\UI\Game\RespawnFrame.cs" />

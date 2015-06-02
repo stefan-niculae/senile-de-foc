@@ -30,4 +30,7 @@ public class Constants : MonoBehaviour
 
 
 	public const float MATCH_DURATION = 60 * 5; // 5 mins
+
+	public const float TANK_RESPAWN_TIME = 10;
+	public const float BARREL_RESPAWN_TIME = 5;
 }

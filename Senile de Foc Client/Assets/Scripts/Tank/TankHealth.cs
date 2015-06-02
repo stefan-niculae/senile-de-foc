@@ -2,24 +2,25 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
+using System.Linq;
 
 public class TankHealth : Damagable
 {
 	[HideInInspector] public TankInfo tankInfo;
 	
-	List <TankInfo> hitters;
+	Dictionary <int, float> hitters;
 	[HideInInspector] public CameraMovement camMovement;
 	[HideInInspector] public Countdown respawnCountdown;
 	ParticleSystem spawnParticles;
 
 	override public void OnAwake ()
 	{
-		hitters = new List <TankInfo> ();
+		hitters = new Dictionary<int, float> ();
 		
 		tankInfo = GetComponentInParent <TankInfo> ();
 		spawnParticles = Utils.childWithName (tankInfo.transform, "Spawn Particles").GetComponent <ParticleSystem> ();;
 
-		respawnTime = 20; // TODO set a reasonable respawn time
+		respawnTime = Constants.TANK_RESPAWN_TIME;
 
 		damaged = new ThresholdParticle[3];
 		damaged [0] = new ThresholdParticle (75, Utils.childWithName (tankInfo.transform, "Lightly Damaged"), 	170, 190);// flame just in the back
@@ -43,55 +44,54 @@ public class TankHealth : Damagable
 	override public void OnUpdate () 
 	{ }
 	
-	public override void OnTakingDamage (TankInfo source)
+	public override void OnTakingDamage (float damage, TankInfo source)
 	{
-		hitters.Add (source);
+		if (!hitters.ContainsKey (source.playerInfo.orderNumber))
+			hitters [source.playerInfo.orderNumber] = 0;
+		hitters [source.playerInfo.orderNumber] += damage;
+
+		Debug.LogFormat ("{0} has done {1} dmg to {2}", source.playerInfo.name, hitters [source.playerInfo.orderNumber], tankInfo.playerInfo.name);
 	}
 	
 	public override void OnDeath (TankInfo source)
 	{
-		var haveStatsUpdated = new HashSet <TankInfo> ();
+		var thisOrderNr = tankInfo.playerInfo.orderNumber;
 
-		// Increase this player's death count
-		tankInfo.playerInfo.stats.deaths++;
-		haveStatsUpdated.Add (tankInfo);
+		var hittersList = hitters.ToList ();
+		// Sorting by damage done (descending)
+		hittersList.Sort ((a, b) => -a.Value.CompareTo (b.Value));
 
-		// The source will never be null because even if a barrel kills
-		// still that barrel must have been shot by a player (and so on)
-
-		// And the other player's kill count
-		if (source != tankInfo) { // but not on a suicide
-			source.playerInfo.stats.kills++;
-			haveStatsUpdated.Add (source);
-		}
-		
-		// And each hitter's (except the killer) assist count
-		foreach (var hitter in hitters) 
-			// TODO: shooty shoots abstract once, i kill shooty, i kill abstract
-			// abstract gets a null reference on hitter
-			if (hitter != source) {
-				hitter.playerInfo.stats.assists++;
-				haveStatsUpdated.Add (hitter);
-			}
-
-		foreach (var tank in haveStatsUpdated) {
-			GameServer.Instance.SendStatsUpdate (tank.playerInfo.orderNumber, tank.playerInfo.stats);
-			tank.ShowStatsRecap ();
-		}
-
-		// Clear the hitters list for the next death
 		hitters.Clear ();
 
+		// Death always counts
+		tankInfo.playerInfo.stats.deaths++;
+		GameServer.Instance.SendStatsUpdate (thisOrderNr);
+
+		var killer = hittersList [0].Key;
+		// Suicides don't count as kills
+		if (killer != thisOrderNr) {
+			GameServer.Instance.orderNrToTankInfo [killer].playerInfo.stats.kills++;
+			GameServer.Instance.SendStatsUpdate (killer);
+		}
+
+		for (int i = 1; i < hittersList.Count; i++) {
+			var assistant = hittersList [i].Key;
+			// Hitting yourself doesn't grant you an assist
+			if (assistant != thisOrderNr) {
+				GameServer.Instance.orderNrToTankInfo [assistant].playerInfo.stats.assists++;
+				GameServer.Instance.SendStatsUpdate (assistant);
+			}
+		}
+
+
 		if (tankInfo.isMine) {
+			tankInfo.ShowStatsRecap ();
 			camMovement.HandleDeath ();
 			((IngameUIManager)IngameUIManager.Instance).state = IngameUIManager.State.dead;
 			tankInfo.input.enabled = false;
-		}
-
-		// Start the countdown for the controlled player
-		if (tankInfo.isMine)
 			respawnCountdown.StartIt (respawnTime);
-		
+			HittersDisplay.Instance.PopulateList (hittersList);
+		}
 	}
 
 	public override void OnZeroHealth ()

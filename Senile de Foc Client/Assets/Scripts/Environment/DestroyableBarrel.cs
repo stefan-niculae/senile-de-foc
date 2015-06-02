@@ -10,7 +10,7 @@ public class DestroyableBarrel : Damagable
 	public override void OnAwake ()
 	{
 		maxHp = 25;
-		respawnTime = 5;
+		respawnTime = Constants.BARREL_RESPAWN_TIME;
 
 		spriteRenderer = GetComponent <SpriteRenderer> ();
 
@@ -31,13 +31,13 @@ public class DestroyableBarrel : Damagable
 	public override void OnUpdate ()
 	{ }
 
-	public override void OnTakingDamage (TankInfo source)
+	public override void OnTakingDamage (float damage, TankInfo source)
 	{ }
 
 	public override void OnDeath (TankInfo source)
 	{
 		source.playerInfo.stats.barrels++;
-		GameServer.Instance.SendStatsUpdate (source.playerInfo.orderNumber, source.playerInfo.stats);
+		GameServer.Instance.SendStatsUpdate (source.playerInfo.orderNumber);
 		source.ShowStatsRecap ();
 	}
 

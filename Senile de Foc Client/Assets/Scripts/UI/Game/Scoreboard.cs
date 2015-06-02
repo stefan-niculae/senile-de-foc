@@ -7,7 +7,7 @@ public class Scoreboard : Singleton<Scoreboard>
 	public GameObject ingameInfoPrefab;
 
 	Transform container;
-	static readonly float DISTANCE = 50f;
+	const float DISTANCE = 50f;
 
 	public bool isShown;
 	[HideInInspector] public Transform respawn;
@@ -38,7 +38,8 @@ public class Scoreboard : Singleton<Scoreboard>
 			if (child != container)
 				Destroy (child.gameObject);
 		orderNumToIngameInfo.Clear ();
-		
+
+		// TODO i think i have to reverse this sort
 		playerInfos.Sort ();
 		for (int i = 0; i < playerInfos.Count; i++) {
 			Vector3 pos = container.localPosition;

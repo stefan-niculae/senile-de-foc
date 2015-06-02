@@ -75,8 +75,9 @@ public class GameServer : Singleton<GameServer>
 	}
 
 
-	public void SendStatsUpdate (int orderNumber, Stats stats)
+	public void SendStatsUpdate (int orderNumber)
 	{
+		var stats = orderNrToTankInfo [orderNumber].playerInfo.stats;
 		netView.RPC ("ReceiveStatsUpdate", RPCMode.All, orderNumber, NetworkUtils.ObjectToByteArray (stats));
 	}
 	[RPC]

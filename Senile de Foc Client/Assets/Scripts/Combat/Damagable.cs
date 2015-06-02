@@ -91,7 +91,7 @@ public abstract class Damagable : MonoBehaviour
 	{
 		OnStart ();
 
-		StartCoroutine (Respawn (true));
+		StartCoroutine (Respawn (firstSpawn: true));
 	}
 	public abstract void OnStart ();
 
@@ -109,7 +109,7 @@ public abstract class Damagable : MonoBehaviour
 
 			for (int i = damaged.Length - 1; i >= 0; i--)
 				if (amount <= damaged [i].threshold) {
-					damaged [i].randParticle.Play (); // TODO maybe for the barrel we need this to stop
+					damaged [i].randParticle.Play ();
 					break;
 				}
 		}
@@ -119,10 +119,11 @@ public abstract class Damagable : MonoBehaviour
 	bool alreadyExploded;
 	public void TakeDamage (float damage, TankInfo source)
 	{
-		OnTakingDamage (source);
 
 		// Apply the absorbtion
-		damage *= 1f - damageAbsorbtion;
+		damage *= 1 - damageAbsorbtion;
+
+		OnTakingDamage (damage, source);
 		
 		// Apply the damage
 		amount -= damage;
@@ -135,7 +136,7 @@ public abstract class Damagable : MonoBehaviour
 			Die (source);
 		}
 	}
-	public abstract void OnTakingDamage (TankInfo source);	
+	public abstract void OnTakingDamage (float damage, TankInfo source);	
 
 	Rigidbody2D body;
 	public void GetPushed (Vector2 dir)
