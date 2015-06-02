@@ -98,7 +98,6 @@ public abstract class Damagable : MonoBehaviour
 	bool alreadyExploded;
 	public void TakeDamage (float damage, int sourceOrderNumber, bool announce = true)
 	{
-		// TODO announce others!
 		if (announce)
 			GameServer.Instance.AnnounceTakingDamage (damage, sourceOrderNumber, networkID);
 

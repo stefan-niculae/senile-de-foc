@@ -5,7 +5,7 @@ public class MarkerManager : Singleton<MarkerManager>
 {
 	public GameObject markerPrefab;
 
-	// TODO maybe switch this to directly instantiate it
+	// TODO (?) directly instantiate it, don't use the markers
 	public void Spawn ()
 	{
 		Transform point = GameWorld.spawnPoints [GameServer.selfInfo.orderNumber];

@@ -33,4 +33,6 @@ public class Constants : MonoBehaviour
 
 	public const float TANK_RESPAWN_TIME = 10;
 	public const float BARREL_RESPAWN_TIME = 5;
+
+	public const float SECONDARY_FIRE_RATE = 2;
 }

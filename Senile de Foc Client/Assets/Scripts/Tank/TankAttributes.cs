@@ -23,14 +23,14 @@ public class TankAttributes : Singleton<TankAttributes>
 
 	public AttributeRate
 		damageAbsorbtion, 	// in 0-1 percentage
-//		tankMass, 			// TODO maybe add variable tank mass
+//		tankMass, 			// TODO (?) variable tank mass
 		forwardSpeed,
 		backwardSpeed,
 		rotationSpeed,
 		explosionDamage, 	// in 0-1 health percentage
-		explosionRadius, 	// TODO: maybe scale particle with explosion damage
+		explosionRadius, 	// TODO (?) scale particle size with explosion damage
 		projectileSpeed,	
-//		projectileMass, 	// TODO maybe add variable projectile mass
+//		projectileMass, 	// TODO (?) variable projectile mass
 		fireRate, 			// in seconds
 		barrelSpeed; 	
 

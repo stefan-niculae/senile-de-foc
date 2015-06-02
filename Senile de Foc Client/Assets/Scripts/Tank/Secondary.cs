@@ -7,7 +7,7 @@ public class Secondary : Weapon
 	public override void OnAwake ()
 	{
 		effectSpawnPoint = transform;
-		fireRate = 2f; // TODO maybe set this somewhere else?
+		fireRate = Constants.SECONDARY_FIRE_RATE;
 	}
 
 	public override void OnFire (GameObject spawnedEffect)

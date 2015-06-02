@@ -10,6 +10,7 @@ public class GameServer : Singleton<GameServer>
 	public List<PlayerInfo> connectedPlayers;
 	public Dictionary<int, Damagable> damageables;
 	public Dictionary<int, TankInfo> orderNrToTankInfo;
+	// TODO refactor lists and dictionaries to be used more efficiently
 
 	void Awake ()
 	{
@@ -85,7 +86,7 @@ public class GameServer : Singleton<GameServer>
 	{
 		var stats = NetworkUtils.ByteArrayToObject (statsBytes) as Stats;
 		orderNrToTankInfo [orderNumber].playerInfo.stats = stats;
-		// TODO do something with this list and dictionaries
+
 		foreach (var p in connectedPlayers)
 			if (p.orderNumber == orderNumber)
 				p.stats = stats;

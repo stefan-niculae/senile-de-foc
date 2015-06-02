@@ -182,6 +182,7 @@ public class Stats : IComparable
 		return string.Format ("{0}\t{1}\t{2}\t{3}", kills, deaths, assists, barrels);
 	}
 
+	// TODO tests
 	/**
 	 * 		< 0 	this < obj
 	 * 		= 0 	this = obj
