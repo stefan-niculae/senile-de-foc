@@ -64,14 +64,14 @@ public class GameServer : Singleton<GameServer>
 
 	}
 
-	public void SendHealthUpdate (int networkID, float amount)
+	public void AnnounceTakingDamage (float damage, int source, int destination)
 	{
-		GameServer.netView.RPC ("ReceiveHealthUpdate", RPCMode.Others, networkID, amount);
+		GameServer.netView.RPC ("ReceiveDamageAnnouncement", RPCMode.Others, damage, source, destination);
 	}
 	[RPC]
-	public void ReceiveHealthUpdate (int networkID, float amount)
+	public void ReceiveDamageAnnouncement (float damage, int source, int destination)
 	{
-		damageables [networkID].amount = amount;
+		damageables [destination].TakeDamage (damage, source, announce: false);
 	}
 
 
@@ -85,7 +85,7 @@ public class GameServer : Singleton<GameServer>
 	{
 		var stats = NetworkUtils.ByteArrayToObject (statsBytes) as Stats;
 		orderNrToTankInfo [orderNumber].playerInfo.stats = stats;
-		// TODO do something with this list and dictionarys
+		// TODO do something with this list and dictionaries
 		foreach (var p in connectedPlayers)
 			if (p.orderNumber == orderNumber)
 				p.stats = stats;

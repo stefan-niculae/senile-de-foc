@@ -42,7 +42,7 @@ public class Explosion : Containable<Explosion>
 			var damagable = coll.GetComponent <Damagable> ();
 			if (damagable != null && damagable != ignore) {
 
-				damagable.TakeDamage (stats.damage, source);
+				damagable.TakeDamage (stats.damage, source.playerInfo.orderNumber);
 
 				var dir = (coll.transform.position - transform.position) * stats.force;
 				damagable.GetPushed (dir);

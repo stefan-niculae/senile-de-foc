@@ -53,8 +53,9 @@ public abstract class Damagable : MonoBehaviour
 	}
 	public abstract void OnAwake ();
 
-	protected void RegisterThis (int networkID)
+	public void RegisterThis (int networkID)
 	{
+		this.networkID = networkID;
 		try {
 			// I don't know why the gameserver script's awake runs after the damagable's awake
 			// I suspect it's because damagable has some infiltrations in scripts that run in edit mode
@@ -69,7 +70,6 @@ public abstract class Damagable : MonoBehaviour
 	void Start ()
 	{
 		OnStart ();
-
 		StartCoroutine (Respawn (firstSpawn: true));
 	}
 	public abstract void OnStart ();
@@ -96,8 +96,13 @@ public abstract class Damagable : MonoBehaviour
 	public abstract void OnUpdate ();
 
 	bool alreadyExploded;
-	public void TakeDamage (float damage, TankInfo source)
+	public void TakeDamage (float damage, int sourceOrderNumber, bool announce = true)
 	{
+		// TODO announce others!
+		if (announce)
+			GameServer.Instance.AnnounceTakingDamage (damage, sourceOrderNumber, networkID);
+
+		var source = GameServer.Instance.orderNrToTankInfo [sourceOrderNumber];
 
 		// Apply the absorbtion
 		damage *= 1 - damageAbsorbtion;
@@ -106,8 +111,6 @@ public abstract class Damagable : MonoBehaviour
 		
 		// Apply the damage
 		amount -= damage;
-
-		GameServer.Instance.SendHealthUpdate (networkID, amount);
 
 		// If it has killed the target
 		if (amount <= 0 && !alreadyExploded) {

@@ -15,12 +15,12 @@ public class TankHealth : Damagable
 
 	override public void OnAwake ()
 	{
-		hitters = new Dictionary<int, float> ();
-		
 		tankInfo = GetComponentInParent <TankInfo> ();
 		spawnParticles = Utils.childWithName (tankInfo.transform, "Spawn Particles").GetComponent <ParticleSystem> ();;
 
 		respawnTime = Constants.TANK_RESPAWN_TIME;
+
+		hitters = new Dictionary<int, float> ();
 
 		damaged = new ThresholdParticle[3];
 		damaged [0] = new ThresholdParticle (75, Utils.childWithName (tankInfo.transform, "Lightly Damaged"), 	170, 190);// flame just in the back
@@ -32,12 +32,6 @@ public class TankHealth : Damagable
 		maxWait = 6;
 	}
 
-	public void RegisterNetworkID ()
-	{
-		networkID = tankInfo.playerInfo.orderNumber;
-		RegisterThis (networkID);
-	}
-
 	override public void OnStart () 
 	{ }
 
@@ -46,69 +40,72 @@ public class TankHealth : Damagable
 	
 	public override void OnTakingDamage (float damage, TankInfo source)
 	{
-		if (!hitters.ContainsKey (source.playerInfo.orderNumber))
-			hitters [source.playerInfo.orderNumber] = 0;
-		hitters [source.playerInfo.orderNumber] += damage;
-
-		Debug.LogFormat ("{0} has done {1} dmg to {2}", source.playerInfo.name, hitters [source.playerInfo.orderNumber], tankInfo.playerInfo.name);
+		// Hitters list is only kept in the instance on the machine that controls it
+		if (tankInfo.isMine) {
+			if (!hitters.ContainsKey (source.playerInfo.orderNumber))
+				hitters [source.playerInfo.orderNumber] = 0;
+			hitters [source.playerInfo.orderNumber] += damage;
+			Debug.LogFormat ("{0} has done {1} dmg to {2}", source.playerInfo.name, hitters [source.playerInfo.orderNumber], tankInfo.playerInfo.name);
+		}
 	}
 	
 	public override void OnDeath (TankInfo source)
 	{
-		var thisOrderNr = tankInfo.playerInfo.orderNumber;
-
-		var hittersList = hitters.ToList ();
-		// Sorting by damage done (descending)
-		hittersList.Sort ((a, b) => -a.Value.CompareTo (b.Value));
-
-		hitters.Clear ();
-
-		// Death always counts
-		tankInfo.playerInfo.stats.deaths++;
-		GameServer.Instance.SendStatsUpdate (thisOrderNr);
-
-		var killer = hittersList [0].Key;
-		// Suicides don't count as kills
-		if (killer != thisOrderNr) {
-			GameServer.Instance.orderNrToTankInfo [killer].playerInfo.stats.kills++;
-			GameServer.Instance.SendStatsUpdate (killer);
-		}
-
-		for (int i = 1; i < hittersList.Count; i++) {
-			var assistant = hittersList [i].Key;
-			// Hitting yourself doesn't grant you an assist
-			if (assistant != thisOrderNr) {
-				GameServer.Instance.orderNrToTankInfo [assistant].playerInfo.stats.assists++;
-				GameServer.Instance.SendStatsUpdate (assistant);
-			}
-		}
-
-
+		// The update is announced by only one tank on one machine,
+		// the tank that died on the machine that controls it
 		if (tankInfo.isMine) {
+			
+			var thisOrderNr = tankInfo.playerInfo.orderNumber;
+
+			var hittersList = hitters.ToList ();
+			// Sorting by damage done (descending)
+			hittersList.Sort ((a, b) => -a.Value.CompareTo (b.Value));
+
+			hitters.Clear ();
+
+			// Death always counts
+			tankInfo.playerInfo.stats.deaths++;
+			GameServer.Instance.SendStatsUpdate (thisOrderNr);
+
+			var killer = hittersList [0].Key;
+			// Suicides don't count as kills
+			if (killer != thisOrderNr) {
+				GameServer.Instance.orderNrToTankInfo [killer].playerInfo.stats.kills++;
+				GameServer.Instance.SendStatsUpdate (killer);
+			}
+
+			for (int i = 1; i < hittersList.Count; i++) {
+				var assistant = hittersList [i].Key;
+				// Hitting yourself doesn't grant you an assist
+				if (assistant != thisOrderNr) {
+					GameServer.Instance.orderNrToTankInfo [assistant].playerInfo.stats.assists++;
+					GameServer.Instance.SendStatsUpdate (assistant);
+				}
+			}
+
 			camMovement.HandleDeath (); // camera doesn't go to the hidden, instead it can be controlled
 			tankInfo.input.enabled = false; // disable movement and firing
 
 			tankInfo.ShowStatsRecap (); // KD persistent show
 			((IngameUIManager)IngameUIManager.Instance).state = IngameUIManager.State.dead; // show the dark overlay and respawn frame
 			respawnCountdown.StartIt (respawnTime); // start the respawn timer on the respawn frame
-			HittersDisplay.Instance.PopulateList (hittersList);
-			Scoreboard.Instance.StartCountdownFor (tankInfo.playerInfo.orderNumber, tankInfo.health.respawnTime);
+			HittersDisplay.Instance.PopulateList (hittersList); // show the hitters and the damage percentage done
 		}
+
+		// Start the respawn timer on the scoreboard for this tank
+		Scoreboard.Instance.StartCountdownFor (tankInfo.playerInfo.orderNumber, tankInfo.health.respawnTime); 
 	}
 	
 	public override void OnRespawn (bool firstSpawn)
 	{	
-		if (camMovement != null && !firstSpawn)
-			camMovement.HandleRespawn ();
-
-		if (tankInfo.isMine && !firstSpawn)
-			tankInfo.input.enabled = true;
-		
 		spawnParticles.Play ();
 
-		// On the first spawn, positions are not randomly taken
-		// they are given out in using the order number
-		if (!firstSpawn) {
+		if (tankInfo.isMine && !firstSpawn) {
+			tankInfo.input.enabled = true;
+			camMovement.HandleRespawn ();
+
+			// On the first spawn, positions are not randomly taken
+			// they are given out in using the order number
 			var point = GameWorld.RandomSpawnPoint ();
 			// Keep the height, just move on up-down left-right
 			transform.position = new Vector3 (point.position.x, point.position.y, transform.position.z);

@@ -64,7 +64,7 @@ public class TankInfo : MonoBehaviour
 		}
 
 
-		health.RegisterNetworkID ();
+		health.RegisterThis (playerInfo.orderNumber);
 
 		var aboveObj = GameObject.Instantiate (References.Instance.aboveInfoPrefab) as GameObject;
 		aboveInfo = aboveObj.GetComponent <AboveInfo> ();

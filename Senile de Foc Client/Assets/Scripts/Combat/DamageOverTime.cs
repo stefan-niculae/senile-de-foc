@@ -61,7 +61,7 @@ public class DamageOverTime : Containable<DamageOverTime>
 	{
 		// Extra caution (because the duration does not always divide evenly to the rate)
 		if (ticks < maxTicks) {
-			affected.TakeDamage (damage, source);
+			affected.TakeDamage (damage, source.playerInfo.orderNumber);
 			ticks++;
 		}
 	}
