@@ -10,6 +10,7 @@ public class InstantiateAndFollow : MonoBehaviour
 	Transform pointer;
 	Transform tankContainer;
 
+	TankTracksManager trackManager;
 	bool isFollowing;
 
 	void Awake ()
@@ -40,8 +41,8 @@ public class InstantiateAndFollow : MonoBehaviour
 
 		GameServer.Instance.orderNrToTankInfo [playerInfo.orderNumber] = tankInfo;
 
-		var trackManager = Instantiate (References.Instance.trackManagerPrefab) as GameObject;
-		tankInfo.movement.tracks = trackManager.GetComponent <TankTracksManager> ();
+		var trackManagerObj = Instantiate (References.Instance.trackManagerPrefab) as GameObject;
+		trackManager = tankInfo.movement.tracks = trackManagerObj.GetComponent <TankTracksManager> ();
 
 		body = tank.transform;
 		barrel = Utils.childWithName (body, "Barrel");
@@ -65,6 +66,8 @@ public class InstantiateAndFollow : MonoBehaviour
 				
 				body		.rotation = transform	.rotation;
 				barrel		.rotation = pointer		.rotation;
+
+				trackManager.Show (transform.position, transform.rotation);
 			}
 		}
 	}

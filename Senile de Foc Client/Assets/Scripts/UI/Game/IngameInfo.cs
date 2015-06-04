@@ -32,6 +32,6 @@ public class IngameInfo : BasicInfo
 
 	public void SetRank (int rank)
 	{
-		this.rank.text = rank;
+		this.rank.text = rank.ToString ();
 	}
 }

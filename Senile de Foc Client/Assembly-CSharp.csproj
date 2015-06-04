@@ -78,6 +78,7 @@
      <Compile Include="Assets\Scripts\Loading\FirstScene.cs" />
      <Compile Include="Assets\Scripts\Loading\LoadingManager.cs" />
      <Compile Include="Assets\Scripts\Network\GameServer.cs" />
+     <Compile Include="Assets\Scripts\Network\GraduallyUpdateState.cs" />
      <Compile Include="Assets\Scripts\Network\MarkerManager.cs" />
      <Compile Include="Assets\Scripts\Network\NetworkManager.cs" />
      <Compile Include="Assets\Scripts\Network\NetworkStatus.cs" />

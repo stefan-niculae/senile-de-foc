@@ -29,25 +29,26 @@ public class LoginForm : MonoBehaviour
 	string enteredUsername
 	{
 		get { return usernameField.text.ToUpper (); }
+		set { usernameField.text = value.ToUpper (); }
 	}
 
 
 
 	Toggle rememberToggle;
 
-	string savedUserKey = "savedUser";
+	string SAVED_USER_KEY = "savedUser";
 	string savedUser
 	{
-		get { return PlayerPrefs.GetString (savedUserKey, ""); }
-		set { 		 PlayerPrefs.SetString (savedUserKey, value); }
+		get { return PlayerPrefs.GetString (SAVED_USER_KEY, ""); }
+		set { 		 PlayerPrefs.SetString (SAVED_USER_KEY, value); }
 	}
 
 	// TODO (?) store hashcodes not plain text
-	string savedPassKey = "savedPass";
+	string SAVED_PASS_KEY = "savedPass";
 	string savedPass
 	{
-		get { return PlayerPrefs.GetString (savedPassKey, ""); }
-		set { 		 PlayerPrefs.SetString (savedPassKey, value); }
+		get { return PlayerPrefs.GetString (SAVED_PASS_KEY, ""); }
+		set { 		 PlayerPrefs.SetString (SAVED_PASS_KEY, value); }
 	}
 
 	bool creating = false;
@@ -98,7 +99,10 @@ public class LoginForm : MonoBehaviour
 
 	void Start ()
 	{
-		usernameField.text = savedUser;
+//		PlayerPrefs.DeleteKey (SAVED_USER_KEY);
+//		PlayerPrefs.DeleteKey (SAVED_PASS_KEY);
+
+		enteredUsername = savedUser;
 		passwordField.text = savedPass;
 		loginButton.Select ();
 	}
@@ -116,7 +120,7 @@ public class LoginForm : MonoBehaviour
 		// Requesting username existance status
 		SplashServer.UsernameExists (username, UsernameExistanceReceival);
 
-		lastEnteredUsername = username;
+		lastEnteredUsername = enteredUsername;
 	}
 
 	void UsernameExistanceReceival (bool value)
@@ -309,5 +313,11 @@ public class LoginForm : MonoBehaviour
 		tankSelection.Reset ();
 		TankCustomization.Reset ();
 		loginButton.Select ();
+	}
+
+	public void ExitGame ()
+	{
+		Logout ();
+		Application.Quit ();
 	}
 }
