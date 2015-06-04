@@ -5,6 +5,7 @@ public class SoundManager : Singleton<SoundManager>
 {
 	AudioSource musicSource;
 	AudioSource sfxSource;
+	public AudioClip matchOverSound;
 
 	void Awake ()
 	{

@@ -45,7 +45,6 @@ public class TankHealth : Damagable
 			if (!hitters.ContainsKey (source.playerInfo.orderNumber))
 				hitters [source.playerInfo.orderNumber] = 0;
 			hitters [source.playerInfo.orderNumber] += damage;
-			Debug.LogFormat ("{0} has done {1} dmg to {2}", source.playerInfo.name, hitters [source.playerInfo.orderNumber], tankInfo.playerInfo.name);
 		}
 	}
 	
@@ -99,6 +98,7 @@ public class TankHealth : Damagable
 	public override void OnRespawn (bool firstSpawn)
 	{	
 		spawnParticles.Play ();
+		tankInfo.sounds.respawn.Play ();
 
 		if (tankInfo.isMine && !firstSpawn) {
 			tankInfo.input.enabled = true;
@@ -109,7 +109,7 @@ public class TankHealth : Damagable
 			var point = GameWorld.RandomSpawnPoint ();
 			// Keep the height, just move on up-down left-right
 			transform.position = new Vector3 (point.position.x, point.position.y, transform.position.z);
-//			tankInfo.movement.rot = point.rotation.eulerAngles; TODO reenable
+			tankInfo.transform.rotation = point.rotation;
 			transform.localRotation = point.rotation;
 
 			((IngameUIManager)IngameUIManager.Instance).state = IngameUIManager.State.alive;

@@ -31,7 +31,6 @@ public class TankSounds : MonoBehaviour
 		respawn = Utils.childWithName (transform, "Respawn")		.GetComponent <AudioSource> ();
 
 		tankInfo = GetComponentInParent <TankInfo> ();
-
 	}
 
 	public void PickClips ()

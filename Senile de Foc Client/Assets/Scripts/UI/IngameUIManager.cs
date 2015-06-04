@@ -97,6 +97,8 @@ public class IngameUIManager : UIManager
 				SetVisibility (false, respawn, scoreboard);
 				SetVisibility (true, matchOver, darkOverlay);
 
+				SoundManager.Instance.PlayClip (SoundManager.Instance.matchOverSound);
+
 				MatchOver.Instance.YankPlayers ();
 				Scoreboard.Instance.enabled = false;
 				GameServer.Instance.orderNrToTankInfo [GameServer.selfInfo.orderNumber].input.enabled = false;

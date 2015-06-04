@@ -1,19 +1,20 @@
 Music:
 	- loading
 x	- splash
-	- match playing
+x	- match playing
 	- match end
 
 SFX:
-	- button click
+x	- button click
+x	- match over
 
-	- tank respawn 1
-	- tank pleaca de pe loc .25
-	- tank se misca 1l
-	- tank trage bullet .2
-	- tank trage missile .25
-	- tank speciale (electricitate, explozie, poison, wind) .5
-	- tank death explosion 1
+x	- tank respawn 1
+x	- tank pleaca de pe loc .25
+x	- tank se misca 1l
+x	- tank trage bullet .2
+x	- tank trage missile .25
+x	- tank speciale (electricitate, explozie, poison, wind) .5
+x	- tank death explosion 1
 
 	- projectile bounce .2
 	- bullet explodeaza .2
