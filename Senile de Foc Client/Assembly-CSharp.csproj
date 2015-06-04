@@ -97,6 +97,7 @@
      <Compile Include="Assets\Scripts\Tank\TankHealth.cs" />
      <Compile Include="Assets\Scripts\Tank\TankInfo.cs" />
      <Compile Include="Assets\Scripts\Tank\TankMovement.cs" />
+     <Compile Include="Assets\Scripts\Tank\TankSounds.cs" />
      <Compile Include="Assets\Scripts\Tank\TankTrack.cs" />
      <Compile Include="Assets\Scripts\Tank\TankTracksManager.cs" />
      <Compile Include="Assets\Scripts\Tank\Weapon.cs" />

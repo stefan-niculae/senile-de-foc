@@ -3,6 +3,8 @@ using System.Collections;
 
 public class TankMovement : MonoBehaviour 
 {
+	TankInfo tankInfo;
+
 	public float 
 		forwardSpeed,
 		backwardSpeed,
@@ -11,18 +13,25 @@ public class TankMovement : MonoBehaviour
 	Rigidbody2D body;
 	[HideInInspector] public TankTracksManager tracks;
 
+	const float STATIONARY_PERIOD = 1.5f;
+	float lastMove;
+
 	void Awake ()
 	{
 		// Setting the reference
 		body = GetComponent <Rigidbody2D> ();
+		tankInfo = GetComponent <TankInfo> ();
 	}
-
+		
 	public void Move (float horiz, float vert, bool playerInput = true, float targetRot = float.NaN)
 	{
-		if (horiz != 0 || vert != 0) {
+		float magnitude;
+		float input = AxisToRotation (horiz, vert, out magnitude);
+		tankInfo.sounds.tracksVolume = magnitude;
+
+		if (magnitude > 0) {
 
 			float self = transform.eulerAngles.z;
-			float input = AxisToRotation (horiz, vert);
 			if (self != 0)
 				self = 360 - self;
 			
@@ -44,21 +53,27 @@ public class TankMovement : MonoBehaviour
 			);
 
 			float speed = forwards ? forwardSpeed : backwardSpeed;
-			int sens = forwards ? 1 : -1;
-			var force = sens *  Utils.ForwardDirection (transform) * speed * Time.deltaTime;
-			body.AddForce (force);
+			speed *= magnitude;
+			Vector2 dir = Utils.ForwardDirection (transform);
+			if (!forwards)
+				dir *= -1;
+			body.AddForce (dir * speed * Time.deltaTime);
 		
 			// Only spawn tracks if the tank is moving (and only for the player tank)
 			tracks.Show (transform.position, transform.rotation);
-			// TODO engine start sound, running sound
-			
+
+
+			if (Time.time > lastMove + STATIONARY_PERIOD)
+				tankInfo.sounds.engine.Play ();
+			lastMove = Time.time;
 		}
 	}
 
-	float AxisToRotation (float x, float y)
+	float AxisToRotation (float x, float y, out float magnitude)
 	{
 		Vector2 projected = new Vector2 (x * Mathf.Sqrt (1 - y * y / 2),
 										 y * Mathf.Sqrt (1 - x * x / 2));
+		magnitude = projected.magnitude;
 
 		// For help, checkout the Movement Illustrator
 		float rot = Mathf.Atan2 (projected.x,

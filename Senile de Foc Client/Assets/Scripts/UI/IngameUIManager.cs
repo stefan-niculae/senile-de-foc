@@ -3,10 +3,6 @@ using System.Collections;
 
 public class IngameUIManager : UIManager
 {
-	const float MIN_CAM_ZOOM = 3;
-	const float MAX_CAM_ZOOM = 8.5f;
-	const float CAM_ZOOM_STEP = -.5f;
-
 	CameraMovement camMovement;
 	GameObject loadingGraphic;
 
@@ -24,6 +20,21 @@ public class IngameUIManager : UIManager
 
 	Countdown matchTimer;
 
+	const float MIN_CAM_ZOOM = 3;
+	const float MAX_CAM_ZOOM = 8.5f;
+	const float CAM_ZOOM_STEP = -.5f;
+
+	const string CAM_ZOOM_KEY = "cam zoom";
+	float cameraZoom
+	{
+		get { return PlayerPrefs.GetFloat (CAM_ZOOM_KEY, 5); }
+		set 
+		{ 
+			value = Mathf.Clamp (value, MIN_CAM_ZOOM, MAX_CAM_ZOOM);
+			PlayerPrefs.SetFloat (CAM_ZOOM_KEY, value); 
+			Camera.main.orthographicSize = value;
+		}
+	}
 
 
 	public enum State { loading, playing, dead, alive, matchOver };
@@ -108,6 +119,11 @@ public class IngameUIManager : UIManager
 		state = State.loading;
 	}
 
+	void Start ()
+	{
+		cameraZoom = cameraZoom;
+	}
+
 	public override void OnVisibilityChange (Transform elem, bool visible)
 	{
 		// If you want to take a look at the controls and you are respawning, the respawn goes away
@@ -146,9 +162,7 @@ public class IngameUIManager : UIManager
 		}
 
 		float scroll = Input.GetAxis ("Mouse ScrollWheel");
-		if (scroll != 0) {
-			float newZoom = Camera.main.orthographicSize + scroll * CAM_ZOOM_STEP;
-			Camera.main.orthographicSize = Mathf.Clamp (newZoom, MIN_CAM_ZOOM, MAX_CAM_ZOOM);
-		}
+		if (scroll != 0)
+			cameraZoom += scroll * CAM_ZOOM_STEP;
 	}
 }

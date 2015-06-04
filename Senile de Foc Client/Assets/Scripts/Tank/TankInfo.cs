@@ -16,6 +16,7 @@ public class TankInfo : MonoBehaviour
 	[HideInInspector] public Secondary special;
 	[HideInInspector] public ExplosionStats cannonProjectileExplosionStats;
 	[HideInInspector] public PlayerInput input;
+	[HideInInspector] public TankSounds sounds;
 	
 
 	AboveInfo aboveInfo;
@@ -27,12 +28,13 @@ public class TankInfo : MonoBehaviour
 	void Awake ()
 	{
 		// Setting up references
-		health 				= GetComponentInChildren <TankHealth> ();
-		movement 			= GetComponentInChildren <TankMovement> ();
-		cannon 				= GetComponentInChildren <Cannon> ();
+		health 				= GetComponent <TankHealth> ();
+		movement 			= GetComponent <TankMovement> ();
+		cannon 				= GetComponent <Cannon> ();
 		barrel 				= GetComponentInChildren <TankBarrel> ();
 		projectile 			= cannon.effectPrefab.GetComponent <Projectile> ();
-		special 			= GetComponentInChildren <Secondary> ();
+		special 			= GetComponent <Secondary> ();
+		sounds 				= GetComponentInChildren <TankSounds> ();
 	}
 
 	public void Initialize (PlayerInfo playerInfo, bool isMine)

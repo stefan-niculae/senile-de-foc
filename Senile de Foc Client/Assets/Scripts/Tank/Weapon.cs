@@ -48,7 +48,7 @@ public abstract class Weapon : MonoBehaviour
 
 			SpawnEffect ();
 
-			audioSource.PlayOneShot (firingClip);
+//			audioSource.PlayOneShot (firingClip); //TODO
 
 			// The special waves don't have a muzzle flash so this is set to null
 			if (fireParticles != null)
