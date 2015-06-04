@@ -17,35 +17,58 @@ public class TankMovement : MonoBehaviour
 		body = GetComponent <Rigidbody2D> ();
 	}
 
-	void Start ()
+	public void Move (float horiz, float vert, bool playerInput = true, float targetRot = float.NaN)
 	{
-		// Setting up references
-		rot = transform.rotation.eulerAngles;
-	}
+		if (horiz != 0 || vert != 0) {
 
-	[HideInInspector] public Vector3 rot; // to be changed on respawn
-	public void Move (float horiz, float vert, bool playerInput = false, float targetRot = float.NaN)
-	{
-		horiz = Mathf.Clamp (horiz, -1f, 1f);
-		vert = Mathf.Clamp (vert, -1f, 1f);
+			float self = transform.eulerAngles.z;
+			float input = AxisToRotation (horiz, vert);
+			if (self != 0)
+				self = 360 - self;
+			
+			float diff = Mathf.Abs (input - self);
+			if (diff > 180)
+				diff = 360 - diff;
+			
+			bool forwards = diff < 120;
 
-		var oldRot = rot.z;
-		rot.z += (vert >= 0 ? -horiz : horiz) * rotationSpeed * Time.deltaTime;
-		rot.z = rot.z < 0 ? 360f + rot.z : rot.z; // Don't use -20, use 340 instead
 
-		// For rotations from the patroling script
-		if (Utils.CustomBetween (targetRot, oldRot, rot.z))
-			rot.z = targetRot;
+			if (!forwards) {
+				input += 180;
+				input %= 360;
+			}
+			transform.rotation = Quaternion.RotateTowards (
+				transform.rotation,
+				Quaternion.Euler (new Vector3 (0, 0, 360 - input)),
+				rotationSpeed
+			);
 
-		// Apply the newly computed rotation
-		transform.rotation = Quaternion.Euler (rot);
+			float speed = forwards ? forwardSpeed : backwardSpeed;
+			int sens = forwards ? 1 : -1;
+			var force = sens *  Utils.ForwardDirection (transform) * speed * Time.deltaTime;
+			body.AddForce (force);
 		
-		var speed = vert > 0 ? forwardSpeed : backwardSpeed;
-		var force = vert * Utils.ForwardDirection (transform) * speed * Time.deltaTime;
-		body.AddForce (force);
-		
-		// Only spawn tracks if the tank is moving (and only for the player tank)
-		if (playerInput && vert != 0)
+			// Only spawn tracks if the tank is moving (and only for the player tank)
 			tracks.Show (transform.position, transform.rotation);
+			// TODO engine start sound, running sound
+			
+		}
 	}
+
+	float AxisToRotation (float x, float y)
+	{
+		Vector2 projected = new Vector2 (x * Mathf.Sqrt (1 - y * y / 2),
+										 y * Mathf.Sqrt (1 - x * x / 2));
+
+		// For help, checkout the Movement Illustrator
+		float rot = Mathf.Atan2 (projected.x,
+			   			  	     projected.y);
+		rot *= Mathf.Rad2Deg;
+
+		if (rot < 0)
+			rot += 360;
+
+		return rot;
+	}
+
 }

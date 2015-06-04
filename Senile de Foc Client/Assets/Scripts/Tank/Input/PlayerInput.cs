@@ -27,7 +27,7 @@ public class PlayerInput : MonoBehaviour
 		// Movement handling
 		var horiz 	= Input.GetAxis ("Horizontal");
 		var vert 	= Input.GetAxis ("Vertical");
-		movement.Move (horiz, vert, true);
+		movement.Move (horiz, vert);
 
 		// Barrel orientation handling
 		var mousePos = Camera.main.ScreenToWorldPoint (Input.mousePosition);

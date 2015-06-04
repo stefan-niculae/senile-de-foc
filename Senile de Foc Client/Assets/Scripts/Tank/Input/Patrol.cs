@@ -31,11 +31,11 @@ public class Patrol : MonoBehaviour
 
 		// First we align towards the point
 		if (Mathf.Abs (movement.transform.rotation.eulerAngles.z - targetRot) > Constants.BIG_EPSILON) { // Debug.Log ("rotating (" + movement.transform.rotation.eulerAngles.z + " -> " + targetRot + ")");
-			movement.Move (rotationPressure * Time.deltaTime, 0, targetRot: targetRot); }
+			movement.Move (rotationPressure * Time.deltaTime, 0, targetRot: targetRot, playerInput: false); }
 
 		// Then we move towards it
 		else if (Vector2.Distance (transform.localPosition, point) > Constants.BIG_EPSILON) { // Debug.Log ("moving");
-			movement.Move (0f, movingPressure * Time.deltaTime); }
+			movement.Move (0f, movingPressure * Time.deltaTime, playerInput: false); }
 
 		// Then go to the next point
 		else {

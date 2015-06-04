@@ -109,7 +109,7 @@ public class TankHealth : Damagable
 			var point = GameWorld.RandomSpawnPoint ();
 			// Keep the height, just move on up-down left-right
 			transform.position = new Vector3 (point.position.x, point.position.y, transform.position.z);
-			tankInfo.movement.rot = point.rotation.eulerAngles;
+//			tankInfo.movement.rot = point.rotation.eulerAngles; TODO reenable
 			transform.localRotation = point.rotation;
 
 			((IngameUIManager)IngameUIManager.Instance).state = IngameUIManager.State.alive;

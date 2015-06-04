@@ -4,9 +4,9 @@ using UnityEngine.UI;
 
 public class NetworkStatus : Singleton <NetworkStatus> 
 {
-	const float TIMEOUT = 3; // in seconds
+	const float TIMEOUT = 10; // in seconds
 	float fadeStartTime;
-	const float FADE_DURATION = 2; // in seconds
+	const float FADE_DURATION = 2.5f; // in seconds
 	bool fading;
 
 	public enum MessageType { working, success, failure };
