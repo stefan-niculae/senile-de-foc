@@ -17,5 +17,7 @@ public class Cannon : Weapon
 		spawnedProjectile.GetComponent <Projectile> ().Launch (
 			Utils.ForwardDirection (tankInfo.barrel.transform),
 			tankInfo);
+
+		tankInfo.sounds.PrimaryFire ();
 	}
 }

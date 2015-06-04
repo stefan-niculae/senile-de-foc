@@ -13,7 +13,7 @@ public class TankMovement : MonoBehaviour
 	Rigidbody2D body;
 	[HideInInspector] public TankTracksManager tracks;
 
-	const float STATIONARY_PERIOD = 1.5f;
+	const float STATIONARY_PERIOD = 1f;
 	float lastMove;
 
 	void Awake ()

@@ -13,5 +13,6 @@ public class Secondary : Weapon
 	public override void OnFire (GameObject spawnedEffect)
 	{
 		spawnedEffect.GetComponent <Explosion> ().Setup (tankInfo, ignore: tankInfo.health);
+		tankInfo.sounds.SecondaryFire ();
 	}
 }

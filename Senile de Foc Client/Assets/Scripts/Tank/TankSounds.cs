@@ -11,6 +11,9 @@ public class TankSounds : MonoBehaviour
 		death,
 		respawn;
 
+	TankInfo tankInfo;
+	AudioClip[] primarySounds;
+
 	const float MAX_TRACKS_VOL = .2f;
 	public float tracksVolume
 	{
@@ -26,6 +29,30 @@ public class TankSounds : MonoBehaviour
 		special = Utils.childWithName (transform, "Special Fire")	.GetComponent <AudioSource> ();
 		death 	= Utils.childWithName (transform, "Death")			.GetComponent <AudioSource> ();
 		respawn = Utils.childWithName (transform, "Respawn")		.GetComponent <AudioSource> ();
+
+		tankInfo = GetComponentInParent <TankInfo> ();
+
+	}
+
+	public void PickClips ()
+	{
+		if (tankInfo.playerInfo.tankType.primary == 0)
+			primarySounds = References.Instance.missileSounds;
+		else
+			primarySounds = References.Instance.bulletSounds;
+
+		special.clip = References.Instance.secondarySounds [tankInfo.playerInfo.tankType.secondary];
+		}
+
+	public void PrimaryFire ()
+	{
+		cannon.clip = Utils.randomFrom (primarySounds);
+		cannon.Play ();
+	}
+
+	public void SecondaryFire ()
+	{
+		special.Play ();
 	}
 
 }

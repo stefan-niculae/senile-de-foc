@@ -72,6 +72,8 @@ public class TankInfo : MonoBehaviour
 		aboveInfo = aboveObj.GetComponent <AboveInfo> ();
 		aboveInfo.Initialize (this);
 
+		sounds.PickClips ();
+
 		if (!isMine)
 			health.bar = aboveInfo.health;
 		

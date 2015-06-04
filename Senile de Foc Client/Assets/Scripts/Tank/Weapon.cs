@@ -11,8 +11,6 @@ public abstract class Weapon : MonoBehaviour
 	protected Transform effectSpawnPoint; // Don't forget to set this OnAwake!!
 	public Image cooldownFill;
 	ParticleSystem fireParticles;
-	AudioSource audioSource;
-	public AudioClip firingClip;
 
 	void Awake ()
 	{
@@ -21,7 +19,6 @@ public abstract class Weapon : MonoBehaviour
 		OnAwake ();
 
 		fireParticles = Utils.childWithName (effectSpawnPoint, "Fire Particles").GetComponent <ParticleSystem> ();
-		audioSource = GetComponent <AudioSource> ();
 	}
 	public abstract void OnAwake ();
 
@@ -47,8 +44,6 @@ public abstract class Weapon : MonoBehaviour
 			lastFire = Time.time;
 
 			SpawnEffect ();
-
-//			audioSource.PlayOneShot (firingClip); //TODO
 
 			// The special waves don't have a muzzle flash so this is set to null
 			if (fireParticles != null)
