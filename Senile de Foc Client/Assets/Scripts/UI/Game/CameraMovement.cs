@@ -23,11 +23,6 @@ public class CameraMovement : MonoBehaviour
 
 	void Awake ()
 	{
-		// Seting the boundaries
-		var camExtents = (Camera.main.ViewportToWorldPoint (Vector3.one) - 
-		                  Camera.main.ViewportToWorldPoint (Vector3.zero)) / 2f;
-		Utils.ComputeBoundaries (camExtents, ref maxTop, ref maxBot, ref maxLeft, ref maxRight);
-
 		camTransf = Camera.main.transform;
 	}
 
@@ -47,6 +42,11 @@ public class CameraMovement : MonoBehaviour
 			FollowPlayer ();
 		else 
 			RegisterBumps ();
+
+		// These can change due to zoom
+		var camExtents = (Camera.main.ViewportToWorldPoint (Vector3.one) - 
+						  Camera.main.ViewportToWorldPoint (Vector3.zero)) / 2f;
+		Utils.ComputeBoundaries (camExtents, ref maxTop, ref maxBot, ref maxLeft, ref maxRight);
 
 		// The camera stops at the world edges
 		target.x = Mathf.Clamp (target.x, maxLeft, maxRight);

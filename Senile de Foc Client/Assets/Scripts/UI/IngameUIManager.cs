@@ -3,6 +3,9 @@ using System.Collections;
 
 public class IngameUIManager : UIManager
 {
+	const float MIN_CAM_ZOOM = 3;
+	const float MAX_CAM_ZOOM = 8.5;
+	const float CAM_ZOOM_STEP = -.5f;
 
 	CameraMovement camMovement;
 	GameObject loadingGraphic;
@@ -140,6 +143,12 @@ public class IngameUIManager : UIManager
 		if (Input.GetKeyDown (KeyCode.Escape)) {
 			if (!ClearPopup ())
 				Settings.Instance.Toggle ();
+		}
+
+		float scroll = Input.GetAxis ("Mouse ScrollWheel");
+		if (scroll != 0) {
+			float newZoom = Camera.main.orthographicSize + scroll * CAM_ZOOM_STEP;
+			Camera.main.orthographicSize = Mathf.Clamp (newZoom, MIN_CAM_ZOOM, MAX_CAM_ZOOM);
 		}
 	}
 }
