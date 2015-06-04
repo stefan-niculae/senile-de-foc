@@ -4,7 +4,7 @@ using System.Collections;
 public class IngameUIManager : UIManager
 {
 	const float MIN_CAM_ZOOM = 3;
-	const float MAX_CAM_ZOOM = 8.5;
+	const float MAX_CAM_ZOOM = 8.5f;
 	const float CAM_ZOOM_STEP = -.5f;
 
 	CameraMovement camMovement;

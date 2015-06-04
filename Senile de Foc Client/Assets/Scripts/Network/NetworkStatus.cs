@@ -4,6 +4,11 @@ using UnityEngine.UI;
 
 public class NetworkStatus : Singleton <NetworkStatus> 
 {
+	const float TIMEOUT = 3; // in seconds
+	float fadeStartTime;
+	const float FADE_DURATION = 2; // in seconds
+	bool fading;
+
 	public enum MessageType { working, success, failure };
 
 	static Text text;
@@ -32,5 +37,30 @@ public class NetworkStatus : Singleton <NetworkStatus>
 				text.color = Instance.failure;
 				break;
 		}
+
+		Instance.SetTransparency (1);
+		Instance.fadeStartTime = Time.time + TIMEOUT;
 	}
+
+	void Update ()
+	{
+		if (fadeStartTime <= Time.time && !fading) 
+			fading = true;
+
+		if (fading) {
+			if (Time.time >= fadeStartTime + FADE_DURATION)
+				fading = false;
+			else 
+				SetTransparency (1 - (Time.time - fadeStartTime) / FADE_DURATION);
+		}
+
+	}
+
+	void SetTransparency (float amount)
+	{
+		var col = text.color;
+		col.a = amount;
+		text.color = col;
+	}
+
 }
