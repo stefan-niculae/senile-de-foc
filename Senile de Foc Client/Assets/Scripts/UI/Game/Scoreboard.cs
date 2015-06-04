@@ -44,7 +44,7 @@ public class Scoreboard : Singleton<Scoreboard>
 	public void PopulateList (List <PlayerInfo> playerInfos)
 	{
 		// Sort descending
-		playerInfos.Sort ();
+		playerInfos.Sort ((a, b) => -a.CompareTo (b));
 		for (int i = 0; i < playerInfos.Count; i++) {
 
 			if (!orderNumToIngameInfo.ContainsKey (playerInfos [i].orderNumber)) {
@@ -55,6 +55,7 @@ public class Scoreboard : Singleton<Scoreboard>
 
 			var ingameInfo = orderNumToIngameInfo [playerInfos [i].orderNumber];
 			ingameInfo.SetValues (playerInfos [i]);
+			ingameInfo.SetRank (i + 1); // first rank is 1, not zero
 			ingameInfo.transform.position = container.position;
 			ingameInfo.transform.localPosition = new Vector3 (0, i * DISTANCE * -1 + 100, 0); // I don't know where that +100 comes from...
 		}

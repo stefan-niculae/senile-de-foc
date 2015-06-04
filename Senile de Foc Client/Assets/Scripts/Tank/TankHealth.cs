@@ -67,6 +67,10 @@ public class TankHealth : Damagable
 			GameServer.Instance.SendStatsUpdate (thisOrderNr);
 
 			var killer = hittersList [0].Key;
+			// If a player has damaged himself more than the enemies,
+			// the enemy that has damaged him the most takes the kill
+			if (killer == thisOrderNr && hittersList.Count > 0)
+				killer = hittersList [1].Key;
 			// Suicides don't count as kills
 			if (killer != thisOrderNr) {
 				GameServer.Instance.orderNrToTankInfo [killer].playerInfo.stats.kills++;
