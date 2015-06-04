@@ -54,8 +54,8 @@ public class TankInfo : MonoBehaviour
 			cannon .cooldownFill = GameObject.Find ("Projectile Cooldown Fill").GetComponent <Image> ();
 			special.cooldownFill = GameObject.Find ("Secondary Cooldown Fill") .GetComponent <Image> ();
 
-			GameObject.Find ("Projectile Button").GetComponent <Image> ().sprite = References.Instance.primarySprites   [playerInfo.tankType.projectileType];
-			GameObject.Find ("Secondary Button") .GetComponent <Image> ().sprite = References.Instance.secondarySprites [playerInfo.tankType.secondary];
+			GameObject.Find ("Projectile Glyph").GetComponent <Image> ().sprite = References.Instance.primarySprites   [playerInfo.tankType.projectileType];
+			GameObject.Find ("Secondary Glyph") .GetComponent <Image> ().sprite = References.Instance.secondarySprites [playerInfo.tankType.secondary];
 
 			health.camMovement = Camera.main.GetComponent <CameraMovement> ();
 			health.respawnCountdown = GameObject.Find ("Respawn Time Text").GetComponent <Countdown> ();

@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using UnityEngine.EventSystems;
 
 public class PlayerInput : MonoBehaviour 
 {
@@ -19,10 +20,12 @@ public class PlayerInput : MonoBehaviour
 	void Update ()
 	{
 		// Weapon handling
-		if (Input.GetButton ("Fire1"))
-			cannon.Fire ();
-		if (Input.GetButton ("Fire2"))
-			secondary.Fire ();
+		if (!IngameUIManager._pointerOverButton) {
+			if (Input.GetButton ("Fire1"))
+				cannon.Fire ();
+			if (Input.GetButton ("Fire2"))
+				secondary.Fire ();
+		}
 
 		// Movement handling
 		var horiz 	= Input.GetAxis ("Horizontal");

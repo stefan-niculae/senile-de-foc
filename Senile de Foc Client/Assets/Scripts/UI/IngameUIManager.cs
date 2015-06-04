@@ -6,6 +6,13 @@ public class IngameUIManager : UIManager
 	CameraMovement camMovement;
 	GameObject loadingGraphic;
 
+	public static bool _pointerOverButton;
+	public bool pointerOverButton 
+	{
+		get { return pointerOverButton; }
+		set { _pointerOverButton = value; }
+	}
+
 	Transform settings;
 	Transform KDPanel;
 	Transform playerPanel;
@@ -165,4 +172,5 @@ public class IngameUIManager : UIManager
 		if (scroll != 0)
 			cameraZoom += scroll * CAM_ZOOM_STEP;
 	}
+
 }
