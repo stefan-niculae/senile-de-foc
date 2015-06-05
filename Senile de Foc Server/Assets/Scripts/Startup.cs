@@ -28,6 +28,7 @@ public class Startup : MonoBehaviour
 	void StartServer ()
 	{
 		status = "Initializing";
+		Network.maxConnections = NetworkConstants.MAX_PLAYERS;
 		Network.InitializeServer (NetworkConstants.MAX_PLAYERS, 
 		                          NetworkConstants.PORT_NUMBER, 
 		                          false);

@@ -41,7 +41,6 @@ public class RequestsManager : MonoBehaviour
 	void OnPlayerConnected (NetworkPlayer player)
 	{
 		log += "Player " + player + " connected from " + player.ipAddress + ":" + player.port;
-		log += "guid = " + player.guid;
 		connectedPlayers.Add (player, new PlayerInfo (player));
 
 		UpdatePlayers ();

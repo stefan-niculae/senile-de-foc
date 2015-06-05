@@ -177,6 +177,12 @@ public class Stats : IComparable
 					barrels = 0;
 	}
 
+	public Stats (int kills, int deaths)
+	{
+		this.kills = kills;
+		this.deaths = deaths;
+	}
+
 	public override string ToString ()
 	{
 		return string.Format ("{0}\t{1}\t{2}\t{3}", kills, deaths, assists, barrels);
@@ -199,7 +205,7 @@ public class Stats : IComparable
 
 			// let x, y, z be nonzero floats
 			// 0 	means 0 / x
-			// inf	means x / 0
+			// Inf	means x / 0
 			// NaN  means 0 / 0
 			// x    means y / z
 
@@ -207,39 +213,39 @@ public class Stats : IComparable
 				if (ro == 0)
 					return this.deaths.CompareTo (other.deaths) * -1;
 				else if (float.IsInfinity (ro))
-					return +1;
+					return -1;
 				else if (float.IsNaN (ro))
-					return +1;
+					return -1;
 				else
-					return +1;
+					return -1;
 			}
 			else if (float.IsInfinity (rt)) {
 				if (ro == 0)
-					return -1;
+					return +1;
 				else if (float.IsInfinity (ro))
 					return this.kills.CompareTo (other.kills);
 				else if (float.IsNaN (ro))
-					return -1;
-				else
+					return +1;
+				else 
 					return +1;
 			}
 			else if (float.IsNaN (rt)) {
 				if (ro == 0)
-					return -1;
+					return  1;
 				else if (float.IsInfinity (ro))
-					return +1;
+					return -1;
 				else if (float.IsNaN (ro))
 					return  0;
 				else
-					return +1;
+					return -1;
 			}
 			else {
 				if (ro == 0)
-					return -1;
-				else if (float.IsInfinity (ro))
 					return +1;
-				else if (float.IsNaN (ro))
+				else if (float.IsInfinity (ro))
 					return -1;
+				else if (float.IsNaN (ro))
+					return +1;
 				else
 					return this.kills.CompareTo (other.kills);
 			}

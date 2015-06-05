@@ -1,30 +1,12 @@
 ﻿<Properties StartupItem="Assembly-CSharp.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/UI/Menus/LoginForm.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="../Senile de Foc Server/Assets/Scripts/Startup.cs">
     <Files>
-      <File FileName="Assets/Scripts/UI/Menus/LoginForm.cs" Line="321" Column="23" />
+      <File FileName="Assets/Scripts/Tank/TankMovement.cs" Line="65" Column="4" />
+      <File FileName="Assets/Scripts/Tank/Projectile.cs" Line="26" Column="21" />
+      <File FileName="../Senile de Foc Server/Assets/Scripts/RequestsManager.cs" Line="43" Column="2" />
+      <File FileName="../Senile de Foc Server/Assets/Scripts/Startup.cs" Line="25" Column="18" />
     </Files>
-    <Pads>
-      <Pad Id="ProjectPad">
-        <State name="__root__">
-          <Node name="Assembly-CSharp" expanded="True">
-            <Node name="Assembly-CSharp" expanded="True">
-              <Node name="Scripts" expanded="True">
-                <Node name="Loading" expanded="True" />
-                <Node name="Network" expanded="True" />
-                <Node name="Tank" expanded="True" />
-                <Node name="UI" expanded="True">
-                  <Node name="Game" expanded="True" />
-                  <Node name="Menus" expanded="True">
-                    <Node name="LoginForm.cs" selected="True" />
-                  </Node>
-                </Node>
-              </Node>
-            </Node>
-          </Node>
-        </State>
-      </Pad>
-    </Pads>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
