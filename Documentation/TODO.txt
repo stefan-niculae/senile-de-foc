@@ -3,7 +3,6 @@ caps handling
 
 
 FLOW
-ingame exit button (with confirm)
 don’t allow more than 4 players to connect
 don’t allow connection when match is over
 make it possibile to play another game after coming back to menu
@@ -13,6 +12,7 @@ BALANCING
 attribute tweaking
 
 SOUNDS
+make tanks be able to hear over the network (move audiosource from tank to projectile)
 volume tweaking
 extra ones (on hit, loading & match end music)
 

@@ -22,6 +22,7 @@ public class IngameUIManager : UIManager
 	[HideInInspector] public Transform respawn;
 	Transform matchOver;
 	Transform controls;
+	Transform quitConfirmation;
 
 	Transform poppedFrame;
 
@@ -65,7 +66,7 @@ public class IngameUIManager : UIManager
 				SetVisibility (false, matchOver);
 
 				SetVisibility (false, KDPanel, playerPanel, minimap);
-				SetVisibility (false, darkOverlay, scoreboard, respawn, controls);
+				SetVisibility (false, darkOverlay, scoreboard, respawn, controls, quitConfirmation);
 				break;
 
 
@@ -94,7 +95,7 @@ public class IngameUIManager : UIManager
 
 			case State.matchOver:
 				SetVisibility (false, KDPanel, playerPanel, minimap, settings);
-				SetVisibility (false, respawn, scoreboard);
+				SetVisibility (false, respawn, scoreboard, controls, quitConfirmation);
 				SetVisibility (true, matchOver, darkOverlay);
 
 				SoundManager.Instance.PlayClip (SoundManager.Instance.matchOverSound);
@@ -121,6 +122,7 @@ public class IngameUIManager : UIManager
 		respawn 		= Utils.childWithName (transform, "Respawn Frame");
 		matchOver 		= Utils.childWithName (transform, "Match Over");
 		controls		= Utils.childWithName (transform, "Controls");
+		quitConfirmation= Utils.childWithName (transform, "Quit Confirmation");
 
 		matchTimer 		= Utils.childWithName (scoreboard, "Match Countdown").GetComponent <Countdown> ();
 		Scoreboard.Instance.respawn = respawn;
@@ -146,6 +148,12 @@ public class IngameUIManager : UIManager
 	{
 		poppedFrame = value ? controls : null;
 		SetVisibility (value, controls);
+	}
+
+	public void SetQuitVisibility (bool value)
+	{
+		poppedFrame = value ? quitConfirmation : null;
+		SetVisibility (value, quitConfirmation);
 	}
 
 	public void ShowCredits ()
@@ -175,4 +183,8 @@ public class IngameUIManager : UIManager
 			cameraZoom += scroll * CAM_ZOOM_STEP;
 	}
 
+	public void Quit ()
+	{
+		Application.Quit ();
+	}
 }
