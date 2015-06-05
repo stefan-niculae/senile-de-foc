@@ -11,6 +11,7 @@ public class InstantiateAndFollow : MonoBehaviour
 	Transform tankContainer;
 
 	TankTracksManager trackManager;
+	TankInfo tankInfo;
 	bool isFollowing;
 
 	void Awake ()
@@ -31,7 +32,7 @@ public class InstantiateAndFollow : MonoBehaviour
 		                        new Vector3 (transform.position.x, transform.position.y, 0),
 		                        transform.rotation) as GameObject;
 		tank.transform.parent = tankContainer;
-		var tankInfo = tank.GetComponent <TankInfo> ();
+		tankInfo = tank.GetComponent <TankInfo> ();
 		var playerInfo = MarkerManager.Instance.PlayerFromSpawnPos (transform.position);
 
 		// We assign each player a spawn position
@@ -61,6 +62,8 @@ public class InstantiateAndFollow : MonoBehaviour
 				pointer		.rotation = barrel		.rotation;
 			}
 			else {
+				tankInfo.sounds.tracks.volume = Vector2.Distance (body.position, transform.position) * 10;
+
 				body		.position = transform	.position;
 				barrel		.position = pointer		.position;
 				

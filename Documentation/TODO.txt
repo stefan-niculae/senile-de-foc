@@ -11,16 +11,15 @@ make it possibile to play another game after coming back to menu
 BALANCING
 attribute tweaking
 
+
 SOUNDS
-make tanks be able to hear over the network (move audiosource from tank to projectile)
 volume tweaking
-extra ones (on hit, loading & match end music)
+extra ones (wall, barrel hit; loading, match end music)
+
 
 NETWORK
 tank & projectile position & rotation interpolation
 
+
 UI
 show ingame credits popup
-
-BUGS:
-?projectiles don’t explode

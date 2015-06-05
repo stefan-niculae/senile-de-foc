@@ -28,10 +28,4 @@ public class References : Singleton<References>
 	public Color 
 		aliveColor,
 		deadColor;
-
-	public AudioClip[]
-		bulletSounds,
-		missileSounds;
-	public AudioClip[]
-		secondarySounds;
 }

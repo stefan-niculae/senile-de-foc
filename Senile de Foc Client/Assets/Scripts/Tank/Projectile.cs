@@ -12,11 +12,18 @@ public class Projectile : Containable<Projectile>
 	[HideInInspector] public TankInfo source;
 	Rigidbody2D body;
 	Collider2D[] colliders;
+	AudioSource audioSource;
+
+	public AudioClip[] launchSounds;
 
 	void Awake ()
 	{
 		body = GetComponent <Rigidbody2D> ();
 		colliders = GetComponents <Collider2D> ();
+
+		audioSource = GetComponent <AudioSource> ();
+		audioSource.clip = Utils.randomFrom (launchSounds);
+		audioSource.Play ();
 
 		moveToContainer ("Projectiles");
 	}
