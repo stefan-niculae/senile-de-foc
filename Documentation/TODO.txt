@@ -3,7 +3,8 @@ caps handling
 
 
 FLOW
-don’t allow connection when match is over
+message for when there are max players
+don’t allow new connections when match has started
 make it possibile to play another game after coming back to menu
 
 
@@ -17,8 +18,8 @@ extra ones (tank, wall, barrel hit; loading, match end music)
 
 
 NETWORK
-tank & projectile position & rotation interpolation
+better tank & projectile position & rotation interpolation
 
 
 UI
-show ingame credits popup
+credits frame

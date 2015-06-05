@@ -1,1 +1,13 @@
-﻿<Properties StartupItem="Assembly-CSharp.csproj" />
+﻿<Properties StartupItem="Assembly-CSharp.csproj">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Startup.cs">
+    <Files>
+      <File FileName="Assets/Scripts/RequestsManager.cs" Line="43" Column="2" />
+      <File FileName="Assets/Scripts/Startup.cs" Line="31" Column="56" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+</Properties>

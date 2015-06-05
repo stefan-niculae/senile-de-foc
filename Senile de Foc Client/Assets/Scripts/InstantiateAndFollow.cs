@@ -51,6 +51,8 @@ public class InstantiateAndFollow : MonoBehaviour
 		isFollowing = true;
 	}
 
+	float lastMove;
+	const float PERIOD_TO_STOP = 1;
 	void Update ()
 	{
 		if (isFollowing) {
@@ -62,7 +64,13 @@ public class InstantiateAndFollow : MonoBehaviour
 				pointer		.rotation = barrel		.rotation;
 			}
 			else {
-				tankInfo.sounds.tracks.volume = Vector2.Distance (body.position, transform.position) * 10;
+				if (body.position != transform.position) {
+					lastMove = Time.time;
+					tankInfo.sounds.tracksVolume = 1;
+				} 
+				else if (Time.time >= lastMove + PERIOD_TO_STOP)
+					tankInfo.sounds.tracksVolume = 0;
+				
 
 				body		.position = transform	.position;
 				barrel		.position = pointer		.position;

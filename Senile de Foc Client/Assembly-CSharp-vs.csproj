@@ -81,6 +81,7 @@
      <Compile Include="Assets\Scripts\Network\GraduallyUpdateState.cs" />
      <Compile Include="Assets\Scripts\Network\MarkerManager.cs" />
      <Compile Include="Assets\Scripts\Network\NetworkManager.cs" />
+     <Compile Include="Assets\Scripts\Network\NetworkPosRot.cs" />
      <Compile Include="Assets\Scripts\Network\NetworkStatus.cs" />
      <Compile Include="Assets\Scripts\Network\Shared\NetworkConstants.cs" />
      <Compile Include="Assets\Scripts\Network\Shared\NetworkUtils.cs" />
