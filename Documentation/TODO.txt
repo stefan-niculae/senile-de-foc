@@ -21,8 +21,6 @@ tank & projectile position & rotation interpolation
 
 UI
 show ingame credits popup
-update controls popup
-
 
 BUGS:
 ?projectiles don’t explode
