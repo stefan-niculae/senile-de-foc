@@ -10,7 +10,7 @@ public class GameServer : Singleton<GameServer>
 	public List<PlayerInfo> connectedPlayers;
 	public Dictionary<int, Damagable> damageables;
 	public Dictionary<int, TankInfo> orderNrToTankInfo;
-	// TODO refactor lists and dictionaries to be used more efficiently
+
 
 	void Awake ()
 	{

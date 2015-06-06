@@ -1,6 +1,3 @@
-FLOW
-message for connection not allowed because game is running
-
 BALANCING
 attribute tweaking
 
@@ -8,7 +5,11 @@ SOUNDS
 volume tweaking
 extra ones (tank, wall, barrel hit; loading, match end music)
 
+FLOW
+message for connection not allowed because game is running
+
+
 
 FUTURE VERSIONS
-store pw hashcode, not plain text
 let users make their own gamerooms (no authorative server)
+scalable tank, projectile mass, explosion particle size
