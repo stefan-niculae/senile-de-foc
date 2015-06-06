@@ -17,3 +17,6 @@ scalable tank, projectile mass, explosion particle size
 resave all elements as psd
 set preferred resolution to 1080p
 make trailer
+
+local (splitscreen) multiplayer
+gamepad support

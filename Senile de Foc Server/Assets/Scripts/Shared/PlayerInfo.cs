@@ -172,9 +172,9 @@ public class Stats : IComparable
 	public Stats ()
 	{
 		kills =
-		deaths = 
-		assists = 
-		barrels = 0;
+			deaths = 
+				assists = 
+					barrels = 0;
 	}
 
 	public Stats (int kills, int deaths, int assists = 0, int barrels = 0)
@@ -212,8 +212,13 @@ public class Stats : IComparable
 			// x    means y / z
 
 			if (rt == 0) {
-				if (ro == 0)
-					return this.deaths.CompareTo (other.deaths) * -1;
+				if (ro == 0) {
+					int deathsComp = this.deaths.CompareTo (other.deaths) * -1;
+					if (deathsComp != 0)
+						return deathsComp;
+					else
+						return CompareAssistsThenBarrels (this, other);
+				}
 				else if (float.IsInfinity (ro))
 					return -1;
 				else if (float.IsNaN (ro))
@@ -224,8 +229,13 @@ public class Stats : IComparable
 			else if (float.IsInfinity (rt)) {
 				if (ro == 0)
 					return +1;
-				else if (float.IsInfinity (ro))
-					return this.kills.CompareTo (other.kills);
+				else if (float.IsInfinity (ro)) {
+					int killsComp = this.kills.CompareTo (other.kills);
+					if (killsComp != 0)
+						return killsComp;
+					else
+						return CompareAssistsThenBarrels (this, other);
+				}
 				else if (float.IsNaN (ro))
 					return +1;
 				else 
@@ -236,13 +246,8 @@ public class Stats : IComparable
 					return  1;
 				else if (float.IsInfinity (ro))
 					return -1;
-				else if (float.IsNaN (ro)) {
-					int assistsComp = this.assists.CompareTo (other.assists);
-					if (assistsComp != 0)
-						return assistsComp;
-					else
-						return this.barrels.CompareTo (other.barrels);
-				}
+				else if (float.IsNaN (ro))
+					return CompareAssistsThenBarrels (this, other);
 				else
 					return -1;
 			}
@@ -253,11 +258,25 @@ public class Stats : IComparable
 					return -1;
 				else if (float.IsNaN (ro))
 					return +1;
-				else
-					return this.kills.CompareTo (other.kills);
+				else {
+					int killsComp = this.kills.CompareTo (other.kills);
+					if (killsComp != 0)
+						return killsComp;
+					else
+						return CompareAssistsThenBarrels (this, other);
+				}
 			}
 		}
 		else
 			throw new ArgumentException ("Object is not a Stat");
+	}
+
+	static int CompareAssistsThenBarrels (Stats t, Stats o)
+	{
+		int assistsComp = t.assists.CompareTo (o.assists);
+		if (assistsComp != 0)
+			return assistsComp;
+		else
+			return t.barrels.CompareTo (o.barrels);
 	}
 }
