@@ -23,6 +23,7 @@ public class IngameUIManager : UIManager
 	Transform matchOver;
 	Transform controls;
 	Transform quitConfirmation;
+	Transform credits;
 
 	Transform poppedFrame;
 
@@ -66,7 +67,7 @@ public class IngameUIManager : UIManager
 				SetVisibility (false, matchOver);
 
 				SetVisibility (false, KDPanel, playerPanel, minimap);
-				SetVisibility (false, darkOverlay, scoreboard, respawn, controls, quitConfirmation);
+				SetVisibility (false, darkOverlay, scoreboard, respawn, controls, quitConfirmation, credits);
 				break;
 
 
@@ -95,7 +96,7 @@ public class IngameUIManager : UIManager
 
 			case State.matchOver:
 				SetVisibility (false, KDPanel, playerPanel, minimap, settings);
-				SetVisibility (false, respawn, scoreboard, controls, quitConfirmation);
+				SetVisibility (false, respawn, scoreboard, controls, quitConfirmation, credits);
 				SetVisibility (true, matchOver, darkOverlay);
 
 				SoundManager.Instance.PlayClip (SoundManager.Instance.matchOverSound);
@@ -123,6 +124,7 @@ public class IngameUIManager : UIManager
 		matchOver 		= Utils.childWithName (transform, "Match Over");
 		controls		= Utils.childWithName (transform, "Controls");
 		quitConfirmation= Utils.childWithName (transform, "Quit Confirmation");
+		credits			= Utils.childWithName (transform, "Credits");
 
 		matchTimer 		= Utils.childWithName (scoreboard, "Match Countdown").GetComponent <Countdown> ();
 		Scoreboard.Instance.respawn = respawn;
@@ -158,9 +160,11 @@ public class IngameUIManager : UIManager
 		SetVisibility (value, quitConfirmation);
 	}
 
-	public void ShowCredits ()
+	public void SetCreditsVisibility (bool value)
 	{
-		print ("Credits: Stefan Niculae - implementation, Adrian Brojbeanu - documentation, Hung Trinh - testing");
+		ClearPopup ();
+		poppedFrame = credits;
+		SetVisibility (value, credits);
 	}
 
 	public bool ClearPopup ()

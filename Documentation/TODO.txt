@@ -15,11 +15,3 @@ attribute tweaking
 SOUNDS
 volume tweaking
 extra ones (tank, wall, barrel hit; loading, match end music)
-
-
-NETWORK
-better tank & projectile position & rotation interpolation
-
-
-UI
-credits frame
