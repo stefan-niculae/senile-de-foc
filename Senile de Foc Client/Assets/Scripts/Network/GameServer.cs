@@ -92,4 +92,13 @@ public class GameServer : Singleton<GameServer>
 				p.stats = stats;
 		Scoreboard.Instance.PopulateList (connectedPlayers);
 	}
+		
+	public void SendMatchOver ()
+	{
+		netView.RPC ("ReceiveMatchOver", RPCMode.Server);
+	}
+	[RPC]
+	void ReceiveMatchOver ()
+	{ }
+
 }

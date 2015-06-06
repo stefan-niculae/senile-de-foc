@@ -35,7 +35,6 @@ public class TankSelection : MonoBehaviour
 		lockinButtonTrans		.Initialize (Transition.Properties.scale, Vector3.one, 	Constants.SMALL_DURATION);
 		customizeButtonTrans	.Initialize (Transition.Properties.scale, Vector3.zero, Constants.SMALL_DURATION);
 
-
 		available = new bool[5];
 		for (int i = 0; i < 5; i++)
 			SetAvailability (i, true);
@@ -59,7 +58,7 @@ public class TankSelection : MonoBehaviour
 		// Can't disable the custom tank
 		if (value == false && number == 4)
 			return;
-
+		
 		available [number] = value;
 		backgrounds [number].sprite = value ? availableBackground : unavailableBackground;
 	}

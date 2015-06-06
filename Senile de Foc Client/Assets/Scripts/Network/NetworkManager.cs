@@ -1,14 +1,34 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
 
 public class NetworkManager : MonoBehaviour 
 {
 	HostData[] hostData;
-	static readonly float SEARCH_DURATION = 3f;
+	const float SEARCH_DURATION = 3f;
+	const float RECONNECT_INTERVAL = 10f;
+
+	Button loginButton;
+	bool _connected;
+	bool connected
+	{
+		get { return _connected; }
+		set 
+		{
+			_connected = value;
+			loginButton.interactable = value;
+		}
+	}
+
+	void Awake ()
+	{
+		loginButton = GameObject.Find ("Button Login").GetComponent <Button> ();
+		connected = false;
+	}
 
 	void Start ()
 	{
-		StartConnecting ();
+		InvokeRepeating ("StartConnecting", 0, RECONNECT_INTERVAL);
 	}
 
 	void StartConnecting ()
@@ -35,19 +55,22 @@ public class NetworkManager : MonoBehaviour
 
 	void ConnectToLocal ()
 	{
-		NetworkStatus.Show ("Master server offline, connecting to local server", NetworkStatus.MessageType.working);
+		NetworkStatus.Show ("Master server offline, trying local (" + NetworkConstants.LOCAL_SERVER_IP + ")", NetworkStatus.MessageType.working);
 		Network.Connect (NetworkConstants.LOCAL_SERVER_IP,
 		                 NetworkConstants.PORT_NUMBER);
 	}
 
 	void OnConnectedToServer ()
 	{
+		CancelInvoke ("StartConnecting");
+		connected = true;
 		NetworkStatus.Show ("Connected to server", NetworkStatus.MessageType.success);
 	}
 
 	void OnDisconnectedFromServer (NetworkDisconnection info)
 	{
-		NetworkStatus.Show ("Disconnected from the server " + info, NetworkStatus.MessageType.failure);
+		connected = false;
+		NetworkStatus.Show ("Disconnected (server is full or has shutdown)", NetworkStatus.MessageType.failure);
 	}
 
 	void ConnectToFound ()
@@ -56,7 +79,10 @@ public class NetworkManager : MonoBehaviour
 			Debug.Log ("More than one servers found");
 		
 		NetworkStatus.Show ("Connecting to server", NetworkStatus.MessageType.working);
-		Network.Connect (hostData [0]);
+		NetworkConnectionError error = Network.Connect (hostData [0]);
+		if (error != NetworkConnectionError.NoError)
+			NetworkStatus.Show ("Connection error: " + error, NetworkStatus.MessageType.failure);
+
 	}
 
 }

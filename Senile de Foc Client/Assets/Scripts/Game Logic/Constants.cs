@@ -29,7 +29,7 @@ public class Constants : MonoBehaviour
 	public const int PTS_TO_SPEND = 12;
 
 
-	public const float MATCH_DURATION = 60 * 50; // in seconds
+	public const float MATCH_DURATION = 5; // in seconds
 
 	public const float TANK_RESPAWN_TIME = 10; // in seconds
 	public const float BARREL_RESPAWN_TIME = 5; // in seconds

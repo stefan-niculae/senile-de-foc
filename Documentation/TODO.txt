@@ -1,17 +1,14 @@
-LOGIN
-caps handling
-
-
 FLOW
-message for when there are max players
-don’t allow new connections when match has started
-make it possibile to play another game after coming back to menu
-
+message for connection not allowed because game is running
 
 BALANCING
 attribute tweaking
 
-
 SOUNDS
 volume tweaking
 extra ones (tank, wall, barrel hit; loading, match end music)
+
+
+FUTURE VERSIONS
+store pw hashcode, not plain text
+let users make their own gamerooms (no authorative server)

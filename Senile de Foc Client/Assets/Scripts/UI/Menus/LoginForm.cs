@@ -111,7 +111,7 @@ public class LoginForm : MonoBehaviour
 	public void HandleUsernameExistance (string username)
 	{
 		passwordField.Select ();
-
+		username = enteredUsername;
 		if (username != lastEnteredUsername)
 			ClearPasswords ();
 		passwordField.Select ();
@@ -234,7 +234,7 @@ public class LoginForm : MonoBehaviour
 	{
 		if (UserOrPassEmpty ())
 			return;
-
+		
 		SplashServer.UsernameExists (enteredUsername, UsernameCheckReceival);
 	}
 

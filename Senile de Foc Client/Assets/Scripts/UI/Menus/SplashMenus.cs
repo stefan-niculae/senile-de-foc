@@ -56,5 +56,8 @@ public class SplashMenus : MonoBehaviour
 		Vector2 refRes = GameObject.Find ("Canvas").GetComponent <CanvasScaler> ().referenceResolution;
 		width = refRes.x;
 		height = refRes.y;
+
+		currentUsername = "";
+		currentTankType = -1;
 	}
 }

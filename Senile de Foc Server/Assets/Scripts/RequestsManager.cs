@@ -24,6 +24,11 @@ public class RequestsManager : MonoBehaviour
 	}
 
 
+	enum State { splash, game };
+	State state;
+
+
+
 
 
 	
@@ -32,14 +37,26 @@ public class RequestsManager : MonoBehaviour
 		database = GameObject.FindObjectOfType <Database> ();
 		netView = GetComponent <NetworkView> ();
 		connectedPlayers = new Dictionary<NetworkPlayer, PlayerInfo> ();
+
+		state = State.splash;
 	}
 
-
+	void Update ()
+	{
+		if (Input.GetKeyDown (KeyCode.D))
+			Network.CloseConnection (Network.connections [0], true);
+	}
 
 
 	// Connected Players
 	void OnPlayerConnected (NetworkPlayer player)
 	{
+		print ("players count = " + connectedPlayers.Count);
+		if (connectedPlayers.Count >= NetworkConstants.MAX_PLAYERS || state == State.game) {
+			log += player.ipAddress + " tried to connect but state = " + state + " connected players = " + connectedPlayers.Count;
+			Network.CloseConnection (player, true);
+		}
+
 		log += "Player " + player + " connected from " + player.ipAddress + ":" + player.port;
 		connectedPlayers.Add (player, new PlayerInfo (player));
 
@@ -215,6 +232,8 @@ public class RequestsManager : MonoBehaviour
 		if (allLoaded) {
 			log += "Everyone loaded the game scene => starting the match";
 			netView.RPC ("ReceiveMatchStart", RPCMode.Others);
+
+			state = State.game;
 		}
 
 	}
@@ -248,5 +267,21 @@ public class RequestsManager : MonoBehaviour
 		log += username + " new stats " + stats;
 
 		database.UpdateHighscore (username, stats.kills);
+	}
+
+	[RPC]
+	public void ReceiveMatchOver ()
+	{
+		// Only the first matchover signal counts
+		if (state == State.game) {
+			foreach (var p in connectedPlayers.Keys) {
+				Network.RemoveRPCs (p);
+				Network.DestroyPlayerObjects (p);
+			}
+			connectedPlayers.Clear ();
+			UpdatePlayers ();
+	
+			state = State.splash;
+		}
 	}
 }

@@ -1,9 +1,11 @@
 ﻿<Properties StartupItem="Assembly-CSharp.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/InstantiateAndFollow.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Network/NetworkManager.cs">
     <Files>
-      <File FileName="Assets/Scripts/Network/NetworkPosRot.cs" Line="111" Column="3" />
-      <File FileName="Assets/Scripts/InstantiateAndFollow.cs" Line="69" Column="39" />
+      <File FileName="Assets/Scripts/Network/NetworkPosRot.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/InstantiateAndFollow.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/Network/NetworkManager.cs" Line="54" Column="100" />
+      <File FileName="../Senile de Foc Server/Assets/Scripts/RequestsManager.cs" Line="65" Column="26" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

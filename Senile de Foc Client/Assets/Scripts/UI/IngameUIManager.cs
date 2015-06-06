@@ -95,6 +95,8 @@ public class IngameUIManager : UIManager
 
 
 			case State.matchOver:
+				GameServer.Instance.SendMatchOver ();
+
 				SetVisibility (false, KDPanel, playerPanel, minimap, settings);
 				SetVisibility (false, respawn, scoreboard, controls, quitConfirmation, credits);
 				SetVisibility (true, matchOver, darkOverlay);
