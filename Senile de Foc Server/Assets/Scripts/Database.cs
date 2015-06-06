@@ -13,7 +13,8 @@ public class Database : MonoBehaviour
 	}
 
 	const string NAME_KEY = "user";
-	const string PASS_KEY = "pass";
+	const string PASS_FIRST_LETTER_KEY = "pass first letter";
+	const string PASS_HASH_CODE_KEY = "pass hash code";
 
 	public Text registeredText;
 	string registered
@@ -30,13 +31,42 @@ public class Database : MonoBehaviour
 		set { PlayerPrefs.SetString (BEST_PLAYER_KEY, value); }
 	}
 
-	const string MOST_KILLS_KEY = "most kills";
-	public int mostKills
+	const string 
+		KILLS_KEY = "kills",
+		DEATHS_KEY = "deaths",
+		ASSISTS_KEY = "assists",
+		BARRELS_KEY = "barrels";
+	int bestKills
 	{
-		get { return PlayerPrefs.GetInt (MOST_KILLS_KEY, -1); }
-		set { PlayerPrefs.SetInt (MOST_KILLS_KEY, value); }
+		get { return PlayerPrefs.GetInt (KILLS_KEY, 0); }
+		set { PlayerPrefs.SetInt (KILLS_KEY, value); }
 	}
-
+	int bestDeaths
+	{
+		get { return PlayerPrefs.GetInt (DEATHS_KEY, 0); }
+		set { PlayerPrefs.SetInt (DEATHS_KEY, value); }
+	}
+	int bestAssists
+	{
+		get { return PlayerPrefs.GetInt (ASSISTS_KEY, 0); }
+		set { PlayerPrefs.SetInt (ASSISTS_KEY, value); }
+	}
+	int bestBarrels
+	{
+		get { return PlayerPrefs.GetInt (BARRELS_KEY, 0); }
+		set { PlayerPrefs.SetInt (BARRELS_KEY, value); }
+	}
+	Stats bestStats
+	{
+		get { return new Stats (bestKills, bestDeaths, bestAssists, bestBarrels); }
+		set 
+		{
+			bestKills 	= value.kills;
+			bestDeaths 	= value.deaths;
+			bestAssists = value.assists;
+			bestBarrels = value.barrels;
+		}
+	}
 
 
 	void Start ()
@@ -44,10 +74,11 @@ public class Database : MonoBehaviour
 		registered = AllUsers ();
 	}
 
-	public void Create (string name, string pass)
+	public void Create (string name, char passFirst, int passHash)
 	{
 		PlayerPrefs.SetString (NAME_KEY + userCount, name);
-		PlayerPrefs.SetString (PASS_KEY + userCount, pass);
+		PlayerPrefs.SetString (PASS_FIRST_LETTER_KEY + userCount, passFirst.ToString ());
+		PlayerPrefs.SetInt (PASS_HASH_CODE_KEY + userCount, passHash);
 		
 		userCount++;
 		registered = AllUsers ();
@@ -57,10 +88,13 @@ public class Database : MonoBehaviour
 	{
 		return PlayerPrefs.GetString (NAME_KEY + index, "");
 	}
-
-	string PassNr (int index)
+	char PassFirstLetterNr (int index)
 	{
-		return PlayerPrefs.GetString (PASS_KEY + index, "");
+		return PlayerPrefs.GetString (PASS_FIRST_LETTER_KEY + index, " ")[0];
+	}
+	int PassHashCodeNr (int index)
+	{
+		return PlayerPrefs.GetInt (PASS_HASH_CODE_KEY + index, -1);
 	}
 
 	int IndexOf (string name)
@@ -76,22 +110,17 @@ public class Database : MonoBehaviour
 		return IndexOf (name) != -1;
 	}
 
-	public bool Matches (string name, string pass)
+	public bool Matches (string name, int hashCode)
 	{
 		int index = IndexOf (name);
-		return pass == PassNr (index);
-	}
-
-	string PassOf (string name)
-	{
-		return PlayerPrefs.GetString (PASS_KEY + IndexOf (name), "");
+		return hashCode == PassHashCodeNr (index);
 	}
 
 	public string AllUsers ()
 	{
 		string users = "";
 		for (int i = 0; i < userCount; i++)
-			users += NameNr (i) + "\t" + PassNr (i) + "\n";
+			users += string.Format ("{0} {1}\t\t {2}...\t {3}\n", i, NameNr (i), PassFirstLetterNr (i), PassHashCodeNr (i));
 		return users;
 	}
 
@@ -101,10 +130,9 @@ public class Database : MonoBehaviour
 		registered = AllUsers ();
 	}
 
-	public void UpdateHighscore (string username, int kills)
+	public void UpdateHighscore (string username, Stats stats)
 	{
-		if (kills > mostKills) {
-			mostKills = kills;
+		if (stats.CompareTo (bestStats) == 1) {
 			bestPlayer = username;
 
 			string path = Application.dataPath;
@@ -116,21 +144,22 @@ public class Database : MonoBehaviour
 			}
 
 			path += "highscore.txt";
-			print ("Created highscore file at " + path);
+			Debug.LogWarning ("Created highscore file " + path);
 			File.WriteAllText (path,
-			                   username + " killed " + kills + "\n");
-
+			                   username + ": " + stats + "\n");
 		}
 	}
 
 	void Update ()
 	{
-		if (Input.GetKeyDown (KeyCode.H))
-			UpdateHighscore ("best", 7);
 		if (Input.GetKeyDown (KeyCode.E)) {
 			PlayerPrefs.DeleteKey (BEST_PLAYER_KEY);
-			PlayerPrefs.DeleteKey (MOST_KILLS_KEY);
-			print ("deleted highscore");
+			PlayerPrefs.DeleteKey (KILLS_KEY);
+			PlayerPrefs.DeleteKey (DEATHS_KEY);
+			PlayerPrefs.DeleteKey (ASSISTS_KEY);
+			PlayerPrefs.DeleteKey (BARRELS_KEY);
+
+			Debug.LogWarning ("Cleared highscore (file still exists)");
 		}
 	}
 }

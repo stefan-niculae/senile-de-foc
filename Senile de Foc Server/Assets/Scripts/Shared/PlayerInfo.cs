@@ -172,15 +172,17 @@ public class Stats : IComparable
 	public Stats ()
 	{
 		kills =
-			deaths = 
-				assists = 
-					barrels = 0;
+		deaths = 
+		assists = 
+		barrels = 0;
 	}
 
-	public Stats (int kills, int deaths)
+	public Stats (int kills, int deaths, int assists = 0, int barrels = 0)
 	{
 		this.kills = kills;
 		this.deaths = deaths;
+		this.assists = assists;
+		this.barrels = barrels;
 	}
 
 	public override string ToString ()
@@ -234,8 +236,13 @@ public class Stats : IComparable
 					return  1;
 				else if (float.IsInfinity (ro))
 					return -1;
-				else if (float.IsNaN (ro))
-					return  0;
+				else if (float.IsNaN (ro)) {
+					int assistsComp = this.assists.CompareTo (other.assists);
+					if (assistsComp != 0)
+						return assistsComp;
+					else
+						return this.barrels.CompareTo (other.barrels);
+				}
 				else
 					return -1;
 			}

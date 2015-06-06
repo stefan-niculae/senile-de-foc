@@ -58,6 +58,6 @@ public class SplashMenus : MonoBehaviour
 		height = refRes.y;
 
 		currentUsername = "";
-		currentTankType = -1;
+		currentTankType = NetworkConstants.NOT_SET;
 	}
 }

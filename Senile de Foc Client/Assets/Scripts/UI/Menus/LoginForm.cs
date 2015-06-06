@@ -42,8 +42,7 @@ public class LoginForm : MonoBehaviour
 		get { return PlayerPrefs.GetString (SAVED_USER_KEY, ""); }
 		set { 		 PlayerPrefs.SetString (SAVED_USER_KEY, value); }
 	}
-
-	// TODO (?) store hashcodes not plain text
+		
 	string SAVED_PASS_KEY = "savedPass";
 	string savedPass
 	{

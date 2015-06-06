@@ -42,21 +42,21 @@ public class SplashServer : Singleton<SplashServer>
 	public static void CreateUser (string username, string password)
 	{
 		NetworkStatus.Show ("Created " + username, NetworkStatus.MessageType.success);
-		netView.RPC ("SendCreateUser", RPCMode.Server, username, password);
+		netView.RPC ("SendCreateUser", RPCMode.Server, username, password[0].ToString (), password.GetHashCode ());
 	}
 	[RPC]
-	void SendCreateUser (string username, string password)
+	void SendCreateUser (string username, string firstLetter, int hashCode)
 	{ }
 
 	static Action<bool> onPasswordMatchReceival;
 	public static void PasswordMatches (string username, string password, Action<bool> onReceival)
 	{
 		onPasswordMatchReceival = onReceival;
-		netView.RPC ("RequestPasswordMatch", RPCMode.Server, username, password);
+		netView.RPC ("RequestPasswordMatch", RPCMode.Server, username, password.GetHashCode ());
 		NetworkStatus.Show ("Checking if password is correct", NetworkStatus.MessageType.working);
 	}
 	[RPC]
-	void RequestPasswordMatch (string username, string password)
+	void RequestPasswordMatch (string username, int passHash)
 	{ }
 	[RPC]
 	public void ReceivePasswordMatch (bool value)

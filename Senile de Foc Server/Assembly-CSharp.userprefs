@@ -1,11 +1,9 @@
 ﻿<Properties StartupItem="Assembly-CSharp.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="../Senile de Foc Client/Assets/Scripts/Network/NetworkManager.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/RequestsManager.cs">
     <Files>
-      <File FileName="Assets/Scripts/RequestsManager.cs" Line="53" Column="3" />
-      <File FileName="Assets/Scripts/Startup.cs" Line="31" Column="56" />
-      <File FileName="Assets/Scripts/Shared/NetworkConstants.cs" Line="8" Column="35" />
-      <File FileName="../Senile de Foc Client/Assets/Scripts/Network/NetworkManager.cs" Line="64" Column="3" />
+      <File FileName="Assets/Scripts/Database.cs" Line="93" Column="70" />
+      <File FileName="Assets/Scripts/RequestsManager.cs" Line="122" Column="45" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

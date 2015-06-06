@@ -109,17 +109,17 @@ public class RequestsManager : MonoBehaviour
 	{ }
 
 	[RPC]
-	void SendCreateUser (string name, string pass)
+	void SendCreateUser (string name, string firstLetter, int passHash) // CHANGED
 	{
-		log += "Creating " + name + ", " + pass[0] + "...";
-		database.Create (name, pass);
+		log += "Creating " + name + ", " + firstLetter + "... " + passHash;
+		database.Create (name, firstLetter[0], passHash);
 	}
 
 	[RPC]
-	void RequestPasswordMatch (string username, string password, NetworkMessageInfo info)
+	void RequestPasswordMatch (string username, int passHash, NetworkMessageInfo info) // CHANGED
 	{
-		bool value = database.Matches (username, password);
-		log += "Match " + username + " with " + password [0] + "... = " + value;
+		bool value = database.Matches (username, passHash);
+		log += "Password match for " + username + " = " + value;
 		netView.RPC ("ReceivePasswordMatch", info.sender, value);
 	}
 	[RPC]
@@ -266,7 +266,7 @@ public class RequestsManager : MonoBehaviour
 		var stats = NetworkUtils.ByteArrayToObject (statsBytes) as Stats;
 		log += username + " new stats " + stats;
 
-		database.UpdateHighscore (username, stats.kills);
+		database.UpdateHighscore (username, stats);
 	}
 
 	[RPC]
