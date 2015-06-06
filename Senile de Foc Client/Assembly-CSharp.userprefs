@@ -1,11 +1,14 @@
 ﻿<Properties StartupItem="Assembly-CSharp.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Tank/TankInfo.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Tank/TankAttributes.cs">
     <Files>
-      <File FileName="Assets/Scripts/UI/Menus/LoginForm.cs" Line="45" Column="3" />
-      <File FileName="Assets/Scripts/UI/Menus/SplashMenus.cs" Line="8" Column="63" />
-      <File FileName="../Senile de Foc Server/Assets/Scripts/Database.cs" Line="56" Column="50" />
+      <File FileName="Assets/Scripts/UI/Menus/LoginForm.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/UI/Menus/SplashMenus.cs" Line="1" Column="1" />
+      <File FileName="../Senile de Foc Server/Assets/Scripts/Database.cs" Line="1" Column="1" />
       <File FileName="Assets/Scripts/Tank/TankInfo.cs" Line="37" Column="55" />
+      <File FileName="Assets/Scripts/Tank/TankAttributes.cs" Line="33" Column="42" />
+      <File FileName="Assets/Scripts/Network/MarkerManager.cs" Line="8" Column="2" />
+      <File FileName="Assets/Scripts/Network/GameServer.cs" Line="14" Column="2" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
