@@ -15,7 +15,7 @@ UML (tipuri structura)
 	clasele
 	actors
 
-Descriere lbaj natural
+Descriere lbaj natural (pt fiecare clasa)
 
 
 
@@ -26,3 +26,4 @@ TESTARE:
 	cutie transp:	*testare pt niste if-uri in special
 	performanta: 	*lag, trasnai
 testam mai tot
+clase de echivalenta

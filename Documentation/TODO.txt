@@ -9,14 +9,26 @@ FLOW
 message for connection not allowed because game is running
 
 
+NEW FEATURES
+Login: enter port, local server ip
+Help panel: what barrels do, what the icons mean (kdabr), trees, walls, border, tank abilities, bounce, respawn point
+Lobby: time limit, kill limit
+Other loading graphic for when waiting for opponents 
+camera shake (when being hit?)
+If connected players list is empty, switch server to splash state
+
+
+BUGS
+Kd panel deaths don't update
+Death doesn't happen
+Login saved username sometimes is blank
+
 
 FUTURE VERSIONS
-let users make their own gamerooms (no authorative server)
-set match duration, max kills in lobby
+let users make their own gamerooms (no authorative server, switch to unity 5.1 networking)
 scalable tank, projectile mass, explosion particle size
-resave all elements as psd
+resave all ui elements as psd
 set preferred resolution to 1080p
 make trailer
-
 local (splitscreen) multiplayer
 gamepad support

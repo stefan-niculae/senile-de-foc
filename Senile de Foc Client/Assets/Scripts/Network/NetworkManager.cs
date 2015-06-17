@@ -55,9 +55,9 @@ public class NetworkManager : MonoBehaviour
 
 	void ConnectToLocal ()
 	{
-		NetworkStatus.Show ("Master server offline, trying local (" + NetworkConstants.LOCAL_SERVER_IP + ")", NetworkStatus.MessageType.working);
-		Network.Connect (NetworkConstants.LOCAL_SERVER_IP,
-		                 NetworkConstants.PORT_NUMBER);
+		NetworkStatus.Show ("Master server offline, trying local (" + LobbyNetwork.Instance.prefferedIP + ")", NetworkStatus.MessageType.working);
+		Network.Connect (LobbyNetwork.Instance.prefferedIP,
+						 LobbyNetwork.Instance.prefferedPort);
 	}
 
 	void OnConnectedToServer ()
@@ -84,5 +84,4 @@ public class NetworkManager : MonoBehaviour
 			NetworkStatus.Show ("Connection error: " + error, NetworkStatus.MessageType.failure);
 
 	}
-
 }
