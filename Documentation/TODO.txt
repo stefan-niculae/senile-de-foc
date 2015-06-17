@@ -10,10 +10,10 @@ message for connection not allowed because game is running
 
 
 NEW FEATURES
-Login: enter port, local server ip
 Help panel: what barrels do, what the icons mean (kdabr), trees, walls, border, tank abilities, bounce, respawn point
 Lobby: time limit, kill limit
-Other loading graphic for when waiting for opponents 
+Other loading graphic for when waiting for opponents
+server knows when the time expired/kill limit reached, it’s not up to the clients to send this info (so it can accept new connections)
 camera shake (when being hit?)
 If connected players list is empty, switch server to splash state
 
