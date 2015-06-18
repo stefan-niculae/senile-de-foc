@@ -6,13 +6,12 @@ volume tweaking
 extra ones (tank, wall, barrel hit; loading, match end music)
 
 TERRAIN
-undestroyable placement (on mud and sand)
+obstacles placement (on mud and sand)
 
 FLOW
 infinite loading graphic: white background
 
 MATCH SETUP
-Lobby: time limit, kill limit
 server knows when the time expired/kill limit reached, it’s not up to the clients to send this info (so it can accept new connections)
 
 
@@ -27,11 +26,12 @@ Sometimes saved username is not shown (shows blank, on typing start, it appears)
 
 
 FUTURE VERSIONS
-let users make their own gamerooms (no authorative server, switch to unity 5.1 networking)
+player hosted gamerooms
+non-authorative server (unity 5.1 networking)
 scalable tank, projectile mass, explosion particle size
-resave all ui elements as psds
-set preferred resolution to 1080p
-make trailer
-local (splitscreen) multiplayer
+UI elements -> PSDs
+reference resolution -> 1080p
+launch trailer
+splitscreen multiplayer
 gamepad support
 camera shake (when being hit?)

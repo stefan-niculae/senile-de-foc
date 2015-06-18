@@ -138,7 +138,6 @@ public class SplashServer : Singleton<SplashServer>
 			if (info.tankType.slotNr != NetworkConstants.NOT_SET)
 				tankSelection.SetAvailability (info.tankType.slotNr, false);
 
-
 		NetworkStatus.Show ("Received new player list", NetworkStatus.MessageType.success);
 	}
 
@@ -146,5 +145,27 @@ public class SplashServer : Singleton<SplashServer>
 	public void ReceiveGameStart ()
 	{
 		LoadingManager.StartLoading ("Battlefield");
+	}
+
+	public static void SendTimeLimit (int amount)
+	{
+		netView.RPC ("ReceiveTimeLimit", RPCMode.Others, amount);
+	}
+	[RPC]
+	void ReceiveTimeLimit (int amount)
+	{
+		waitingLobby.time.Amount = amount;
+		NetworkStatus.Show ("Received updated time limit " + amount, NetworkStatus.MessageType.success);
+	}
+
+	public static void SendKillsLimit (int amount)
+	{
+		netView.RPC ("ReceiveKillsLimit", RPCMode.Others, amount);	
+	}
+	[RPC]
+	void ReceiveKillsLimit (int amount)
+	{
+		waitingLobby.kills.Amount = amount;
+		NetworkStatus.Show ("Received updated kills limit " + amount, NetworkStatus.MessageType.success);
 	}
 }
