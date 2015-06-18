@@ -70,7 +70,7 @@ public class NetworkManager : MonoBehaviour
 	void OnDisconnectedFromServer (NetworkDisconnection info)
 	{
 		connected = false;
-		NetworkStatus.Show ("Disconnected (server is full or has shutdown)", NetworkStatus.MessageType.failure);
+		NetworkStatus.Show ("Server is full or game is running", NetworkStatus.MessageType.failure);
 	}
 
 	void ConnectToFound ()

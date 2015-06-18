@@ -9,28 +9,21 @@ TERRAIN
 undestroyable placement (on mud and sand)
 
 FLOW
-message for connection not allowed because game is running
 infinite loading graphic: white background
 
 MATCH SETUP
 Lobby: time limit, kill limit
 server knows when the time expired/kill limit reached, it’s not up to the clients to send this info (so it can accept new connections)
-If connected players list is empty, switch server to splash state
 
 
 
 GAME HELP
 scoreboard popups
 	tank preview -> primary (bouncy?) + secondary
-	k, d, a, b, respawn time, match time, max kills
-
-
 
 
 BUGS
-Kd panel deaths don't update
-Death doesn't happen
-Login saved username sometimes is blank
+Sometimes saved username is not shown (shows blank, on typing start, it appears)
 
 
 FUTURE VERSIONS
