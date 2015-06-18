@@ -5,17 +5,26 @@ SOUNDS
 volume tweaking
 extra ones (tank, wall, barrel hit; loading, match end music)
 
+TERRAIN
+undestroyable placement (on mud and sand)
+
 FLOW
 message for connection not allowed because game is running
+infinite loading graphic: white background
 
-
-NEW FEATURES
-Help panel: what barrels do, what the icons mean (kdabr), trees, walls, border, tank abilities, bounce, respawn point
-Other loading graphic for when waiting for opponents
-
+MATCH SETUP
 Lobby: time limit, kill limit
 server knows when the time expired/kill limit reached, it’s not up to the clients to send this info (so it can accept new connections)
 If connected players list is empty, switch server to splash state
+
+
+
+GAME HELP
+scoreboard popups
+	tank preview -> primary (bouncy?) + secondary
+	k, d, a, b, respawn time, match time, max kills
+
+
 
 
 BUGS

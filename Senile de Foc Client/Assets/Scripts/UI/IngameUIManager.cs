@@ -24,8 +24,9 @@ public class IngameUIManager : UIManager
 	Transform controls;
 	Transform quitConfirmation;
 	Transform credits;
+	Transform help;
 
-	Transform poppedFrame;
+	Transform shownFrame;
 
 	Countdown matchTimer;
 
@@ -67,7 +68,7 @@ public class IngameUIManager : UIManager
 				SetVisibility (false, matchOver);
 
 				SetVisibility (false, KDPanel, playerPanel, minimap);
-				SetVisibility (false, darkOverlay, scoreboard, respawn, controls, quitConfirmation, credits);
+				SetVisibility (false, darkOverlay, scoreboard, respawn, controls, quitConfirmation, credits, help);
 				break;
 
 
@@ -98,7 +99,7 @@ public class IngameUIManager : UIManager
 				GameServer.Instance.SendMatchOver ();
 
 				SetVisibility (false, KDPanel, playerPanel, minimap, settings);
-				SetVisibility (false, respawn, scoreboard, controls, quitConfirmation, credits);
+				SetVisibility (false, respawn, scoreboard, controls, quitConfirmation, credits, help);
 				SetVisibility (true, matchOver, darkOverlay);
 
 				SoundManager.Instance.PlayClip (SoundManager.Instance.matchOverSound);
@@ -127,6 +128,7 @@ public class IngameUIManager : UIManager
 		controls		= Utils.childWithName (transform, "Controls");
 		quitConfirmation= Utils.childWithName (transform, "Quit Confirmation");
 		credits			= Utils.childWithName (transform, "Credits");
+		help 			= Utils.childWithName (transform, "Help");
 
 		matchTimer 		= Utils.childWithName (scoreboard, "Match Countdown").GetComponent <Countdown> ();
 		Scoreboard.Instance.respawn = respawn;
@@ -151,29 +153,40 @@ public class IngameUIManager : UIManager
 	public void SetControlsVisibility (bool value)
 	{
 		ClearPopup ();
-		poppedFrame = controls;
+		if (value)
+			shownFrame = controls;
 		SetVisibility (value, controls);
 	}
 
 	public void SetQuitVisibility (bool value)
 	{
 		ClearPopup ();
-		poppedFrame = quitConfirmation;
+		if (value)
+			shownFrame = controls;
 		SetVisibility (value, quitConfirmation);
 	}
 
 	public void SetCreditsVisibility (bool value)
 	{
 		ClearPopup ();
-		poppedFrame = credits;
+		if (value)
+			shownFrame = controls;
 		SetVisibility (value, credits);
+	}
+
+	public void SetHelpVisibility (bool value)
+	{
+		ClearPopup ();
+		if (value)
+			shownFrame = controls;
+		SetVisibility (value, help);
 	}
 
 	public bool ClearPopup ()
 	{
-		if (poppedFrame != null) {
-			SetVisibility (false, poppedFrame);
-			poppedFrame = null;
+		if (shownFrame != null) {
+			SetVisibility (false, shownFrame);
+			shownFrame = null;
 			return true;
 		}
 		return false;
