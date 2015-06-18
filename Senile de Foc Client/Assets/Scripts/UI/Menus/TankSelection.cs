@@ -44,15 +44,17 @@ public class TankSelection : MonoBehaviour
 
 	public void Reset ()
 	{
-		lockInButton.interactable = false;
-		SetAvailability (SplashMenus.currentTankType, true);
+		int previouslySelected = SplashMenus.currentTankType;
+		SplashMenus.currentTankType = NetworkConstants.NOT_SET;
+		SetAvailability (previouslySelected, true);
 		ShowLockin ();
+		lockInButton.interactable = false;
 	}
 
 	public void SetAvailability (int number, bool value)
 	{
 		// The tank selected by this is managed internally
-		if (number == SplashMenus.currentTankType)
+		if (number == SplashMenus.currentTankType || number == NetworkConstants.NOT_SET)
 			return;
 
 		// Can't disable the custom tank
@@ -89,17 +91,17 @@ public class TankSelection : MonoBehaviour
 	void ShowCustomize ()
 	{
 		lockInButton.interactable = false;
-		lockinButtonTrans.TransitionTo (Vector3.zero, callback: () => { 
-			customizeButtonTrans.TransitionTo (Vector3.one);
-		});
+		lockinButtonTrans.TransitionTo (Vector3.zero, callback: () => 
+			customizeButtonTrans.TransitionTo (Vector3.one)
+		);
 	}
 
 	void ShowLockin ()
 	{
 		lockInButton.interactable = true;
-		customizeButtonTrans.TransitionTo (Vector3.zero, callback: () => { 
-			lockinButtonTrans.TransitionTo (Vector3.one);
-		});
+		customizeButtonTrans.TransitionTo (Vector3.zero, callback: () =>
+			lockinButtonTrans.TransitionTo (Vector3.one) 
+		);
 	}
 
 	public void Lockin ()
