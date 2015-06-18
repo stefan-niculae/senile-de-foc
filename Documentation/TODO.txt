@@ -11,10 +11,10 @@ message for connection not allowed because game is running
 
 NEW FEATURES
 Help panel: what barrels do, what the icons mean (kdabr), trees, walls, border, tank abilities, bounce, respawn point
-Lobby: time limit, kill limit
 Other loading graphic for when waiting for opponents
+
+Lobby: time limit, kill limit
 server knows when the time expired/kill limit reached, it’s not up to the clients to send this info (so it can accept new connections)
-camera shake (when being hit?)
 If connected players list is empty, switch server to splash state
 
 
@@ -27,8 +27,9 @@ Login saved username sometimes is blank
 FUTURE VERSIONS
 let users make their own gamerooms (no authorative server, switch to unity 5.1 networking)
 scalable tank, projectile mass, explosion particle size
-resave all ui elements as psd
+resave all ui elements as psds
 set preferred resolution to 1080p
 make trailer
 local (splitscreen) multiplayer
 gamepad support
+camera shake (when being hit?)
