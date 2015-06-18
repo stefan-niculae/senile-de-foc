@@ -78,8 +78,8 @@ public class IngameUIManager : UIManager
 				SetVisibility (true, KDPanel, playerPanel, minimap);
 				SetVisibility (true, scoreboard);
 
-				matchTimer.toAppend = " / " + Utils.FloatToTime (Constants.MATCH_DURATION);
-				matchTimer.StartIt (Constants.MATCH_DURATION, () => state = State.matchOver);
+				matchTimer.toAppend = " / " + Utils.FloatToTime (GameServer.Instance.timeLimit);
+				matchTimer.StartIt (GameServer.Instance.timeLimit);
 				break;
 
 
@@ -96,8 +96,6 @@ public class IngameUIManager : UIManager
 
 
 			case State.matchOver:
-				GameServer.Instance.SendMatchOver ();
-
 				SetVisibility (false, KDPanel, playerPanel, minimap, settings);
 				SetVisibility (false, respawn, scoreboard, controls, quitConfirmation, credits, help);
 				SetVisibility (true, matchOver, darkOverlay);

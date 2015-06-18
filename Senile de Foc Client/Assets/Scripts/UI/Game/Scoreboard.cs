@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.UI;
 
 public class Scoreboard : Singleton<Scoreboard>
 {
@@ -12,12 +13,29 @@ public class Scoreboard : Singleton<Scoreboard>
 	public bool isShown;
 	[HideInInspector] public Transform respawn;
 
+	Text killcountText;
+	int matchKillcount;
+	int MatchKillCount
+	{
+		get 
+		{
+			return matchKillcount;
+		}
+		set 
+		{
+			matchKillcount = value;
+			killcountText.text = matchKillcount + " / " + GameServer.Instance.killsLimit;
+		}
+	}
+
 	Dictionary <int, IngameInfo> orderNumToIngameInfo;
 
 	void Awake ()
 	{
 		container = GameObject.Find ("Players Info").transform;
 		orderNumToIngameInfo = new Dictionary<int, IngameInfo> ();
+
+		killcountText = GameObject.Find ("Match Killcount").GetComponent <Text> ();
 	}
 
 	void Start ()
@@ -46,7 +64,7 @@ public class Scoreboard : Singleton<Scoreboard>
 		// Erase everything and start from scratch when someone disconnects
 		if (orderNumToIngameInfo.Count != playerInfos.Count)
 			orderNumToIngameInfo.Clear ();
-
+		
 		// Sort descending
 		playerInfos.Sort ((a, b) => -a.CompareTo (b));
 		for (int i = 0; i < playerInfos.Count; i++) {
@@ -63,6 +81,16 @@ public class Scoreboard : Singleton<Scoreboard>
 			ingameInfo.transform.position = container.position;
 			ingameInfo.transform.localPosition = new Vector3 (0, i * DISTANCE * -1 + 100, 0); // I don't know where that +100 comes from...
 		}
+
+		UpdateKillcount ();
+	}
+
+	public void UpdateKillcount ()
+	{
+		int kills = 0;
+		foreach (var p in orderNumToIngameInfo.Values)
+			kills += int.Parse (p.kills.text);
+		MatchKillCount = kills;
 	}
 
 	public void StartCountdownFor (int orderNumber, float time)

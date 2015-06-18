@@ -11,6 +11,9 @@ public class GameServer : Singleton<GameServer>
 	public Dictionary<int, Damagable> damageables;
 	public Dictionary<int, TankInfo> orderNrToTankInfo;
 
+	[HideInInspector] public int timeLimit;
+	[HideInInspector] public int killsLimit;
+
 
 	void Awake ()
 	{
@@ -57,12 +60,16 @@ public class GameServer : Singleton<GameServer>
 	}
 
 	[RPC]
-	void ReceiveMatchStart ()
+	void ReceiveMatchStart (int timeLimit, int killsLimit)
 	{
-		NetworkStatus.Show ("Everyone connected, match starts", NetworkStatus.MessageType.success);
+		this.timeLimit = timeLimit * 60; // received in seconds, converted to minutes
+		this.killsLimit = killsLimit;
+
+		Scoreboard.Instance.UpdateKillcount ();
+
+		NetworkStatus.Show ("Match started (" + timeLimit + " mins, " + killsLimit + " kills)", NetworkStatus.MessageType.success);
 		((IngameUIManager)IngameUIManager.Instance).state = IngameUIManager.State.playing;
 		MarkerManager.Instance.Spawn ();
-
 	}
 
 	public void AnnounceTakingDamage (float damage, int source, int destination)
@@ -93,12 +100,10 @@ public class GameServer : Singleton<GameServer>
 		Scoreboard.Instance.PopulateList (connectedPlayers);
 	}
 		
-	public void SendMatchOver ()
-	{
-		netView.RPC ("ReceiveMatchOver", RPCMode.Server);
-	}
 	[RPC]
 	void ReceiveMatchOver ()
-	{ }
+	{ 
+		((IngameUIManager)IngameUIManager.Instance).state = IngameUIManager.State.matchOver;
+	}
 
 }

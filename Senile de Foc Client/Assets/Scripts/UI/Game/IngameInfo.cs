@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 public class IngameInfo : BasicInfo 
 {
-	Text kills;
+	[HideInInspector] public Text kills;
 	Text deaths;
 	Text assists;
 	Text barrels;

@@ -11,18 +11,14 @@ obstacles placement (on mud and sand)
 FLOW
 infinite loading graphic: white background
 
-MATCH SETUP
-server knows when the time expired/kill limit reached, it’s not up to the clients to send this info (so it can accept new connections)
-
-
 
 GAME HELP
-scoreboard popups
-	tank preview -> primary (bouncy?) + secondary
+scoreboard tank preview tip-> primary (bouncy?) + secondary
 
 
 BUGS
 Sometimes saved username is not shown (shows blank, on typing start, it appears)
+last kill of the match makes the killed tank not dissappear
 
 
 FUTURE VERSIONS

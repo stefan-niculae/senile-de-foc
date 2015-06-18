@@ -55,7 +55,7 @@ public class InstantiateAndFollow : MonoBehaviour
 	const float PERIOD_TO_STOP = 1;
 	void Update ()
 	{
-		if (isFollowing) {
+		if (isFollowing && pointer != null) {
 			if (netView.isMine) {
 				transform	.position = body		.position;
 				pointer		.position = barrel		.position;
