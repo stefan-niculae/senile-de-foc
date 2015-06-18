@@ -23,7 +23,7 @@ GAME HELP
 destroyable barrels
 undestroyable trees, map border, beige+brickred obstacles, spawn point
 
-scoreboard tpopups
+scoreboard popups
 	tank preview -> primary (bouncy?) + secondary
 	k, d, a, b, respawn time, match time, max kills
 
