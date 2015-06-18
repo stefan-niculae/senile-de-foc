@@ -73,6 +73,10 @@ public class RequestsManager : MonoBehaviour
 		Network.DestroyPlayerObjects(p);
 
 		UpdatePlayers ();
+
+		// Go back to login state when everyone left
+		if (connectedPlayers.Count == 0)
+			state = State.splash;
 	}
 
 	void UpdatePlayers ()
