@@ -150,16 +150,30 @@ public class Database : MonoBehaviour
 		}
 	}
 
-	void Update ()
-	{
-		if (Input.GetKeyDown (KeyCode.E)) {
-			PlayerPrefs.DeleteKey (BEST_PLAYER_KEY);
-			PlayerPrefs.DeleteKey (KILLS_KEY);
-			PlayerPrefs.DeleteKey (DEATHS_KEY);
-			PlayerPrefs.DeleteKey (ASSISTS_KEY);
-			PlayerPrefs.DeleteKey (BARRELS_KEY);
+//	void Update ()
+//	{
+//		if (Input.GetKeyDown (KeyCode.E)) {
+//			PlayerPrefs.DeleteKey (BEST_PLAYER_KEY);
+//			PlayerPrefs.DeleteKey (KILLS_KEY);
+//			PlayerPrefs.DeleteKey (DEATHS_KEY);
+//			PlayerPrefs.DeleteKey (ASSISTS_KEY);
+//			PlayerPrefs.DeleteKey (BARRELS_KEY);
+//
+//			Debug.LogWarning ("Cleared highscore (file still exists)");
+//		}
+//	}
 
-			Debug.LogWarning ("Cleared highscore (file still exists)");
-		}
+	const string LAST_TIME_LIMIT_KEY  = "last time limit";
+	public int lastTimeLimit
+	{
+		get { return PlayerPrefs.GetInt (LAST_TIME_LIMIT_KEY, 10); }
+		set { PlayerPrefs.SetInt (LAST_TIME_LIMIT_KEY, value); }
+	}
+	
+	const string LAST_KILLS_LIMIT_KEY = "last kills limit";
+	public int lastKillsLimit
+	{
+		get { return PlayerPrefs.GetInt (LAST_KILLS_LIMIT_KEY, 10); }
+		set { PlayerPrefs.SetInt (LAST_KILLS_LIMIT_KEY, value); }
 	}
 }

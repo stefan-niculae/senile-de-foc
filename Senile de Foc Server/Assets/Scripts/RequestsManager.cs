@@ -9,6 +9,8 @@ public class RequestsManager : MonoBehaviour
 	Database database;
 	NetworkView netView;
 	Dictionary <NetworkPlayer, PlayerInfo> connectedPlayers;
+
+	int killsThisMatch;
 	
 	public Text logText;
 	string log
@@ -59,6 +61,8 @@ public class RequestsManager : MonoBehaviour
 
 		log += "Player " + player + " connected from " + player.ipAddress + ":" + player.port;
 		connectedPlayers.Add (player, new PlayerInfo (player));
+
+		SendMatchLimits (player);
 
 		UpdatePlayers ();
 	}
@@ -235,9 +239,12 @@ public class RequestsManager : MonoBehaviour
 			}
 		if (allLoaded) {
 			log += "Everyone loaded the game scene => starting the match";
-			netView.RPC ("ReceiveMatchStart", RPCMode.Others);
+			netView.RPC ("ReceiveMatchStart", RPCMode.Others, database.lastTimeLimit, database.lastKillsLimit);
 
 			state = State.game;
+			killsThisMatch = 0;
+
+			StartCoroutine (EndGameAfter (database.lastTimeLimit * 60));
 		}
 
 	}
@@ -246,9 +253,19 @@ public class RequestsManager : MonoBehaviour
 	{ }
 
 	[RPC]
-	void ReceiveMatchStart ()
+	void ReceiveMatchStart (int timeLim, int killLim)
 	{ }
 
+	float matchEndTime;
+	IEnumerator EndGameAfter (float seconds)
+	{
+		matchEndTime = Time.time + seconds;
+		yield return new WaitForSeconds (seconds);
+
+		// We do this check because the match may have ended prematurely
+		if (Mathf.Abs (Time.time - matchEndTime) < 1)
+			SendMatchOver ();
+	}
 
 	[RPC]
 	public void ReceiveDamageAnnouncement (float damage, int source, int destination)
@@ -261,31 +278,58 @@ public class RequestsManager : MonoBehaviour
 	void ReceiveStatsUpdate (int orderNumber, byte[] statsBytes)
 	{
 		string username = "";
-		foreach (var p in connectedPlayers)
-			if (p.Value.orderNumber == orderNumber) {
-				username = p.Value.name;
-				break;
-			}
-
+		killsThisMatch = 0;
 		var stats = NetworkUtils.ByteArrayToObject (statsBytes) as Stats;
-		log += username + " new stats " + stats;
 
+		foreach (var p in connectedPlayers.Values) {
+			if (p.orderNumber == orderNumber) {
+				username = p.name;
+				p.stats = stats;
+				log += username + " new stats " + stats;
+			}
+			killsThisMatch += p.stats.kills;
+		}
+		
 		database.UpdateHighscore (username, stats);
+
+		if (killsThisMatch >= database.lastKillsLimit)
+			SendMatchOver ();
 	}
 
+
+	void SendMatchLimits (NetworkPlayer player)
+	{
+		netView.RPC ("ReceiveTimeLimit" , player, database.lastTimeLimit);
+		netView.RPC ("ReceiveKillsLimit", player, database.lastKillsLimit);
+	}
+	[RPC]
+	void ReceiveTimeLimit (int amount)
+	{
+		database.lastTimeLimit = amount;
+		log += "rec time limit = " + amount;
+	}
+	[RPC]
+	void ReceiveKillsLimit (int amount)
+	{
+		database.lastKillsLimit = amount;
+		log += "rec kills limit = " + amount;
+	}
+
+
+	void SendMatchOver ()
+	{
+		netView.RPC ("ReceiveMatchOver", RPCMode.Others);
+
+		foreach (var p in connectedPlayers.Keys) {
+			Network.RemoveRPCs (p);
+			Network.DestroyPlayerObjects (p);
+		}
+		connectedPlayers.Clear ();
+		UpdatePlayers ();
+		
+		state = State.splash;
+	}
 	[RPC]
 	public void ReceiveMatchOver ()
-	{
-		// Only the first matchover signal counts
-		if (state == State.game) {
-			foreach (var p in connectedPlayers.Keys) {
-				Network.RemoveRPCs (p);
-				Network.DestroyPlayerObjects (p);
-			}
-			connectedPlayers.Clear ();
-			UpdatePlayers ();
-	
-			state = State.splash;
-		}
-	}
+	{ }
 }

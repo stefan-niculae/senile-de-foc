@@ -5,7 +5,7 @@ public class NetworkConstants
 {
 	public const string	GAME_TYPE 	= "Senile de Foc";
 	public const string GAME_NAME 	= "Game";
-	public const int 	MAX_PLAYERS	= 1;
+	public const int 	MAX_PLAYERS	= 4;
 	public const int 	PORT_NUMBER	= 25002;
 	public const int	NOT_SET 	= -1;
 	
