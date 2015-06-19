@@ -1,33 +1,32 @@
-BALANCING
-attribute tweaking
+TWEAKS
+attribute rates
+sfx, music volumes
+obstacle placement
+!projectile ttl 1sec
 
-SOUNDS
-volume tweaking
-extra ones (tank, wall, barrel hit; loading, match end music)
 
-TERRAIN
-obstacles placement (on mud and sand)
-
-FLOW
+EXTRA UI
 infinite loading graphic: white background
-
-
-GAME HELP
+extra sounds (tank, wall, barrel hit; loading, match end music)
 scoreboard tank preview tip-> primary (bouncy?) + secondary
-
+!tips in tank customization
+!lobby time tip in minutes
 
 BUGS
 Sometimes saved username is not shown (shows blank, on typing start, it appears)
 last kill of the match makes the killed tank not dissappear
+!custom tank bullet unassigned explosion
+!on player disconnect delete all from scoreboard
+!explosion doesnt damage
 
 
 FUTURE VERSIONS
-player hosted gamerooms
-non-authorative server (unity 5.1 networking)
-scalable tank, projectile mass, explosion particle size
 UI elements -> PSDs
 reference resolution -> 1080p
+camera shake (when being hit?)
 launch trailer
+scalable tank, projectile mass, explosion particle size
+player hosted gamerooms
+non-authorative server (unity 5.1 networking)
 splitscreen multiplayer
 gamepad support
-camera shake (when being hit?)
