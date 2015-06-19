@@ -9,5 +9,5 @@ public class NetworkConstants
 	public const int 	PORT_NUMBER	= 25002;
 	public const int	NOT_SET 	= -1;
 	
-	public const string LOCAL_SERVER_IP = "10.240.15.36";
+	public const string LOCAL_SERVER_IP = "192.168.100.4";
 }

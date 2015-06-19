@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
 using System.IO;
@@ -32,10 +32,10 @@ public class Database : MonoBehaviour
 	}
 
 	const string 
-		KILLS_KEY = "kills",
-		DEATHS_KEY = "deaths",
-		ASSISTS_KEY = "assists",
-		BARRELS_KEY = "barrels";
+	KILLS_KEY = "kills",
+	DEATHS_KEY = "deaths",
+	ASSISTS_KEY = "assists",
+	BARRELS_KEY = "barrels";
 	int bestKills
 	{
 		get { return PlayerPrefs.GetInt (KILLS_KEY, 0); }
@@ -79,7 +79,7 @@ public class Database : MonoBehaviour
 		PlayerPrefs.SetString (NAME_KEY + userCount, name);
 		PlayerPrefs.SetString (PASS_FIRST_LETTER_KEY + userCount, passFirst.ToString ());
 		PlayerPrefs.SetInt (PASS_HASH_CODE_KEY + userCount, passHash);
-		
+
 		userCount++;
 		registered = AllUsers ();
 	}
@@ -104,7 +104,7 @@ public class Database : MonoBehaviour
 				return i;
 		return -1;
 	}
-	
+
 	public bool Exists (string name)
 	{
 		return IndexOf (name) != -1;
@@ -146,22 +146,22 @@ public class Database : MonoBehaviour
 			path += "highscore.txt";
 			Debug.LogWarning ("Created highscore file " + path);
 			File.WriteAllText (path,
-			                   username + ": " + stats + "\n");
+				username + ": " + stats + "\n");
 		}
 	}
 
-//	void Update ()
-//	{
-//		if (Input.GetKeyDown (KeyCode.E)) {
-//			PlayerPrefs.DeleteKey (BEST_PLAYER_KEY);
-//			PlayerPrefs.DeleteKey (KILLS_KEY);
-//			PlayerPrefs.DeleteKey (DEATHS_KEY);
-//			PlayerPrefs.DeleteKey (ASSISTS_KEY);
-//			PlayerPrefs.DeleteKey (BARRELS_KEY);
-//
-//			Debug.LogWarning ("Cleared highscore (file still exists)");
-//		}
-//	}
+	//	void Update ()
+	//	{
+	//		if (Input.GetKeyDown (KeyCode.E)) {
+	//			PlayerPrefs.DeleteKey (BEST_PLAYER_KEY);
+	//			PlayerPrefs.DeleteKey (KILLS_KEY);
+	//			PlayerPrefs.DeleteKey (DEATHS_KEY);
+	//			PlayerPrefs.DeleteKey (ASSISTS_KEY);
+	//			PlayerPrefs.DeleteKey (BARRELS_KEY);
+	//
+	//			Debug.LogWarning ("Cleared highscore (file still exists)");
+	//		}
+	//	}
 
 	const string LAST_TIME_LIMIT_KEY  = "last time limit";
 	public int lastTimeLimit
@@ -169,7 +169,7 @@ public class Database : MonoBehaviour
 		get { return PlayerPrefs.GetInt (LAST_TIME_LIMIT_KEY, 10); }
 		set { PlayerPrefs.SetInt (LAST_TIME_LIMIT_KEY, value); }
 	}
-	
+
 	const string LAST_KILLS_LIMIT_KEY = "last kills limit";
 	public int lastKillsLimit
 	{
