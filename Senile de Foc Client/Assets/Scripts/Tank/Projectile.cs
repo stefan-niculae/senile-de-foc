@@ -96,6 +96,7 @@ public class Projectile : Containable<Projectile>
 			pointOfCollision,
 			Quaternion.identity,
 			0) as GameObject;
+
 		// Since we only set it up on the client that shoot it, 
 		// the damage only happens once
 		// but the particles are shown everywhere

@@ -4,7 +4,7 @@ using System.Collections;
 public class DestroyableBarrel : Damagable
 {
 	Vector3 initialPos;
-	const float REAPPARITION_DURATION = 2;
+	const float REAPPARITION_DURATION = 5;
 	SpriteRenderer spriteRenderer;
 
 	public override void OnAwake ()

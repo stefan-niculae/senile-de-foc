@@ -81,7 +81,6 @@ public class TankInfo : MonoBehaviour
 	}
 
 
-
 	void ApplyRates () 
 	{
 		// Each tank has its own projectile (missle or bullet)
@@ -92,27 +91,28 @@ public class TankInfo : MonoBehaviour
 		// We multiply by two because in the level select there are only 5 beans
 		// but computing rates espects values 0 - 10
 
-		health.damageAbsorbtion = 	TankAttributes.Instance.damageAbsorbtion	.compute (playerInfo.rates.armor * 2);
+		health.damageAbsorbtion = TankAttributes.Instance.damageAbsorbtion	.compute (playerInfo.rates.armor * 2);
 		
-		movement.forwardSpeed = 	TankAttributes.Instance.forwardSpeed		.compute (playerInfo.rates.speed * 2);
-		movement.backwardSpeed = 	TankAttributes.Instance.backwardSpeed		.compute (playerInfo.rates.speed * 2);
-		movement.rotationSpeed = 	TankAttributes.Instance.rotationSpeed		.compute (playerInfo.rates.speed * 2);
+		movement.forwardSpeed 	= TankAttributes.Instance.forwardSpeed		.compute (playerInfo.rates.speed * 2);
+		movement.backwardSpeed 	= TankAttributes.Instance.backwardSpeed		.compute (playerInfo.rates.speed * 2);
+		movement.rotationSpeed 	= TankAttributes.Instance.rotationSpeed		.compute (playerInfo.rates.speed * 2);
 		
-		cannon.fireRate = 			TankAttributes.Instance.fireRate			.compute (playerInfo.rates.fireRate * 2);
-		barrel.backwardSpeed = 		TankAttributes.Instance.barrelSpeed			.compute (playerInfo.rates.fireRate * 2);
-		barrel.forwardSpeed = 		barrel.backwardSpeed / 2f;
-		projectile.speed = 			TankAttributes.Instance.projectileSpeed		.compute (playerInfo.rates.fireRate * 2);
+		cannon.fireRate 		= TankAttributes.Instance.fireRate			.compute (playerInfo.rates.fireRate * 2);
+		barrel.backwardSpeed 	= TankAttributes.Instance.barrelSpeed		.compute (playerInfo.rates.fireRate * 2);
+		barrel.forwardSpeed 	= barrel.backwardSpeed / 2f;
+		projectile.speed 		= TankAttributes.Instance.projectileSpeed	.compute (playerInfo.rates.fireRate * 2);
 		
-		cannonProjectileExplosionStats.damage =TankAttributes.Instance.explosionDamage		.compute (playerInfo.rates.damage * 2);	
-		cannonProjectileExplosionStats.radius =TankAttributes.Instance.explosionRadius		.compute (playerInfo.rates.damage * 2);
+		cannonProjectileExplosionStats.damage = TankAttributes.Instance.explosionDamage		.compute (playerInfo.rates.damage * 2);	
+		cannonProjectileExplosionStats.radius = TankAttributes.Instance.explosionRadius		.compute (playerInfo.rates.damage * 2);
 	}
 
 	void ApplySprites ()
 	{
 		movement.gameObject.GetComponent <SpriteRenderer> ().sprite 	= References.Instance.bodySprites [playerInfo.tankType.bodyIndex];
-		barrel.gameObject.GetComponent <SpriteRenderer> ().sprite		= References.Instance.barrelSprites [playerInfo.tankType.barrelIndex];
+		barrel	.gameObject.GetComponent <SpriteRenderer> ().sprite		= References.Instance.barrelSprites [playerInfo.tankType.barrelIndex];
 	}
 
+	// We use an authorative server arhitecture
 //	void OnSerializeNetworkView (BitStream stream, NetworkMessageInfo info)
 //	{
 //		stream.Serialize (ref playerInfo.tankType.bodyIndex);

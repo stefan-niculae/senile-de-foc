@@ -7,6 +7,7 @@ obstacle placement
 EXTRA UI
 infinite loading graphic: white background
 extra sounds (tank, wall, barrel hit; loading, match end music)
+lobby button (in match over frame) reimport (pre merged)
 scoreboard tank preview tip-> primary (bouncy?) + secondary
 !tips in tank customization
 !lobby time tip in minutes
@@ -14,8 +15,8 @@ scoreboard tank preview tip-> primary (bouncy?) + secondary
 BUGS
 Sometimes saved username is not shown (shows blank, on typing start, it appears)
 last kill of the match makes the killed tank not dissappear
+tips flicker when cursor on edge (alpha transition 0-1 insead of gameobject (de)activation?)
 !custom tank bullet unassigned explosion
-!on player disconnect delete all from scoreboard
 
 
 FUTURE VERSIONS

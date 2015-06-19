@@ -62,8 +62,12 @@ public class Scoreboard : Singleton<Scoreboard>
 	public void PopulateList (List <PlayerInfo> playerInfos)
 	{
 		// Erase everything and start from scratch when someone disconnects
-		if (orderNumToIngameInfo.Count != playerInfos.Count)
+		if (orderNumToIngameInfo.Count != playerInfos.Count) {
 			orderNumToIngameInfo.Clear ();
+			foreach (Transform child in container)
+				if (child != container)
+					Destroy (child.gameObject);
+		}
 		
 		// Sort descending
 		playerInfos.Sort ((a, b) => -a.CompareTo (b));
