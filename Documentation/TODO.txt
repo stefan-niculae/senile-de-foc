@@ -14,6 +14,7 @@ BUGS
 Sometimes saved username is not shown (shows blank, on typing start, it appears)
 last kill of the match makes the killed tank doesn’t dissappear
 tank is deleted immediately after match over (do it after the player disconnects or hits lobby instead)
+!on kill limit reached
 
 -transform.localPosition assign attempt for 'Death Explosion Prefab(Clone)' is not valid. Input localPosition is { -0.000000, 0.000000, NaN }.
 -KeyNotFoundException: The given key was not present in the dictionary.

@@ -158,21 +158,21 @@ public class IngameUIManager : UIManager
 	public void SetQuitVisibility (bool value)
 	{
 		ClearPopup ();
-		shownFrame = controls;
+		shownFrame = quitConfirmation;
 		SetVisibility (value, quitConfirmation);
 	}
 
 	public void SetCreditsVisibility (bool value)
 	{
 		ClearPopup ();
-		shownFrame = controls;
+		shownFrame = credits;
 		SetVisibility (value, credits);
 	}
 
 	public void SetHelpVisibility (bool value)
 	{
 		ClearPopup ();
-		shownFrame = controls;
+		shownFrame = help;
 		SetVisibility (value, help);
 	}
 
