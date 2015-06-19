@@ -133,7 +133,7 @@
      <Compile Include="Assets\Scripts\UI\Menus\WaitingLobby.cs" />
      <Compile Include="Assets\Scripts\UI\SoundManager.cs" />
      <Compile Include="Assets\Scripts\UI\UIManager.cs" />
-     <Compile Include="Assets\Temp\MovementIllustrator.cs" />
+     <Compile Include="Assets\Test Assets\MovementIllustrator.cs" />
      <None Include="Assets\JMO Assets\Cartoon FX\Shaders (Mobile)\CFXM_MobileParticleAdd_Alpha8.shader" />
      <None Include="Assets\JMO Assets\Cartoon FX\Shaders\CFX4 Particle AlphaBlend+AddSoft VColor.shader" />
  <Reference Include="UnityEngine.UI">
