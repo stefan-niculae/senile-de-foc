@@ -1,10 +1,8 @@
 ﻿<Properties StartupItem="Assembly-CSharp.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Shared/PlayerInfo.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="../Senile de Foc Client/Assets/Scripts/InstantiateAndFollow.cs">
     <Files>
-      <File FileName="../Senile de Foc Client/Assets/Scripts/UI/Menus/LobbyNetwork.cs" Line="13" Column="16" />
-      <File FileName="Assets/Scripts/Shared/PlayerInfo.cs" Line="283" Column="1" />
-      <File FileName="../Senile de Foc Client/Assets/Scripts/Network/Shared/PlayerInfo.cs" Line="1" Column="1" />
+      <File FileName="../Senile de Foc Client/Assets/Scripts/InstantiateAndFollow.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

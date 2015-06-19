@@ -318,16 +318,19 @@ public class RequestsManager : MonoBehaviour
 
 	void SendMatchOver ()
 	{
-		netView.RPC ("ReceiveMatchOver", RPCMode.Others);
+		// To avoid duplicate match overs (time limit and kill limit happen at the same time)
+		if (state == State.game) {
+			netView.RPC ("ReceiveMatchOver", RPCMode.Others);
 
-		foreach (var p in connectedPlayers.Keys) {
-			Network.RemoveRPCs (p);
-			Network.DestroyPlayerObjects (p);
-		}
-		connectedPlayers.Clear ();
-		UpdatePlayers ();
+			foreach (var p in connectedPlayers.Keys) {
+				Network.RemoveRPCs (p);
+				Network.DestroyPlayerObjects (p);
+			}
+			connectedPlayers.Clear ();
+			UpdatePlayers ();
 		
-		state = State.splash;
+			state = State.splash;
+		}
 	}
 	[RPC]
 	public void ReceiveMatchOver ()

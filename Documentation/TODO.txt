@@ -2,7 +2,6 @@ TWEAKS
 attribute rates
 sfx, music volumes
 obstacle placement
-!projectile ttl 1sec
 
 
 EXTRA UI
@@ -17,7 +16,6 @@ Sometimes saved username is not shown (shows blank, on typing start, it appears)
 last kill of the match makes the killed tank not dissappear
 !custom tank bullet unassigned explosion
 !on player disconnect delete all from scoreboard
-!explosion doesnt damage
 
 
 FUTURE VERSIONS

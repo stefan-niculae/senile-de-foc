@@ -3,7 +3,7 @@ using System.Collections;
 
 public class Projectile : Containable<Projectile> 
 {
-	static readonly float TIME_TO_LIVE = 10f;
+	static readonly float TIME_TO_LIVE = 1.5f;
 
 	public float speed;
 	public int maxCollisions; // number of times the bullet can bounce
