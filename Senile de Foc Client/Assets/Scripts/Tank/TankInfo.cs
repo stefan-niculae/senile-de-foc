@@ -63,6 +63,8 @@ public class TankInfo : MonoBehaviour
 
 			input = GetComponent <PlayerInput> ();
 			input.enabled = true;
+
+			Scoreboard.Instance.localTank = this;
 		}
 
 

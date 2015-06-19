@@ -12,6 +12,7 @@ public class TankTracksManager : Containable<TankTracksManager>
 	void Awake ()
 	{
 		moveToContainer ("Track Managers");
+		transform.position = new Vector3 (0, 0, 1);
 	}
 
 	void Start ()

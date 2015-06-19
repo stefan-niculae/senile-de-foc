@@ -13,6 +13,8 @@ public class Scoreboard : Singleton<Scoreboard>
 	public bool isShown;
 	[HideInInspector] public Transform respawn;
 
+	[HideInInspector] public TankInfo localTank;
+
 	Text killcountText;
 	int matchKillcount;
 	int MatchKillCount
@@ -87,6 +89,10 @@ public class Scoreboard : Singleton<Scoreboard>
 		}
 
 		UpdateKillcount ();
+	
+		// Before local tank instantiation
+		if (localTank != null)
+			localTank.ShowStatsRecap ();
 	}
 
 	public void UpdateKillcount ()
