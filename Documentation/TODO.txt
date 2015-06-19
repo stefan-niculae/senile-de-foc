@@ -10,12 +10,10 @@ extra sounds (tank, wall, barrel hit; loading, match end music)
 scoreboard tank preview tip-> primary (bouncy?) + secondary
 tips flicker when cursor on edge (alpha transition 0-1 insead of gameobject (de)activation?)
 
-!tips in tank customization
-!lobby time tip in minutes
-
 BUGS
 Sometimes saved username is not shown (shows blank, on typing start, it appears)
 last kill of the match makes the killed tank doesn’t dissappear
+tank is deleted immediately after match over (do it after the player disconnects or hits lobby instead)
 
 
 FUTURE VERSIONS
