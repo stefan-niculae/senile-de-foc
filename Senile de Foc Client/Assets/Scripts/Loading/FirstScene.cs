@@ -6,9 +6,9 @@ public class FirstScene : MonoBehaviour
 {
 	void Start () 
 	{
-		LoadingManager.StartLoading ("Splash");
+		//LoadingManager.StartLoading ("Splash");
 
-//		PlayerCompareTest ();
+		PlayerCompareTest ();
 	}
 
 	void PlayerCompareTest ()
