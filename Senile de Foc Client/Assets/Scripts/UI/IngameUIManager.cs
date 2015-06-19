@@ -1,12 +1,24 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+
 public class IngameUIManager : UIManager
 {
 	CameraMovement camMovement;
 	GameObject loadingGraphic;
 
-	public static bool _pointerOverButton;
+	// TODO we have to use ((IngameUIManager)IngameUIManager.Instance).something 
+	// if we want to see the Instance as IngameUiManager and not UIManager, 
+	// how can the Instance have the most derived type?
+	public static IngameUIManager DerivedInstance
+	{
+		get
+		{
+			return Instance as IngameUIManager;
+		}
+	}
+
+	public bool _pointerOverButton;
 	public bool pointerOverButton 
 	{
 		get { return pointerOverButton; }
@@ -102,6 +114,8 @@ public class IngameUIManager : UIManager
 
 				SoundManager.Instance.PlayClip (SoundManager.Instance.matchOverSound);
 
+				camMovement.player = null;
+				camMovement.transform.position = new Vector3 (0, 0, camMovement.transform.position.z);
 				MatchOver.Instance.YankPlayers ();
 				Scoreboard.Instance.enabled = false;
 				GameServer.Instance.orderNrToTankInfo [GameServer.selfInfo.orderNumber].input.enabled = false;

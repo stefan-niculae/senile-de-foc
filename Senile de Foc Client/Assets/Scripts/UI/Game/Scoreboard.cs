@@ -57,14 +57,14 @@ public class Scoreboard : Singleton<Scoreboard>
 			respawn.localPosition= new Vector3 (!isShown ? 0 : Constants.HIDDEN.x, respawn.localPosition.y, 0);
 
 		if (isShown) 
-			((IngameUIManager)IngameUIManager.Instance).ClearPopup ();
+			IngameUIManager.DerivedInstance.ClearPopup ();
 		
 	}
 
 	public void PopulateList (List <PlayerInfo> playerInfos)
 	{
 		// Erase everything and start from scratch when someone disconnects
-		if (orderNumToIngameInfo.Count != playerInfos.Count && ((IngameUIManager)IngameUIManager.Instance).state != IngameUIManager.State.matchOver) {
+		if (orderNumToIngameInfo.Count != playerInfos.Count && IngameUIManager.DerivedInstance.state != IngameUIManager.State.matchOver) {
 			orderNumToIngameInfo.Clear ();
 			foreach (Transform child in container)
 				if (child != container)

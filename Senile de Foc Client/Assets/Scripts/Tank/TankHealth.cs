@@ -90,7 +90,7 @@ public class TankHealth : Damagable
 			tankInfo.input.enabled = false; // disable movement and firing
 
 			tankInfo.ShowStatsRecap (); // KD persistent show
-			((IngameUIManager)IngameUIManager.Instance).state = IngameUIManager.State.dead; // show the dark overlay and respawn frame
+			IngameUIManager.DerivedInstance.state = IngameUIManager.State.dead; // show the dark overlay and respawn frame
 			respawnCountdown.StartIt (respawnTime); // start the respawn timer on the respawn frame
 			HittersDisplay.Instance.PopulateList (hittersList); // show the hitters and the damage percentage done
 		}
@@ -116,7 +116,7 @@ public class TankHealth : Damagable
 			tankInfo.transform.rotation = point.rotation;
 			transform.localRotation = point.rotation;
 
-			((IngameUIManager)IngameUIManager.Instance).state = IngameUIManager.State.alive;
+			IngameUIManager.DerivedInstance.state = IngameUIManager.State.alive;
 		}
 	}
 }

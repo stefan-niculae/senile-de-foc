@@ -68,7 +68,7 @@ public class GameServer : Singleton<GameServer>
 		Scoreboard.Instance.UpdateKillcount ();
 
 		NetworkStatus.Show ("Match started (" + timeLimit + " mins, " + killsLimit + " kills)", NetworkStatus.MessageType.success);
-		((IngameUIManager)IngameUIManager.Instance).state = IngameUIManager.State.playing;
+		IngameUIManager.DerivedInstance.state = IngameUIManager.State.playing;
 		MarkerManager.Instance.Spawn ();
 	}
 
@@ -103,7 +103,7 @@ public class GameServer : Singleton<GameServer>
 	[RPC]
 	void ReceiveMatchOver ()
 	{ 
-		((IngameUIManager)IngameUIManager.Instance).state = IngameUIManager.State.matchOver;
+		IngameUIManager.DerivedInstance.state = IngameUIManager.State.matchOver;
 	}
 
 }
