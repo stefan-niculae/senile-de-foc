@@ -15,6 +15,23 @@ Sometimes saved username is not shown (shows blank, on typing start, it appears)
 last kill of the match makes the killed tank doesn’t dissappear
 tank is deleted immediately after match over (do it after the player disconnects or hits lobby instead)
 
+-transform.localPosition assign attempt for 'Death Explosion Prefab(Clone)' is not valid. Input localPosition is { -0.000000, 0.000000, NaN }.
+-KeyNotFoundException: The given key was not present in the dictionary.
+System.Collections.Generic.Dictionary`2[System.Int32,IngameInfo].get_Item (Int32 key) (at /Users/builduser/buildslave/mono-runtime-and-classlibs/build/mcs/class/corlib/System.Collections.Generic/Dictionary.cs:150)
+Scoreboard.StartCountdownFor (Int32 orderNumber, Single time) (at Assets/Scripts/UI/Game/Scoreboard.cs:98)
+TankHealth.OnDeath (.TankInfo source) (at Assets/Scripts/Tank/TankHealth.cs:99)
+Damagable.Die (.TankInfo source) (at Assets/Scripts/Combat/Damagable.cs:131)
+Damagable.TakeDamage (Single damage, Int32 sourceOrderNumber, Boolean announce) (at Assets/Scripts/Combat/Damagable.cs:117)
+Explosion.DamageAround (.Damagable ignore) (at Assets/Scripts/Combat/Explosion.cs:45)
+Explosion.Setup (.TankInfo source, .ExplosionStats stats, .Damagable ignore) (at Assets/Scripts/Combat/Explosion.cs:34)
+Damagable.Explode (.TankInfo source) (at Assets/Scripts/Combat/Damagable.cs:156)
+Damagable.Die (.TankInfo source) (at Assets/Scripts/Combat/Damagable.cs:132)
+Damagable.TakeDamage (Single damage, Int32 sourceOrderNumber, Boolean announce) (at Assets/Scripts/Combat/Damagable.cs:117)
+Explosion.DamageAround (.Damagable ignore) (at Assets/Scripts/Combat/Explosion.cs:45)
+Explosion.Setup (.TankInfo source, .ExplosionStats stats, .Damagable ignore) (at Assets/Scripts/Combat/Explosion.cs:34)
+Projectile.Explode () (at Assets/Scripts/Tank/Projectile.cs:103)
+Projectile.OnCollisionEnter2D (UnityEngine.Collision2D collision) (at Assets/Scripts/Tank/Projectile.cs:66)
+
 
 FUTURE VERSIONS
 UI elements -> PSDs
