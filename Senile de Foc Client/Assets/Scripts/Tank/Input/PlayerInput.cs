@@ -20,7 +20,7 @@ public class PlayerInput : MonoBehaviour
 	void Update ()
 	{
 		// Weapon handling
-		if (!IngameUIManager.DerivedInstance.pointerOverButton) {
+		if (!IngameUIManager._pointerOverButton) {
 			if (Input.GetButton ("Fire1"))
 				cannon.Fire ();
 			if (Input.GetButton ("Fire2"))

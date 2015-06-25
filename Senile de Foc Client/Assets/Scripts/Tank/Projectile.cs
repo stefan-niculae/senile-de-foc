@@ -92,7 +92,7 @@ public class Projectile : Containable<Projectile>
 	void Explode ()
 	{
 		GameObject explosion = Network.Instantiate (
-			explosionPrefab,
+			explosionPrefab, // TODO this is unassigned
 			pointOfCollision,
 			Quaternion.identity,
 			0) as GameObject;
